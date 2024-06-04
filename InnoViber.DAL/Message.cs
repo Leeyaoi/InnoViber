@@ -4,7 +4,7 @@ namespace InnoViber.DAL
 {
     public class Message
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime Date {  get; set; }
         public string Text { get; set; } = string.Empty;
         public int Status { get; set; }
