@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\dotnet\\InnoViber\\InnoViber\\InnoViber.csproj",
+      "projectUniqueName": "C:\\Users\\darya\\OneDrive\\Документы\\InnoViber\\InnoViber\\InnoViber.csproj",
       "projectName": "InnoViber",
-      "projectPath": "D:\\dotnet\\InnoViber\\InnoViber\\InnoViber.csproj",
+      "projectPath": "C:\\Users\\darya\\OneDrive\\Документы\\InnoViber\\InnoViber\\InnoViber.csproj",
       "packagesPath": "C:\\Users\\darya\\.nuget\\packages\\",
-      "outputPath": "D:\\dotnet\\InnoViber\\InnoViber\\obj\\",
+      "outputPath": "C:\\Users\\darya\\OneDrive\\Документы\\InnoViber\\InnoViber\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

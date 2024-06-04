@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InnoViber")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50f898e3a69f0b6b67c1c7f7967c7b2a9007588d")]
 [assembly: System.Reflection.AssemblyProductAttribute("InnoViber")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InnoViber")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
