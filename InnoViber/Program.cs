@@ -1,3 +1,6 @@
+using InnoViber.DAL.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace InnoViber
 {
     public class Program
@@ -8,6 +11,12 @@ namespace InnoViber
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ViberContext>(option =>
+            {
+                //option.UseNpgsql("host=localhost;port=5432;dbname=viberDB;user=postgres;password=26088062;connect_timeout=10;sslmode=prefer");
+                option.UseNpgsql("Host=localhost;Port=5432;Database=viberDB;Username=postgres;Password=26088062");
+            });
 
             var app = builder.Build();
 
