@@ -6,6 +6,6 @@ public class Chat : IAuditable
     public string Name { get; set; } = string.Empty;
     List<User> Users { get; set; } = new();
     List<Message> Messages { get; set;} = new();
-    public DateTime createdAt { get; set; }
-    public DateTime updatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }

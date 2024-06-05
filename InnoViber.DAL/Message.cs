@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace InnoViber.DAL;
+﻿namespace InnoViber.DAL;
 
 public class Message : IAuditable
 {
@@ -10,6 +8,6 @@ public class Message : IAuditable
     public int Status { get; set; }
     public User? User { get; set; }
     public Chat? Chat { get; set; }
-    public DateTime createdAt { get; set; }
-    public DateTime updatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }

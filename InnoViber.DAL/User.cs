@@ -10,6 +10,6 @@ public class User : IAuditable
     public string Email { get; set; } = string.Empty;
     public List<Message> Messages { get; set; } = new();
     public List<Chat> Chats { get; set; } = new();
-    public DateTime createdAt { get; set; }
-    public DateTime updatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }
