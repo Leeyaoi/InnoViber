@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
 namespace InnoViber.DAL.DI;
+
 public static class DataLayerDepencies
 {
     public static void RegisterDALDependencies(this IServiceCollection services, IConfiguration configuration)
