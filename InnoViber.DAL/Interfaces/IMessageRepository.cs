@@ -2,6 +2,6 @@
 
 namespace InnoViber.DAL.Interfaces;
 
-internal interface IMessageRepository : IGenericRepository<Message>
+public interface IMessageRepository : IGenericRepository<Message>
 {
 }
