@@ -13,8 +13,4 @@ public interface IChat
     public Task Update(Chat chat);
 
     public Task Delete(Chat chat);
-
-    public Task<List<User>> GetUsers(Guid id);
-
-    public Task<List<Message>> GetMessages(Guid id);
 }

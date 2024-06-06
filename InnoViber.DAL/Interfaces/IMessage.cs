@@ -13,6 +13,4 @@ internal interface IMessage
     public Task Update(Message message);
 
     public Task Delete(Message message);
-
-    public Task<User> GetUser(Guid id);
 }

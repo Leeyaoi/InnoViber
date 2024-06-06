@@ -33,7 +33,7 @@ internal class UserRepo : IUser
 
     public async Task<User?> GetById(Guid id)
     {
-        return await dbContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+        return await dbContext.Users.Where(x => x.Id == id).Include(x => x.Chats).FirstOrDefaultAsync();
     }
 
     public async Task Update(User user)

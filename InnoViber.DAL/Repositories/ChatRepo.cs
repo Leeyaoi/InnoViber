@@ -33,23 +33,15 @@ internal class ChatRepo : IChat
 
     public async Task<Chat?> GetById(Guid id)
     {
-        return await dbContext.Chats.Where(x => x.Id == id).FirstOrDefaultAsync();
-    }
-
-    public List<Message> GetMessages(Guid id)
-    {
-        return dbContext.Chats.Where(x => x.Id == id)
+        return await dbContext.Chats.Where(x => x.Id == id)
+            .Include(x => x.Users)
             .Include(x => x.Messages)
-            .FirstOrDefault().Messages;
+            .FirstOrDefaultAsync();
     }
 
-    public Task<List<User>> GetUsers(Guid id)
+    public async Task Update(Chat chat)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task Update(Chat chat)
-    {
-        throw new NotImplementedException();
+        dbContext.Chats.Update(chat);
+        await dbContext.SaveChangesAsync();
     }
 }

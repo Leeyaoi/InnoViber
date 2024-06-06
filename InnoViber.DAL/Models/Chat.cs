@@ -3,6 +3,6 @@
 public class Chat : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
-    List<User> Users { get; set; } = new();
-    List<Message> Messages { get; set; } = new();
+    public List<User> Users { get; set; } = new();
+    public List<Message> Messages { get; set; } = new();
 }
