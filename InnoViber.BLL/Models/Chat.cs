@@ -1,6 +1,6 @@
-﻿namespace InnoViber.DAL.Models;
+﻿namespace InnoViber.BLL.Models;
 
-public class Chat : BaseEntity
+public class Chat : BaseModel
 {
     public string Name { get; set; } = string.Empty;
     List<User> Users { get; set; } = new();

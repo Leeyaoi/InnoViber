@@ -1,4 +1,6 @@
 ﻿using InnoViber.DAL.Data;
+using InnoViber.DAL.Interfaces;
+using InnoViber.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,5 +17,9 @@ public static class DataLayerDepencies
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             option.UseNpgsql(connectionString);
         });
+
+        services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IChatRepository, ChatRepository>();
+        services.AddTransient<IMessageRepository, MessageRepository>();
     }
 }
