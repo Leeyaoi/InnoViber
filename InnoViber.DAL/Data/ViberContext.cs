@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InnoViber.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InnoViber.DAL.Data;
 
