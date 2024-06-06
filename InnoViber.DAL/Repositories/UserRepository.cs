@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InnoViber.DAL.Repositories;
 
-internal class UserRepository : GenericRepository<User>, IUserRepository
+public class UserRepository : GenericRepository<User>, IUserRepository
 {
     public UserRepository(ViberContext context) : base(context)
     {}
 
-    new public Task<User?> GetById(Guid Id) => _dbSet.Where(x => x.Id == Id).Include(x => x.Chats).FirstOrDefaultAsync();
+    override public Task<User?> GetById(Guid Id, CancellationToken ct) => _dbSet.Where(x => x.Id == Id)
+        .Include(x => x.Chats).FirstOrDefaultAsync(ct);
 }

@@ -16,7 +16,7 @@ public interface IGenericRepository<TEntity>
 
     public Task<TEntity> Update(TEntity entity, CancellationToken ct);
 
-    public Task<TEntity?> GetByPredicate(Expression<Func<TEntity, bool>> predicate);
+    public Task<TEntity?> GetByPredicate(Expression<Func<TEntity, bool>> predicate, CancellationToken ct);
 
     public Task<TEntity?> GetById(Guid Id, CancellationToken ct);
 

@@ -41,12 +41,12 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return _viberContext.SaveChangesAsync(ct);
     }
 
-    public Task<TEntity?> GetByPredicate(Expression<Func<TEntity, bool>> predicate)
+    public Task<TEntity?> GetByPredicate(Expression<Func<TEntity, bool>> predicate, CancellationToken ct)
     {
-        return _dbSet.Where(predicate).FirstOrDefaultAsync();
+        return _dbSet.Where(predicate).FirstOrDefaultAsync(ct);
     }
 
-    public Task<TEntity?> GetById(Guid Id, CancellationToken ct)
+    public virtual Task<TEntity?> GetById(Guid Id, CancellationToken ct)
     {
         return _dbSet.Where(x => x.Id == Id).FirstOrDefaultAsync(ct);
     }
