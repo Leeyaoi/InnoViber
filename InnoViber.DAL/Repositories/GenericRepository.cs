@@ -17,9 +17,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         _dbSet = context.Set<TEntity>();
     }
 
-    public Task<List<TEntity>> GetAll()
+    public Task<List<TEntity>> GetAll(CancellationToken ct)
     {
-        return _dbSet.ToListAsync();
+        return _dbSet.ToListAsync(ct);
     }
 
     public async Task Create(TEntity entity, CancellationToken ct)
@@ -46,8 +46,8 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return _dbSet.Where(predicate).FirstOrDefaultAsync();
     }
 
-    public Task<TEntity?> GetById(Guid Id)
+    public Task<TEntity?> GetById(Guid Id, CancellationToken ct)
     {
-        return _dbSet.Where(x => x.Id == Id).FirstOrDefaultAsync();
+        return _dbSet.Where(x => x.Id == Id).FirstOrDefaultAsync(ct);
     }
 }

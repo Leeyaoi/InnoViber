@@ -10,7 +10,7 @@ namespace InnoViber.DAL.Interfaces;
 
 public interface IGenericRepository<TEntity>
 {
-    public Task<List<TEntity>> GetAll();
+    public Task<List<TEntity>> GetAll(CancellationToken ct);
 
     public Task Create(TEntity entity, CancellationToken ct);
 
@@ -18,7 +18,7 @@ public interface IGenericRepository<TEntity>
 
     public Task<TEntity?> GetByPredicate(Expression<Func<TEntity, bool>> predicate);
 
-    public Task<TEntity?> GetById(Guid Id);
+    public Task<TEntity?> GetById(Guid Id, CancellationToken ct);
 
     public Task Delete(TEntity entity, CancellationToken ct);
 }
