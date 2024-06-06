@@ -10,7 +10,7 @@ internal class ChatRepository : GenericRepository<Chat>, IChatRepository
     public ChatRepository(ViberContext context) : base(context)
     { }
 
-    public Task<Chat?> GetById(Guid id) => _dbSet.Where(x => x.Id == id)
+    new public Task<Chat?> GetById(Guid Id) => _dbSet.Where(x => x.Id == Id)
             .Include(x => x.Users)
             .Include(x => x.Messages)
             .FirstOrDefaultAsync();

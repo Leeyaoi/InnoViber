@@ -2,10 +2,11 @@
 using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace InnoViber.DAL.Repositories;
 
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 {
     protected readonly ViberContext _viberContext;
     protected readonly DbSet<TEntity> _dbSet;
@@ -18,8 +19,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public Task<List<TEntity>> GetAll()
     {
-        throw new NotImplementedException();
+        return _dbSet.ToListAsync();
     }
+
     public async Task Create(TEntity entity, CancellationToken ct)
     {
         await _dbSet.AddAsync(entity);
@@ -39,4 +41,13 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return _viberContext.SaveChangesAsync(ct);
     }
 
+    public Task<TEntity?> GetByPredicate(Expression<Func<TEntity, bool>> predicate)
+    {
+        return _dbSet.Where(predicate).FirstOrDefaultAsync();
+    }
+
+    public Task<TEntity?> GetById(Guid Id)
+    {
+        return _dbSet.Where(x => x.Id == Id).FirstOrDefaultAsync();
+    }
 }

@@ -10,8 +10,5 @@ internal class UserRepository : GenericRepository<User>, IUserRepository
     public UserRepository(ViberContext context) : base(context)
     {}
 
-    public Task<User?> GetById(Guid id)
-    {
-        return _dbSet.Where(x => x.Id == id).Include(x => x.Chats).FirstOrDefaultAsync();
-    }
+    new public Task<User?> GetById(Guid Id) => _dbSet.Where(x => x.Id == Id).Include(x => x.Chats).FirstOrDefaultAsync();
 }

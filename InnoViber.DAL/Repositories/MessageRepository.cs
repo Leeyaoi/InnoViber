@@ -10,11 +10,8 @@ internal class MessageRepository : GenericRepository<Message>, IMessageRepositor
     public MessageRepository(ViberContext context) : base(context)
     { }
 
-    public Task<Message?> GetById(Guid id)
-    {
-        return  _dbSet.Where(x => x.Id == id)
+    new public Task<Message?> GetById(Guid Id) => _dbSet.Where(x => x.Id == Id)
             .Include(x => x.User)
             .Include(x => x.Chat)
             .FirstOrDefaultAsync();
-    }
 }
