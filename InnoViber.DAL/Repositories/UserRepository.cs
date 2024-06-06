@@ -10,6 +10,6 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     public UserRepository(ViberContext context) : base(context)
     {}
 
-    override public Task<User?> GetById(Guid Id, CancellationToken ct) => _dbSet.Where(x => x.Id == Id)
+    public override Task<User?> GetById(Guid Id, CancellationToken ct) => _dbSet.Where(x => x.Id == Id)
         .Include(x => x.Chats).FirstOrDefaultAsync(ct);
 }
