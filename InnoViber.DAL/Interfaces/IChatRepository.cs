@@ -2,6 +2,6 @@
 
 namespace InnoViber.DAL.Interfaces;
 
-public interface IChatRepository : IGenericRepository<Chat>
+public interface IChatRepository : IGenericRepository<ChatEntity>
 { 
 }

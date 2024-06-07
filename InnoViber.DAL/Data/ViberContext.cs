@@ -5,11 +5,11 @@ namespace InnoViber.DAL.Data;
 
 public class ViberContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
+    public DbSet<UserEntity> Users { get; set; }
 
-    public DbSet<Message> Messages { get; set; }
+    public DbSet<MessageEntity> Messages { get; set; }
 
-    public DbSet<Chat> Chats { get; set; }
+    public DbSet<ChatEntity> Chats { get; set; }
 
     public ViberContext(DbContextOptions<ViberContext> options) : base(options) { }
 }
