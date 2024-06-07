@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InnoViber.BLL\InnoViber.BLL.csproj" />
     <ProjectReference Include="..\InnoViber.DAL\InnoViber.DAL.csproj" />
   </ItemGroup>
 

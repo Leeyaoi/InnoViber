@@ -1,6 +1,6 @@
 ﻿namespace InnoViber.BLL.Models;
 
-public class BaseModel
+public class BaseDTO
 {
     public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
