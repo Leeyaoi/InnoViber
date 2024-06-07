@@ -1,4 +1,8 @@
 ﻿using InnoViber.BLL.Helpers;
+using InnoViber.BLL.Interfaces;
+using InnoViber.BLL.Services;
+using InnoViber.DAL.Interfaces;
+using InnoViber.DAL.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
@@ -16,5 +20,9 @@ public static class BuisnessLayerDependencies
         var mapper = config.CreateMapper();
 
         services.AddSingleton(mapper);
+
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IChatService, ChatService>();
+        services.AddTransient<IMessageService, MessageService>();
     }
 }
