@@ -8,10 +8,10 @@ public class Helper : Profile
 {
     public Helper()
     {
-        CreateMap<UserEntity, UserDTO>().ReverseMap();
+        CreateMap<UserEntity, UserModel>().ReverseMap();
 
-        CreateMap<MessageEntity, MessageDTO>().ReverseMap();
+        CreateMap<MessageEntity, MessageModel>().ReverseMap();
 
-        CreateMap<ChatEntity, ChatDTO>().ReverseMap();
+        CreateMap<ChatEntity, ChatModel>().ReverseMap();
     }
 }
