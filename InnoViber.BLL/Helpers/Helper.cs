@@ -15,11 +15,5 @@ public class Helper : Profile
         CreateMap<MessageEntity, MessageModel>().ReverseMap();
 
         CreateMap<ChatEntity, ChatModel>().ReverseMap();
-
-        CreateMap<Expression<Func<UserEntity, bool>>, Expression<Func<UserModel, bool>>>().ReverseMap();
-
-        CreateMap<Expression<Func<MessageEntity, bool>>, Expression<Func<MessageModel, bool>>>().ReverseMap();
-
-        CreateMap<Expression<Func<ChatEntity, bool>>, Expression<Func<ChatModel, bool>>>().ReverseMap();
     }
 }
