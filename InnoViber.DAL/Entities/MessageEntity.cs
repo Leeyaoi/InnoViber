@@ -9,11 +9,4 @@ public class MessageEntity : BaseEntity
     public Guid ChatId{ get; set; }
     public UserEntity? User { get; set; }
     public ChatEntity? Chat { get; set; }
-
-    public enum MessageStatus
-    {
-        Send = 0,
-        Delivered = 1,
-        Read = 2
-    }
 }
