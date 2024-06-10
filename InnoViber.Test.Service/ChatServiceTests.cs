@@ -1,45 +1,54 @@
-﻿using AutoMapper.Extensions.ExpressionMapping;
+﻿using AutoFixture;
+using AutoMapper;
+using AutoMapper.Extensions.ExpressionMapping;
 using InnoViber.BLL.Helpers;
-using InnoViber.BLL.Interfaces;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Services;
 using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Models;
 using Moq;
 using Shouldly;
-using System;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace InnoViber.Test.Service;
 
 public class ChatServiceTests
 {
+    private readonly IMapper _mapper;
+    private readonly Mock<IChatRepository> _repoMock;
+    private readonly ChatService _service;
+
+    public ChatServiceTests()
+    {
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new Helper());
+            cfg.AddExpressionMapping();
+        });
+
+        _mapper = config.CreateMapper();
+
+        _repoMock = new Mock<IChatRepository>();
+
+        _service = new ChatService(_mapper, _repoMock.Object);
+    }
+
     [Fact]
     public async Task GetAllChatsTest()
     {
         //Arrange
 
-        var config = new AutoMapper.MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new Helper());
-        });
+        var data = new Fixture().Create<List<ChatEntity>>();
 
-        var mapper = config.CreateMapper();
-
-        var mock = new Mock<IChatRepository>();
-        mock.Setup(repo => repo.GetAll(CancellationToken.None)).Returns(() => Task.FromResult(GetTestChats()));
-
-        var service = new ChatService(mapper, mock.Object);
+        _repoMock.Setup(repo => repo.GetAll(default)).ReturnsAsync(data);
 
         //Act
 
-        List<ChatModel> result = await service.GetAll(CancellationToken.None);
+        List<ChatModel> result = await _service.GetAll(default);
 
         //Assert
 
-        var entity = mapper.Map<List<ChatEntity>>(result);
-        entity.ShouldBeEquivalentTo(GetTestChats());
+        var entity = _mapper.Map<List<ChatEntity>>(result);
+        entity.ShouldBeEquivalentTo(data);
     }
 
     [Fact]
@@ -47,26 +56,18 @@ public class ChatServiceTests
     {
         //Arrange
 
-        var config = new AutoMapper.MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new Helper());
-        });
+        var data = new Fixture().Create<ChatEntity>();
 
-        var mapper = config.CreateMapper();
-
-        var mock = new Mock<IChatRepository>();
-        mock.Setup(repo => repo.GetById(Guid.Empty, CancellationToken.None)).Returns(() => Task.FromResult(GetOne()));
-
-        var service = new ChatService(mapper, mock.Object);
+        _repoMock.Setup(repo => repo.GetById(Guid.Empty, default)).ReturnsAsync(data);
 
         //Act
 
-        ChatModel? result = await service.GetById(Guid.Empty, CancellationToken.None);
+        ChatModel? result = await _service.GetById(Guid.Empty, default);
 
         //Assert
 
-        var entity = mapper.Map<ChatEntity>(result);
-        entity.ShouldBeEquivalentTo(GetOne());
+        var entity = _mapper.Map<ChatEntity>(result);
+        entity.ShouldBeEquivalentTo(data);
     }
 
     [Fact]
@@ -74,57 +75,18 @@ public class ChatServiceTests
     {
         //Arrange
 
-        var config = new AutoMapper.MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new Helper());
-            cfg.AddExpressionMapping();
-        });
 
-        var mapper = config.CreateMapper();
+        var data = new Fixture().Create<ChatEntity>();
 
-        var mock = new Mock<IChatRepository>();
-        mock.Setup(repo => repo.GetByPredicate(x => x.Name == "Test1", CancellationToken.None))
-            .Returns(() => Task.FromResult(GetByPred(x => x.Name == "Test1")));
-
-        var service = new ChatService(mapper, mock.Object);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Name == "Test1", default)).ReturnsAsync(data);
 
         //Act
 
-        ChatModel? result = await service.GetByPredicate(x => x.Name == "Test1", CancellationToken.None);
+        ChatModel? result = await _service.GetByPredicate(x => x.Name == "Test1", default);
 
         //Assert
 
-        var entity = mapper.Map<ChatEntity>(result);
-        entity.ShouldBeEquivalentTo(GetByPred(x => x.Name == "Test1"));
-    }
-
-    private List<ChatEntity> GetTestChats()
-    {
-        var chats = new List<ChatEntity>
-            {
-                new ChatEntity { Name = "Test1"},
-                new ChatEntity { Name = "Test2"},
-                new ChatEntity { Name = "Test3"}
-            };
-        return chats;
-    }
-
-    private ChatEntity GetOne()
-    {
-        return new ChatEntity()
-        {
-            Name = "Test"
-        };
-    }
-
-    private ChatEntity GetByPred(Predicate<ChatEntity> exp)
-    {
-        var chats = new List<ChatEntity>
-            {
-                new ChatEntity { Name = "Test1"},
-                new ChatEntity { Name = "Test2"},
-                new ChatEntity { Name = "Test3"}
-            };
-        return chats.Find(exp)!;
+        var entity = _mapper.Map<ChatEntity>(result);
+        entity.ShouldBeEquivalentTo(data);
     }
 }

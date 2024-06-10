@@ -1,44 +1,55 @@
-﻿using AutoMapper.Extensions.ExpressionMapping;
+﻿using AutoFixture;
+using AutoMapper;
+using AutoMapper.Extensions.ExpressionMapping;
 using InnoViber.BLL.Helpers;
-using InnoViber.BLL.Interfaces;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Services;
 using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Models;
 using Moq;
 using Shouldly;
-using System.Linq;
-using System.Linq.Expressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InnoViber.Test.Service;
 
 public class MessageServiceTests
 {
+    private readonly IMapper _mapper;
+    private readonly Mock<IMessageRepository> _repoMock;
+    private readonly MessageService _service;
+
+    public MessageServiceTests()
+    {
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new Helper());
+            cfg.AddExpressionMapping();
+        });
+
+        _mapper = config.CreateMapper();
+
+        _repoMock = new Mock<IMessageRepository>();
+
+        _service = new MessageService(_mapper, _repoMock.Object);
+    }
+
     [Fact]
     public async Task GetAllMessagesTest()
     {
         //Arrange
 
-        var config = new AutoMapper.MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new Helper());
-        });
+        var data = new Fixture().Create<List<MessageEntity>>();
 
-        var mapper = config.CreateMapper();
-
-        var mock = new Mock<IMessageRepository>();
-        mock.Setup(repo => repo.GetAll(CancellationToken.None)).Returns(() => Task.FromResult(GetTestMessages()));
-
-        var service = new MessageService(mapper, mock.Object);
+        _repoMock.Setup(repo => repo.GetAll(default)).ReturnsAsync(data);
 
         //Act
 
-        List<MessageModel> result = await service.GetAll(CancellationToken.None);
+        List<MessageModel> result = await _service.GetAll(default);
 
         //Assert
 
-        var entity = mapper.Map<List<MessageEntity>>(result);
-        entity.ShouldBeEquivalentTo(GetTestMessages());
+        var entity = _mapper.Map<List<MessageEntity>>(result);
+        entity.ShouldBeEquivalentTo(data);
     }
 
     [Fact]
@@ -46,26 +57,18 @@ public class MessageServiceTests
     {
         //Arrange
 
-        var config = new AutoMapper.MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new Helper());
-        });
+        var data = new Fixture().Create<MessageEntity>();
 
-        var mapper = config.CreateMapper();
-
-        var mock = new Mock<IMessageRepository>();
-        mock.Setup(repo => repo.GetById(Guid.Empty, CancellationToken.None)).Returns(() => Task.FromResult(GetOne()));
-
-        var service = new MessageService(mapper, mock.Object);
+        _repoMock.Setup(repo => repo.GetById(Guid.Empty, default)).ReturnsAsync(data);
 
         //Act
 
-        MessageModel? result = await service.GetById(Guid.Empty, CancellationToken.None);
+        MessageModel? result = await _service.GetById(Guid.Empty, default);
 
         //Assert
 
-        var entity = mapper.Map<MessageEntity>(result);
-        entity.ShouldBeEquivalentTo(GetOne());
+        var entity = _mapper.Map<MessageEntity>(result);
+        entity.ShouldBeEquivalentTo(data);
     }
 
     [Fact]
@@ -73,58 +76,17 @@ public class MessageServiceTests
     {
         //Arrange
 
-        var config = new AutoMapper.MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new Helper());
-            cfg.AddExpressionMapping();
-        });
+        var data = new Fixture().Create<MessageEntity>();
 
-        var mapper = config.CreateMapper();
-
-        var mock = new Mock<IMessageRepository>();
-        mock.Setup(repo => repo.GetByPredicate(x => x.Status == 1, CancellationToken.None))
-            .Returns(() => Task.FromResult(GetByPred(x => x.Status == 1)));
-
-        var service = new MessageService(mapper, mock.Object);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Status == 1, default)).ReturnsAsync(data);
 
         //Act
 
-        MessageModel? result = await service.GetByPredicate(x => x.Status == 1, CancellationToken.None);
+        MessageModel? result = await _service.GetByPredicate(x => x.Status == 1, default);
 
         //Assert
 
-        var entity = mapper.Map<MessageEntity>(result);
-        entity.ShouldBeEquivalentTo(GetByPred(x => x.Status == 1));
-    }
-
-    private List<MessageEntity> GetTestMessages()
-    {
-        var messages = new List<MessageEntity>
-            {
-                new MessageEntity { Status = 1, Text = "Test1"},
-                new MessageEntity { Status = 2, Text = "Test2"},
-                new MessageEntity { Status = 3, Text = "Test3"}
-            };
-        return messages;
-    }
-
-    private MessageEntity GetOne()
-    {
-        return new MessageEntity()
-        {
-            Status = 1,
-            Text = "Test"
-        };
-    }
-
-    private MessageEntity GetByPred(Predicate<MessageEntity> exp)
-    {
-        var messages = new List<MessageEntity>
-            {
-                new MessageEntity { Status = 1, Text = "Test1"},
-                new MessageEntity { Status = 2, Text = "Test2"},
-                new MessageEntity { Status = 3, Text = "Test3"}
-            };
-        return messages.Find(exp)!;
+        var entity = _mapper.Map<MessageEntity>(result);
+        entity.ShouldBeEquivalentTo(data);
     }
 }
