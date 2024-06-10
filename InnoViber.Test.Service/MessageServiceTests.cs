@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using AutoFixture.Xunit2;
 using AutoMapper;
 using AutoMapper.Extensions.ExpressionMapping;
 using InnoViber.BLL.Helpers;
@@ -33,60 +34,54 @@ public class MessageServiceTests
         _service = new MessageService(_mapper, _repoMock.Object);
     }
 
-    [Fact]
-    public async Task GetAllMessagesTest_HasData_List()
+    [Theory, AutoData]
+    public async Task GetAllMessagesTest_HasData_ReturnsMessages([NoAutoProperties] List<MessageEntity> messages)
     {
         //Arrange
 
-        var data = new Fixture().Create<List<MessageEntity>>();
-
-        _repoMock.Setup(repo => repo.GetAll(default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetAll(default)).ReturnsAsync(messages);
 
         //Act
 
-        List<MessageModel> result = await _service.GetAll(default);
+        var result = await _service.GetAll(default);
 
         //Assert
 
         var entity = _mapper.Map<List<MessageEntity>>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(messages);
     }
 
-    [Fact]
-    public async Task GetByIdTest_HasData_Model()
+    [Theory, AutoData]
+    public async Task GetByIdTest_HasData_ReturnsMessage([NoAutoProperties] MessageEntity message)
     {
         //Arrange
 
-        var data = new Fixture().Create<MessageEntity>();
-
-        _repoMock.Setup(repo => repo.GetById(Guid.Empty, default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetById(Guid.Empty, default)).ReturnsAsync(message);
 
         //Act
 
-        MessageModel? result = await _service.GetById(Guid.Empty, default);
+        var result = await _service.GetById(Guid.Empty, default);
 
         //Assert
 
         var entity = _mapper.Map<MessageEntity>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(message);
     }
 
-    [Fact]
-    public async Task GetByPredicateTest_HasData_Model()
+    [Theory, AutoData]
+    public async Task GetByPredicateTest_HasData_ReturnsMessage([NoAutoProperties] MessageEntity message)
     {
         //Arrange
 
-        var data = new Fixture().Create<MessageEntity>();
-
-        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Status == 1, default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Status == 1, default)).ReturnsAsync(message);
 
         //Act
 
-        MessageModel? result = await _service.GetByPredicate(x => x.Status == 1, default);
+        var result = await _service.GetByPredicate(x => x.Status == 1, default);
 
         //Assert
 
         var entity = _mapper.Map<MessageEntity>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(message);
     }
 }

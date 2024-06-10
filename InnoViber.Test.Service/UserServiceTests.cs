@@ -1,4 +1,5 @@
 using AutoFixture;
+using AutoFixture.Xunit2;
 using AutoMapper;
 using AutoMapper.Extensions.ExpressionMapping;
 using InnoViber.BLL.Helpers;
@@ -32,52 +33,46 @@ public class UserServiceTests
         _service = new UserService(_mapper, _repoMock.Object);
     }
 
-    [Fact]
-    public async Task GetAllUsersTest_HasData_List()
+    [Theory, AutoData]
+    public async Task GetAllUsersTest_HasData_ReturnsUsers([NoAutoProperties] List<UserEntity> users)
     {
         //Arrange
 
-        var data = new Fixture().Create<List<UserEntity>>();
-
-        _repoMock.Setup(repo => repo.GetAll(default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetAll(default)).ReturnsAsync(users);
 
         //Act
 
-        List<UserModel> result = await _service.GetAll(default);
+        var result = await _service.GetAll(default);
 
         //Assert
 
         var entity = _mapper.Map<List<UserEntity>>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(users);
     }
 
-    [Fact]
-    public async Task GetByIdTest_HasData_Model()
+    [Theory, AutoData]
+    public async Task GetByIdTest_HasData_ReturnsUser([NoAutoProperties] UserEntity user)
     {
         //Arrange
 
-        var data = new Fixture().Create<UserEntity>();
-
-        _repoMock.Setup(repo => repo.GetById(Guid.Empty, default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetById(Guid.Empty, default)).ReturnsAsync(user);
 
         //Act
 
-        UserModel? result = await _service.GetById(Guid.Empty, default);
+        var result = await _service.GetById(Guid.Empty, default);
 
         //Assert
 
         var entity = _mapper.Map<UserEntity>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(user);
     }
 
-    [Fact]
-    public async Task GetByPredicateTest_HasData_Model()
+    [Theory, AutoData]
+    public async Task GetByPredicateTest_HasData_ReturnsUser([NoAutoProperties] UserEntity user)
     {
         //Arrange
 
-        var data = new Fixture().Create<UserEntity>();
-
-        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Name == "Test", default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Name == "Test", default)).ReturnsAsync(user);
 
         //Act
 
@@ -86,6 +81,6 @@ public class UserServiceTests
         //Assert
 
         var entity = _mapper.Map<UserEntity>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(user);
     }
 }

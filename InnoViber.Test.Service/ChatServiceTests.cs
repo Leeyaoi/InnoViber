@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using AutoFixture.Xunit2;
 using AutoMapper;
 using AutoMapper.Extensions.ExpressionMapping;
 using InnoViber.BLL.Helpers;
@@ -32,61 +33,54 @@ public class ChatServiceTests
         _service = new ChatService(_mapper, _repoMock.Object);
     }
 
-    [Fact]
-    public async Task GetAllChatsTest_HasData_List()
+    [Theory, AutoData]
+    public async Task GetAllChatsTest_HasData_ReturnsChats([NoAutoProperties] List<ChatEntity> chats)
     {
         //Arrange
 
-        var data = new Fixture().Create<List<ChatEntity>>();
-
-        _repoMock.Setup(repo => repo.GetAll(default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetAll(default)).ReturnsAsync(chats);
 
         //Act
 
-        List<ChatModel> result = await _service.GetAll(default);
+        var result = await _service.GetAll(default);
 
         //Assert
 
         var entity = _mapper.Map<List<ChatEntity>>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(chats);
     }
 
-    [Fact]
-    public async Task GetByIdTest_HasData_Model()
+    [Theory, AutoData]
+    public async Task GetByIdTest_HasData_ReturnsChat([NoAutoProperties] ChatEntity chat)
     {
         //Arrange
 
-        var data = new Fixture().Create<ChatEntity>();
-
-        _repoMock.Setup(repo => repo.GetById(Guid.Empty, default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetById(Guid.Empty, default)).ReturnsAsync(chat);
 
         //Act
 
-        ChatModel? result = await _service.GetById(Guid.Empty, default);
+        var result = await _service.GetById(Guid.Empty, default);
 
         //Assert
 
         var entity = _mapper.Map<ChatEntity>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(chat);
     }
 
-    [Fact]
-    public async Task GetByPredicateTest_HasData_Model()
+    [Theory, AutoData]
+    public async Task GetByPredicateTest_HasData_ReturnsChat([NoAutoProperties] ChatEntity chat)
     {
         //Arrange
 
-
-        var data = new Fixture().Create<ChatEntity>();
-
-        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Name == "Test1", default)).ReturnsAsync(data);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Name == "Test1", default)).ReturnsAsync(chat);
 
         //Act
 
-        ChatModel? result = await _service.GetByPredicate(x => x.Name == "Test1", default);
+        var result = await _service.GetByPredicate(x => x.Name == "Test1", default);
 
         //Assert
 
         var entity = _mapper.Map<ChatEntity>(result);
-        entity.ShouldBeEquivalentTo(data);
+        entity.ShouldBeEquivalentTo(chat);
     }
 }
