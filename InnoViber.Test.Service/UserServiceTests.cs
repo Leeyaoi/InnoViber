@@ -33,7 +33,7 @@ public class UserServiceTests
     }
 
     [Fact]
-    public async Task GetAllUsersTest()
+    public async Task GetAllUsersTest_HasData_List()
     {
         //Arrange
 
@@ -52,7 +52,7 @@ public class UserServiceTests
     }
 
     [Fact]
-    public async Task GetByIdTest()
+    public async Task GetByIdTest_HasData_Model()
     {
         //Arrange
 
@@ -71,7 +71,7 @@ public class UserServiceTests
     }
 
     [Fact]
-    public async Task GetByPredicateTest()
+    public async Task GetByPredicateTest_HasData_Model()
     {
         //Arrange
 

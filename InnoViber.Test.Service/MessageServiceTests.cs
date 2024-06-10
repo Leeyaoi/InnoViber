@@ -34,7 +34,7 @@ public class MessageServiceTests
     }
 
     [Fact]
-    public async Task GetAllMessagesTest()
+    public async Task GetAllMessagesTest_HasData_List()
     {
         //Arrange
 
@@ -53,7 +53,7 @@ public class MessageServiceTests
     }
 
     [Fact]
-    public async Task GetByIdTest()
+    public async Task GetByIdTest_HasData_Model()
     {
         //Arrange
 
@@ -72,7 +72,7 @@ public class MessageServiceTests
     }
 
     [Fact]
-    public async Task GetByPredicateTest()
+    public async Task GetByPredicateTest_HasData_Model()
     {
         //Arrange
 
