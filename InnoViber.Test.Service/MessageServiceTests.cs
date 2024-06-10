@@ -18,6 +18,7 @@ public class MessageServiceTests
     public async Task GetAllMessagesTest()
     {
         //Arrange
+
         var config = new AutoMapper.MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new Helper());
@@ -44,6 +45,7 @@ public class MessageServiceTests
     public async Task GetByIdTest()
     {
         //Arrange
+
         var config = new AutoMapper.MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new Helper());
@@ -70,6 +72,7 @@ public class MessageServiceTests
     public async Task GetByPredicateTest()
     {
         //Arrange
+
         var config = new AutoMapper.MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new Helper());

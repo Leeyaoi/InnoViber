@@ -19,6 +19,7 @@ public class ChatServiceTests
     public async Task GetAllChatsTest()
     {
         //Arrange
+
         var config = new AutoMapper.MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new Helper());
@@ -45,6 +46,7 @@ public class ChatServiceTests
     public async Task GetByIdTest()
     {
         //Arrange
+
         var config = new AutoMapper.MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new Helper());
@@ -71,6 +73,7 @@ public class ChatServiceTests
     public async Task GetByPredicateTest()
     {
         //Arrange
+
         var config = new AutoMapper.MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new Helper());
