@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using InnoViber.BLL.Models;
 using InnoViber.DAL.Models;
-using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
 
 namespace InnoViber.BLL.Helpers;

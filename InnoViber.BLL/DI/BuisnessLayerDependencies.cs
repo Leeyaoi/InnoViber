@@ -1,4 +1,4 @@
-﻿using AutoMapper.Extensions.ExpressionMapping;
+using AutoMapper.Extensions.ExpressionMapping;
 using InnoViber.BLL.Helpers;
 using InnoViber.BLL.Interfaces;
 using InnoViber.BLL.Models;

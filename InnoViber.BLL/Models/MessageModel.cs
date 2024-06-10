@@ -1,4 +1,4 @@
-﻿using InnoViber.DAL.Models;
+using InnoViber.DAL.Models;
 
 namespace InnoViber.BLL.Models;
 
