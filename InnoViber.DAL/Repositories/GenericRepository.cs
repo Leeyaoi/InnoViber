@@ -1,6 +1,7 @@
 ﻿using InnoViber.DAL.Data;
 using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Models;
+using InnoViber.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -10,11 +11,13 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 {
     protected readonly ViberContext _viberContext;
     protected readonly DbSet<TEntity> _dbSet;
+    protected readonly DateTimeProvider _dateTimeProvider;
 
-    public GenericRepository(ViberContext context)
+    public GenericRepository(ViberContext context, DateTimeProvider date)
     {
         _viberContext = context;
         _dbSet = context.Set<TEntity>();
+        _dateTimeProvider = date;
     }
 
     public Task<List<TEntity>> GetAll(CancellationToken ct)
@@ -24,13 +27,19 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public async Task Create(TEntity entity, CancellationToken ct)
     {
+        entity.CreatedAt = _dateTimeProvider.GetDate();
+        entity.UpdatedAt = _dateTimeProvider.GetDate();
         await _dbSet.AddAsync(entity);
         await _viberContext.SaveChangesAsync(ct);
     }
 
     public async Task<TEntity> Update(TEntity entity, CancellationToken ct)
     {
+        entity.UpdatedAt = _dateTimeProvider.GetDate();
         _dbSet.Update(entity);
+        _dbSet.Entry(entity).State = EntityState.Modified;
+        _dbSet.Entry(entity).Property(x => x.CreatedAt).IsModified = false;
+        _dbSet.Entry(entity).Property(x => x.Id).IsModified = false;
         await _viberContext.SaveChangesAsync(ct);
         return entity;
     }
