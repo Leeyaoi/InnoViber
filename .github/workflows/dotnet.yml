@@ -27,8 +27,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
       
-    - name: Add collector
-      run: dotnet add package coverlet.collector
     - name: Sonar Scan
       uses: highbyte/sonarscan-dotnet@v2.3.0
       with:
