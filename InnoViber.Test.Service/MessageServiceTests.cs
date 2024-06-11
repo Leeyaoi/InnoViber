@@ -73,11 +73,11 @@ public class MessageServiceTests
     {
         //Arrange
 
-        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Status == 1, default)).ReturnsAsync(message);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Status == MessageStatus.Send, default)).ReturnsAsync(message);
 
         //Act
 
-        var result = await _service.GetByPredicate(x => x.Status == 1, default);
+        var result = await _service.GetByPredicate(x => x.Status == MessageStatus.Send, default);
 
         //Assert
 

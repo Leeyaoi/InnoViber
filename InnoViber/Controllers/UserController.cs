@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using InnoViber.BLL.Models;
-using InnoViber.BLL.Services;
+using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InnoViber.Controllers;
 
@@ -11,10 +9,10 @@ namespace InnoViber.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly UserService _service;
+    private readonly IUserService _service;
     private readonly IMapper _mapper;
 
-    public UserController(UserService service, IMapper mapper)
+    public UserController(IUserService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
@@ -22,17 +20,17 @@ public class UserController : ControllerBase
 
     // GET: api/<ValuesController>
     [HttpGet]
-    public IEnumerable<UserViewModel> Get()
+    public async Task<IEnumerable<UserViewModel>> Get()
     {
-        var models = _service.GetAll(default);
+        var models = await _service.GetAll(default);
         return _mapper.Map<List<UserViewModel>>(models);
     }
 
     // GET api/<ValuesController>/5
     [HttpGet("{id}")]
-    public UserViewModel Get(Guid id)
+    public async Task<UserViewModel> GetById(Guid id)
     {
-        var model = _service.GetById(id, default);
+        var model = await _service.GetById(id, default);
         return _mapper.Map<UserViewModel>(model);
     }
 

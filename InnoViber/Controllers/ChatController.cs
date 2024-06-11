@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using InnoViber.BLL.Models;
-using InnoViber.BLL.Services;
+using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InnoViber.Controllers;
@@ -9,10 +9,10 @@ namespace InnoViber.Controllers;
 [ApiController]
 public class ChatController : ControllerBase
 {
-    private readonly ChatService _service;
+    private readonly IChatService _service;
     private readonly IMapper _mapper;
 
-    public ChatController(ChatService service, IMapper mapper)
+    public ChatController(IChatService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
@@ -20,17 +20,17 @@ public class ChatController : ControllerBase
 
     // GET: api/<ChatController>
     [HttpGet]
-    public IEnumerable<ChatViewModel> Get()
+    public async Task<IEnumerable<ChatViewModel>> Get()
     {
-        var models = _service.GetAll(default);
+        var models = await _service.GetAll(default);
         return _mapper.Map<List<ChatViewModel>>(models);
     }
 
     // GET api/<ChatController>/5
     [HttpGet("{id}")]
-    public ChatViewModel Get(Guid id)
+    public async Task<ChatViewModel> GetById(Guid id)
     {
-        var model = _service.GetById(id, default);
+        var model = await _service.GetById(id, default);
         return _mapper.Map<ChatViewModel>(model);
     }
 
