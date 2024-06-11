@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using InnoViber.BLL.Models;
-using InnoViber.BLL.Services;
+using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InnoViber.Controllers;
@@ -9,10 +9,10 @@ namespace InnoViber.Controllers;
 [ApiController]
 public class MessageController : ControllerBase
 {
-    private readonly MessageService _service;
+    private readonly IMessageService _service;
     private readonly IMapper _mapper;
 
-    public MessageController(MessageService service, IMapper mapper)
+    public MessageController(IMessageService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;

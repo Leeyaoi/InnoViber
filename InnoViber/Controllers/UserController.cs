@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using InnoViber.BLL.Models;
-using InnoViber.BLL.Services;
+using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InnoViber.Controllers;
 
@@ -11,10 +9,10 @@ namespace InnoViber.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly UserService _service;
+    private readonly IUserService _service;
     private readonly IMapper _mapper;
 
-    public UserController(UserService service, IMapper mapper)
+    public UserController(IUserService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
