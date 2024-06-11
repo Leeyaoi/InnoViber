@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using InnoViber.BLL.Models;
-using InnoViber.BLL.Services;
+using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InnoViber.Controllers;
@@ -9,10 +9,10 @@ namespace InnoViber.Controllers;
 [ApiController]
 public class MessageController : ControllerBase
 {
-    private readonly MessageService _service;
+    private readonly IMessageService _service;
     private readonly IMapper _mapper;
 
-    public MessageController(MessageService service, IMapper mapper)
+    public MessageController(IMessageService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
@@ -20,17 +20,17 @@ public class MessageController : ControllerBase
 
     // GET: api/<ValuesController>
     [HttpGet]
-    public IEnumerable<MessageViewModel> Get()
+    public async Task<IEnumerable<MessageViewModel>> Get()
     {
-        var models = _service.GetAll(default);
+        var models = await _service.GetAll(default);
         return _mapper.Map<List<MessageViewModel>>(models);
     }
 
     // GET api/<ValuesController>/5
     [HttpGet("{id}")]
-    public MessageViewModel Get(Guid id)
+    public async Task<MessageViewModel> GetById(Guid id)
     {
-        var model = _service.GetById(id, default);
+        var model = await _service.GetById(id, default);
         return _mapper.Map<MessageViewModel>(model);
     }
 
