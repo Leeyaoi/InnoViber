@@ -11,9 +11,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 {
     protected readonly ViberContext _viberContext;
     protected readonly DbSet<TEntity> _dbSet;
-    protected readonly DateTimeProvider _dateTimeProvider;
+    protected readonly IDateTimeProvider _dateTimeProvider;
 
-    public GenericRepository(ViberContext context, DateTimeProvider date)
+    public GenericRepository(ViberContext context, IDateTimeProvider date)
     {
         _viberContext = context;
         _dbSet = context.Set<TEntity>();
