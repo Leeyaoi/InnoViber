@@ -25,8 +25,8 @@ public static class BuisnessLayerDependencies
 
         services.AddSingleton(mapper);
 
-        services.AddTransient<IUserService, UserService>();
-        services.AddTransient<IChatService, ChatService>();
-        services.AddTransient<IMessageService, MessageService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IChatService, ChatService>();
+        services.AddScoped<IMessageService, MessageService>();
     }
 }

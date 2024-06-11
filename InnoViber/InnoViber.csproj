@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\InnoViber.BLL\InnoViber.BLL.csproj" />
     <ProjectReference Include="..\InnoViber.DAL\InnoViber.DAL.csproj" />
+    <ProjectReference Include="..\InnoViber.Domain\InnoViber.Domain.csproj" />
     <ProjectReference Include="..\InnoViber.Test.Service\InnoViber.Test.Service.csproj" />
   </ItemGroup>
 
