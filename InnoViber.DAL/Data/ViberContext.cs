@@ -20,38 +20,31 @@ public class ViberContext : DbContext
 
     public override int SaveChanges()
     {
-        this.ChangeTracker.DetectChanges();
-        var added = ChangeTracker.Entries()
-                    .Where(t => t.State == EntityState.Added)
-                    .Select(t => t.Entity)
-                    .ToArray();
+        ChangeTracker.DetectChanges();
 
-        foreach (var entity in added)
+        var utcNow = _dateTimeProvider.GetDate();
+        var entries = ChangeTracker.Entries();
+
+        foreach (var entry in entries)
         {
-            if (entity is BaseEntity)
+            if(entry is BaseEntity)
             {
-                var track = entity as BaseEntity;
-                track!.CreatedAt = _dateTimeProvider.GetDate();
-                track!.UpdatedAt = _dateTimeProvider.GetDate();
+                var track = entry.Entity as BaseEntity;
+                switch (entry.State)
+                {
+                    case EntityState.Modified:
+                        Entry(track)!.Property(x => x.CreatedAt).IsModified = false;
+                        track!.UpdatedAt = utcNow;
+                        break;
+
+                    case EntityState.Added:
+                        track!.CreatedAt = utcNow;
+                        track!.UpdatedAt = utcNow;
+                        break;
+                }
             }
         }
 
-        var modified = ChangeTracker.Entries()
-                    .Where(t => t.State == EntityState.Modified)
-                    .Select(t => t.Entity)
-                    .ToArray();
-
-        foreach (var entity in modified)
-        {
-            if (entity is BaseEntity)
-            {
-                var track = entity as BaseEntity;
-                track!.UpdatedAt = _dateTimeProvider.GetDate();
-                Entry(track).State = EntityState.Modified;
-                Entry(track).Property(x => x.CreatedAt).IsModified = false;
-                Entry(track).Property(x => x.Id).IsModified = false;
-            }
-        }
         return base.SaveChanges();
     }
 }
