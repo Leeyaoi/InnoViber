@@ -1,7 +1,6 @@
 ﻿using InnoViber.DAL.Data;
 using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Models;
-using InnoViber.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 
 namespace InnoViber.DAL.Repositories;
