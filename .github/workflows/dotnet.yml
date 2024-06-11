@@ -26,3 +26,16 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+    - name: Sonar Scan
+      uses: highbyte/sonarscan-dotnet@v2.3.0
+      with:
+        sonarProjectKey: Leeyaoi_InnoViber
+        sonarProjectName: InnoViber
+        sonarOrganization: leeyaoi
+        dotnetBuildArguments: ${{ env }} --configuration Release
+        dotnetTestArguments: ${{ env }} --no-build --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx" /d:sonar.coverage.exclusions="$EXCLUDE_FROM_COVERAGE" 
+    env: 
+        EXCLUDE_FROM_COVERAGE: "**/Program.cs, **/ViberContext.cs, **/Migrations/*, **/DI/*, **/Helpers/*, **/Validators/*, **/Middlewares/**/*, **/Constants/**/*"
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
