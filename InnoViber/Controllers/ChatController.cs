@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InnoViber.Controllers;
 
-public class ChatController
+[Route("api/[controller]")]
+[ApiController]
+public class ChatController : ControllerBase
 {
     private readonly ChatService _service;
     private readonly IMapper _mapper;
@@ -15,33 +18,43 @@ public class ChatController
         _mapper = mapper;
     }
 
-    public Task Create(ChatViewModel chat, CancellationToken ct)
+    // GET: api/<ChatController>
+    [HttpGet]
+    public IEnumerable<ChatViewModel> Get()
     {
-        var model = _mapper.Map<ChatModel>(chat);
-        return _service.Create(model, ct);
-    }
-
-    public Task Delete(ChatViewModel chat, CancellationToken ct)
-    {
-        var model = _mapper.Map<ChatModel>(chat);
-        return _service.Delete(model, ct);
-    }
-
-    public Task Update(ChatViewModel chat, CancellationToken ct)
-    {
-        var model = _mapper.Map<ChatModel>(chat);
-        return _service.Update(model, ct);
-    }
-
-    public async Task<List<ChatViewModel>> GetAll(CancellationToken ct)
-    {
-        var models = await _service.GetAll(ct);
+        var models = _service.GetAll(default);
         return _mapper.Map<List<ChatViewModel>>(models);
     }
 
-    public async Task<ChatViewModel?> GetById(Guid id, CancellationToken ct)
+    // GET api/<ChatController>/5
+    [HttpGet("{id}")]
+    public ChatViewModel Get(Guid id)
     {
-        var model = await _service.GetById(id, ct);
-        return _mapper?.Map<ChatViewModel>(model);
+        var model = _service.GetById(id, default);
+        return _mapper.Map<ChatViewModel>(model);
+    }
+
+    // POST api/<ChatController>
+    [HttpPost]
+    public void Post([FromBody] ChatViewModel chat)
+    {
+        var model = _mapper.Map<ChatModel>(chat);
+        _service.Create(model, default);
+    }
+
+    // PUT api/<ChatController>/5
+    [HttpPut("{id}")]
+    public void Put(int id, [FromBody] ChatViewModel chat)
+    {
+        var model = _mapper.Map<ChatModel>(chat);
+        _service.Update(model, default);
+    }
+
+    // DELETE api/<ChatController>/5
+    [HttpDelete("{id}")]
+    public void Delete(Guid id)
+    {
+        var model = _mapper.Map<ChatModel>(_service.GetById(id, default));
+        _service.Delete(model, default);
     }
 }

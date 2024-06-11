@@ -1,10 +1,15 @@
 ﻿using AutoMapper;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Services;
+using Microsoft.AspNetCore.Mvc;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InnoViber.Controllers;
 
-public class UserController
+[Route("api/[controller]")]
+[ApiController]
+public class UserController : ControllerBase
 {
     private readonly UserService _service;
     private readonly IMapper _mapper;
@@ -15,33 +20,43 @@ public class UserController
         _mapper = mapper;
     }
 
-    public Task Create(UserViewModel user, CancellationToken ct)
+    // GET: api/<ValuesController>
+    [HttpGet]
+    public IEnumerable<UserViewModel> Get()
     {
-        var model = _mapper.Map<UserModel>(user);
-        return _service.Create(model, ct);
-    }
-
-    public Task Delete(UserViewModel user, CancellationToken ct)
-    {
-        var model = _mapper.Map<UserModel>(user);
-        return _service.Delete(model, ct);
-    }
-
-    public Task Update(UserViewModel user, CancellationToken ct)
-    {
-        var model = _mapper.Map<UserModel>(user);
-        return _service.Update(model, ct);
-    }
-
-    public async Task<List<UserViewModel>> GetAll(CancellationToken ct)
-    {
-        var models = await _service.GetAll(ct);
+        var models = _service.GetAll(default);
         return _mapper.Map<List<UserViewModel>>(models);
     }
 
-    public async Task<UserViewModel?> GetById(Guid id, CancellationToken ct)
+    // GET api/<ValuesController>/5
+    [HttpGet("{id}")]
+    public UserViewModel Get(Guid id)
     {
-        var model = await _service.GetById(id, ct);
-        return _mapper?.Map<UserViewModel>(model);
+        var model = _service.GetById(id, default);
+        return _mapper.Map<UserViewModel>(model);
+    }
+
+    // POST api/<ValuesController>
+    [HttpPost]
+    public void Post([FromBody] UserModel user)
+    {
+        var model = _mapper.Map<UserModel>(user);
+        _service.Create(model, default);
+    }
+
+    // PUT api/<ValuesController>/5
+    [HttpPut("{id}")]
+    public void Put(int id, [FromBody] UserModel user)
+    {
+        var model = _mapper.Map<UserModel>(user);
+        _service.Update(model, default);
+    }
+
+    // DELETE api/<ValuesController>/5
+    [HttpDelete("{id}")]
+    public void Delete(Guid id)
+    {
+        var model = _mapper.Map<UserModel>(_service.GetById(id, default));
+        _service.Delete(model, default);
     }
 }
