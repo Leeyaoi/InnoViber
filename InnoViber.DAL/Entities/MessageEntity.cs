@@ -1,4 +1,6 @@
-﻿namespace InnoViber.DAL.Models;
+﻿using InnoViber.Domain.Enums;
+
+namespace InnoViber.DAL.Models;
 
 public class MessageEntity : BaseEntity
 {

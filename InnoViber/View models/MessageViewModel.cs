@@ -1,4 +1,5 @@
 using InnoViber.DAL.Models;
+using InnoViber.Domain.Enums;
 
 namespace InnoViber.BLL.Models;
 
