@@ -20,17 +20,17 @@ public class MessageController : ControllerBase
 
     // GET: api/<ValuesController>
     [HttpGet]
-    public IEnumerable<MessageViewModel> Get()
+    public async Task<IEnumerable<MessageViewModel>> Get()
     {
-        var models = _service.GetAll(default);
+        var models = await _service.GetAll(default);
         return _mapper.Map<List<MessageViewModel>>(models);
     }
 
     // GET api/<ValuesController>/5
     [HttpGet("{id}")]
-    public MessageViewModel Get(Guid id)
+    public async Task<MessageViewModel> GetById(Guid id)
     {
-        var model = _service.GetById(id, default);
+        var model = await _service.GetById(id, default);
         return _mapper.Map<MessageViewModel>(model);
     }
 

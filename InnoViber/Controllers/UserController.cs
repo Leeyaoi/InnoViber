@@ -20,17 +20,17 @@ public class UserController : ControllerBase
 
     // GET: api/<ValuesController>
     [HttpGet]
-    public IEnumerable<UserViewModel> Get()
+    public async Task<IEnumerable<UserViewModel>> Get()
     {
-        var models = _service.GetAll(default);
+        var models = await _service.GetAll(default);
         return _mapper.Map<List<UserViewModel>>(models);
     }
 
     // GET api/<ValuesController>/5
     [HttpGet("{id}")]
-    public UserViewModel Get(Guid id)
+    public async Task<UserViewModel> GetById(Guid id)
     {
-        var model = _service.GetById(id, default);
+        var model = await _service.GetById(id, default);
         return _mapper.Map<UserViewModel>(model);
     }
 
