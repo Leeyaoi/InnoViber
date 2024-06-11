@@ -8,7 +8,7 @@ namespace InnoViber.DAL.Repositories;
 
 public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepository
 {
-    public MessageRepository(ViberContext context, IDateTimeProvider dateTimeProvider) : base(context, dateTimeProvider)
+    public MessageRepository(ViberContext context) : base(context)
     { }
 
     public override Task<MessageEntity?> GetById(Guid Id, CancellationToken ct) => _dbSet.Where(x => x.Id == Id)
