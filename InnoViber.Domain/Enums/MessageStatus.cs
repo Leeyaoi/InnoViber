@@ -1,4 +1,6 @@
-﻿public enum MessageStatus
+﻿namespace InnoViber.Domain.Enums;
+
+public enum MessageStatus
 {
     Send = 0,
     Delivered = 1,
