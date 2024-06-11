@@ -1,8 +1,7 @@
-using InnoViber.DAL.Data;
 using InnoViber.DAL.DI;
 using InnoViber.BLL.DI;
 using InnoViber.API.DI;
-using Microsoft.EntityFrameworkCore;
+using InnoViber.Domain.DI;
 
 namespace InnoViber
 {
@@ -19,6 +18,8 @@ namespace InnoViber
             builder.Services.RegisterBLLDependencies();
 
             builder.Services.RegisterAPIDependencies();
+
+            builder.Services.RegisterDomainDependencies();
 
             var app = builder.Build();
 
