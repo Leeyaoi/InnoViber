@@ -15,15 +15,7 @@ public static class BuisnessLayerDependencies
 {
     public static void RegisterBLLDependencies(this IServiceCollection services)
     {
-        var config = new AutoMapper.MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new Helper());
-            cfg.AddExpressionMapping();
-        });
-
-        var mapper = config.CreateMapper();
-
-        services.AddSingleton(mapper);
+        services.AddAutoMapper(typeof(Helper));
 
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IChatService, ChatService>();
