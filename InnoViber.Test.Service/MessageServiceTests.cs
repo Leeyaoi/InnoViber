@@ -7,6 +7,7 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Services;
 using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Models;
+using InnoViber.Domain.Enums;
 using Moq;
 using Shouldly;
 using static System.Runtime.InteropServices.JavaScript.JSType;

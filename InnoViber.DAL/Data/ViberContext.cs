@@ -8,7 +8,14 @@ public class ViberContext : DbContext
 {
     private readonly IDateTimeProvider _dateTimeProvider;
 
-    public ViberContext(IDateTimeProvider dateTimeProvider) => _dateTimeProvider = dateTimeProvider;
+    public ViberContext(DbContextOptions<ViberContext> options, IDateTimeProvider dateTimeProvider) : base(options)
+    {
+        _dateTimeProvider = dateTimeProvider;
+        if (Database.IsRelational())
+        {
+            Database.Migrate();
+        }
+    }
 
     public DbSet<UserEntity> Users { get; set; }
 
@@ -16,7 +23,6 @@ public class ViberContext : DbContext
 
     public DbSet<ChatEntity> Chats { get; set; }
 
-    public ViberContext(DbContextOptions<ViberContext> options) : base(options) { }
 
     public override int SaveChanges()
     {
@@ -27,21 +33,18 @@ public class ViberContext : DbContext
 
         foreach (var entry in entries)
         {
-            if(entry is BaseEntity)
+            var track = entry.Entity as BaseEntity;
+            switch (entry.State)
             {
-                var track = entry.Entity as BaseEntity;
-                switch (entry.State)
-                {
-                    case EntityState.Modified:
-                        Entry(track)!.Property(x => x.CreatedAt).IsModified = false;
-                        track!.UpdatedAt = utcNow;
-                        break;
+                case EntityState.Modified:
+                    Entry(track)!.Property(x => x.CreatedAt).IsModified = false;
+                    track!.UpdatedAt = utcNow;
+                    break;
 
-                    case EntityState.Added:
-                        track!.CreatedAt = utcNow;
-                        track!.UpdatedAt = utcNow;
-                        break;
-                }
+                case EntityState.Added:
+                    track!.CreatedAt = utcNow;
+                    track!.UpdatedAt = utcNow;
+                    break;
             }
         }
 
