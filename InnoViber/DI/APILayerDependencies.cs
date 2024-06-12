@@ -7,6 +7,6 @@ public static class ApiLayerDependencies
 {
     public static void RegisterAPIDependencies(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(Helper));
+        services.AddAutoMapper(typeof(ApiLayerMapperProfile));
     }
 }

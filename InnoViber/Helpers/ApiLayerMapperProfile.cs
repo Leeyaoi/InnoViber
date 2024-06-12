@@ -3,9 +3,9 @@ using InnoViber.BLL.Models;
 
 namespace InnoViber.API.Helpers;
 
-public class Helper : Profile
+public class ApiLayerMapperProfile : Profile
 {
-    public Helper()
+    public ApiLayerMapperProfile()
     {
         CreateMap<ChatViewModel, ChatModel>().ReverseMap();
 
