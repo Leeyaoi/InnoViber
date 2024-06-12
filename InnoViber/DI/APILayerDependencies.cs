@@ -7,13 +7,6 @@ public static class ApiLayerDependencies
 {
     public static void RegisterAPIDependencies(this IServiceCollection services)
     {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new Helper());
-        });
-
-        var mapper = config.CreateMapper();
-
-        services.AddSingleton(mapper);
+        return;
     }
 }
