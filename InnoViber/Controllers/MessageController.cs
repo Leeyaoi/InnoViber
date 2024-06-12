@@ -5,6 +5,7 @@ using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
 using InnoViber.API.ViewModels.Message;
+using InnoViber.API.Extensions;
 
 namespace InnoViber.Controllers;
 
@@ -49,7 +50,7 @@ public class MessageController : ControllerBase
         var result = _validator.Validate(message);
         if (!result.IsValid)
         {
-            throw new Exception("Invalid validation on Message Create");
+            result.GenerateValidationExeption();
         }
         var model = _mapper.Map<MessageModel>(message);
         _service.Create(model, default);
@@ -62,7 +63,7 @@ public class MessageController : ControllerBase
         var result = _validator.Validate(message);
         if (!result.IsValid)
         {
-            throw new Exception("Invalid validation on Message Update");
+            result.GenerateValidationExeption();
         }
         var model = _mapper.Map<MessageModel>(message);
         model.Id = id;
@@ -76,7 +77,7 @@ public class MessageController : ControllerBase
         var result = _statusValidator.Validate(message);
         if (!result.IsValid)
         {
-            throw new Exception("Invalid validation on Message status Update");
+            result.GenerateValidationExeption();
         }
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
         model.Status = message.Status;

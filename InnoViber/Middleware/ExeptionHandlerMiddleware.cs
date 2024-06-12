@@ -39,11 +39,3 @@ public class ExeptionHandlerMiddleware
         return context.Response.WriteAsync($"{exception.Message}\n{context.Response.StatusCode}");
     }
 }
-
-public static class ExeptionHandlerMiddlewareExtensions
-{
-    public static IApplicationBuilder UseExeptionHandlerMiddleware(this IApplicationBuilder builder)
-    {
-        return builder.UseMiddleware<ExeptionHandlerMiddleware>();
-    }
-}

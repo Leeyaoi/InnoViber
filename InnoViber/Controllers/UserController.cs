@@ -4,6 +4,7 @@ using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.User;
 using FluentValidation;
+using InnoViber.API.Extensions;
 
 namespace InnoViber.Controllers;
 
@@ -45,7 +46,7 @@ public class UserController : ControllerBase
         var result = _validator.Validate(user);
         if (!result.IsValid)
         {
-            throw new Exception("Invalid validation on User Create");
+            result.GenerateValidationExeption();
         }
         var model = _mapper.Map<UserModel>(user);
         _service.Create(model, default);
@@ -58,7 +59,7 @@ public class UserController : ControllerBase
         var result = _validator.Validate(user);
         if (!result.IsValid)
         {
-            throw new Exception("Invalid validation on User Update");
+            result.GenerateValidationExeption();
         }
         var model = _mapper.Map<UserModel>(user);
         model.Id = id;

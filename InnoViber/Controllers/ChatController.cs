@@ -4,6 +4,7 @@ using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.Chat;
 using FluentValidation;
+using InnoViber.API.Extensions;
 
 namespace InnoViber.Controllers;
 
@@ -45,7 +46,7 @@ public class ChatController : ControllerBase
         var result = _validator.Validate(chat);
         if (!result.IsValid)
         {
-            throw new Exception("Invalid validation on Chat Create");
+            result.GenerateValidationExeption();
         }
         var model = _mapper.Map<ChatModel>(chat);
         _service.Create(model, default);
@@ -58,7 +59,7 @@ public class ChatController : ControllerBase
         var result = _validator.Validate(chat);
         if (!result.IsValid)
         {
-            throw new Exception("Invalid validation on Chat Update");
+            result.GenerateValidationExeption();
         }
         var model = _mapper.Map<ChatModel>(chat);
         model.Id = id;
