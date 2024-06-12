@@ -21,6 +21,8 @@ namespace InnoViber
 
             builder.Services.RegisterDomainDependencies();
 
+            builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(BuisnessLayerDependencies).Assembly);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

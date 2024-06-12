@@ -22,7 +22,7 @@ public class ChatServiceTests
     {
         var config = new MapperConfiguration(cfg =>
         {
-            cfg.AddProfile(new Helper());
+            cfg.AddProfile(new BllLayerMapperProfile());
             cfg.AddExpressionMapping();
         });
 

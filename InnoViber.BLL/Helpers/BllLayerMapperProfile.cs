@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 
 namespace InnoViber.BLL.Helpers;
 
-public class Helper : Profile
+public class BllLayerMapperProfile : Profile
 {
-    public Helper()
+    public BllLayerMapperProfile()
     {
         CreateMap<UserEntity, UserModel>().ReverseMap();
 
