@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using InnoViber.API.Helpers;
+using Serilog;
 
 namespace InnoViber.API.DI;
 
 public static class ApiLayerDependencies
 {
-    public static void RegisterAPIDependencies(this IServiceCollection services)
+    public static void RegisterAPIDependencies(this WebApplicationBuilder builder)
     {
         var config = new MapperConfiguration(cfg =>
         {
@@ -14,6 +15,13 @@ public static class ApiLayerDependencies
 
         var mapper = config.CreateMapper();
 
-        services.AddSingleton(mapper);
+        builder.Services.AddSingleton(mapper);
+
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File("ogs/log-.txt")
+            .CreateLogger();
+
+        builder.Logging.AddSerilog().SetMinimumLevel(LogLevel.Information);
     }
 }

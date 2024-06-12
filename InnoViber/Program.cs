@@ -17,7 +17,7 @@ namespace InnoViber
 
             builder.Services.RegisterBLLDependencies();
 
-            builder.Services.RegisterAPIDependencies();
+            builder.RegisterAPIDependencies();
 
             builder.Services.RegisterDomainDependencies();
 
