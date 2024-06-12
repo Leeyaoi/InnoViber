@@ -33,7 +33,7 @@ public class ExeptionHandlerMiddleware
 
     private Task HandleExeptionAsync(HttpContext context, Exception exception)
     {
-        _logger.LogError("The problem occured {0}", exception.Message);
+        _logger.LogError("The problem occured {message}", exception.Message);
         context.Response.ContentType = "text/json";
         return context.Response.WriteAsync($"{exception.Message}\n{context.Response.StatusCode}");
     }
