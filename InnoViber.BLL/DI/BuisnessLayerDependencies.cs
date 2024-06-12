@@ -15,8 +15,6 @@ public static class BuisnessLayerDependencies
 {
     public static void RegisterBLLDependencies(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(BllLayerMapperProfile));
-
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IChatService, ChatService>();
         services.AddScoped<IMessageService, MessageService>();
