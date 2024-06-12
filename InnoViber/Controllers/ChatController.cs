@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using InnoViber.API.ViewModels;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;

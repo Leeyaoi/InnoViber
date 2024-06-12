@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace InnoViber.API.ViewModels.User;
 
-namespace InnoViber.BLL.Models;
-
-public class UserViewModel : BaseViewModel
+public class UserShortViewModel
 {
     public string Name { get; set; } = string.Empty;
     public string Surname { get; set; } = string.Empty;
