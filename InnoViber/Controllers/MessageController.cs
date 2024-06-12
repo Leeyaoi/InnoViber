@@ -45,50 +45,54 @@ public class MessageController : ControllerBase
 
     // POST api/<ValuesController>
     [HttpPost]
-    public void Create([FromBody] MessageShortViewModel message)
+    public async Task<MessageViewModel> Create([FromBody] MessageShortViewModel message)
     {
-        var result = _validator.Validate(message);
+        var result = await _validator.ValidateAsync(message);
         if (!result.IsValid)
         {
             result.GenerateValidationExeption();
         }
         var model = _mapper.Map<MessageModel>(message);
-        _service.Create(model, default);
+        await _service.Create(model, default);
+        return _mapper.Map<MessageViewModel>(model);
     }
 
     // PUT api/<ValuesController>/5
     [HttpPut("{id}")]
-    public void Update(Guid id, [FromBody] MessageShortViewModel message)
+    public async Task<MessageViewModel> Update(Guid id, [FromBody] MessageShortViewModel message)
     {
-        var result = _validator.Validate(message);
+        var result = await _validator.ValidateAsync(message);
         if (!result.IsValid)
         {
             result.GenerateValidationExeption();
         }
         var model = _mapper.Map<MessageModel>(message);
         model.Id = id;
-        _service.Update(model, default);
+        await _service.Update(model, default);
+        return _mapper.Map<MessageViewModel>(model);
     }
 
     // PUT api/<ValuesController>/status/5
     [HttpPut("status/{id}")]
-    public void UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
+    public async Task<MessageViewModel> UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
     {
-        var result = _statusValidator.Validate(message);
+        var result = await _statusValidator.ValidateAsync(message);
         if (!result.IsValid)
         {
             result.GenerateValidationExeption();
         }
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
         model.Status = message.Status;
-        _service.Update(model, default);
+        await _service.Update(model, default);
+        return _mapper.Map<MessageViewModel>(model);
     }
 
     // DELETE api/<ValuesController>/5
     [HttpDelete("{id}")]
-    public void Delete(Guid id)
+    public async Task<MessageViewModel> Delete(Guid id)
     {
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
-        _service.Delete(model, default);
+        await _service.Delete(model, default);
+        return _mapper.Map<MessageViewModel>(model);
     }
 }

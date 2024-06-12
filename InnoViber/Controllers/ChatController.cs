@@ -41,36 +41,39 @@ public class ChatController : ControllerBase
 
     // POST api/<ChatController>
     [HttpPost]
-    public void Create([FromBody] ChatShortViewModel chat)
+    public async Task<ChatViewModel> Create([FromBody] ChatShortViewModel chat)
     {
-        var result = _validator.Validate(chat);
+        var result = await _validator.ValidateAsync(chat);
         if (!result.IsValid)
         {
             result.GenerateValidationExeption();
         }
         var model = _mapper.Map<ChatModel>(chat);
-        _service.Create(model, default);
+        await _service.Create(model, default);
+        return _mapper.Map<ChatViewModel>(model);
     }
 
     // PUT api/<ChatController>/5
     [HttpPut("{id}")]
-    public void Update(Guid id, [FromBody] ChatShortViewModel chat)
+    public async Task<ChatViewModel> Update(Guid id, [FromBody] ChatShortViewModel chat)
     {
-        var result = _validator.Validate(chat);
+        var result = await _validator.ValidateAsync(chat);
         if (!result.IsValid)
         {
             result.GenerateValidationExeption();
         }
         var model = _mapper.Map<ChatModel>(chat);
         model.Id = id;
-        _service.Update(model, default);
+        await _service.Update(model, default);
+        return _mapper.Map<ChatViewModel>(model);
     }
 
     // DELETE api/<ChatController>/5
     [HttpDelete("{id}")]
-    public void Delete(Guid id)
+    public async Task<ChatViewModel> Delete(Guid id)
     {
         var model = _mapper.Map<ChatModel>(_service.GetById(id, default));
-        _service.Delete(model, default);
+        await _service.Delete(model, default);
+        return _mapper.Map<ChatViewModel>(model);
     }
 }
