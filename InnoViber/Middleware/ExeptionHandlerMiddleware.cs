@@ -35,6 +35,7 @@ public class ExeptionHandlerMiddleware
     {
         _logger.LogError("The problem occured {message}", exception.Message);
         context.Response.ContentType = "text/json";
+        context.Response.StatusCode = 500;
         return context.Response.WriteAsync($"{exception.Message}\n{context.Response.StatusCode}");
     }
 }

@@ -19,7 +19,6 @@ public static class ApiLayerDependencies
 
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
-            .WriteTo.File("ogs/log-.txt")
             .CreateLogger();
 
         builder.Logging.AddSerilog().SetMinimumLevel(LogLevel.Information);
