@@ -3,6 +3,8 @@ using InnoViber.API.ViewModels;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
+using InnoViber.API.ViewModels.Message;
 
 namespace InnoViber.Controllers;
 
@@ -12,11 +14,16 @@ public class MessageController : ControllerBase
 {
     private readonly IMessageService _service;
     private readonly IMapper _mapper;
+    private readonly IValidator<MessageShortViewModel> _validator;
+    private readonly IValidator<MessageChangeStatusViewModel> _statusValidator;
 
-    public MessageController(IMessageService service, IMapper mapper)
+    public MessageController(IMessageService service, IMapper mapper, 
+        IValidator<MessageShortViewModel> validator, IValidator<MessageChangeStatusViewModel> statusValidator)
     {
         _service = service;
         _mapper = mapper;
+        _validator = validator;
+        _statusValidator = statusValidator;
     }
 
     // GET: api/<ValuesController>
@@ -37,17 +44,42 @@ public class MessageController : ControllerBase
 
     // POST api/<ValuesController>
     [HttpPost]
-    public void Post([FromBody] MessageModel message)
+    public void Create([FromBody] MessageShortViewModel message)
     {
+        var result = _validator.Validate(message);
+        if (!result.IsValid)
+        {
+            throw new Exception("Invalid validation on Message Create");
+        }
         var model = _mapper.Map<MessageModel>(message);
         _service.Create(model, default);
     }
 
     // PUT api/<ValuesController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] MessageModel message)
+    public void Update(Guid id, [FromBody] MessageShortViewModel message)
     {
+        var result = _validator.Validate(message);
+        if (!result.IsValid)
+        {
+            throw new Exception("Invalid validation on Message Update");
+        }
         var model = _mapper.Map<MessageModel>(message);
+        model.Id = id;
+        _service.Update(model, default);
+    }
+
+    // PUT api/<ValuesController>/status/5
+    [HttpPut("status/{id}")]
+    public void UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
+    {
+        var result = _statusValidator.Validate(message);
+        if (!result.IsValid)
+        {
+            throw new Exception("Invalid validation on Message status Update");
+        }
+        var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
+        model.Status = message.Status;
         _service.Update(model, default);
     }
 

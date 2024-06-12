@@ -12,12 +12,16 @@ public class ApiLayerMapperProfile : Profile
     {
         CreateMap<ChatViewModel, ChatModel>().ReverseMap();
         CreateMap<ChatViewModel, ChatShortViewModel>().ReverseMap();
+        CreateMap<ChatModel, ChatShortViewModel>().ReverseMap();
 
         CreateMap<UserViewModel, UserModel>().ReverseMap();
         CreateMap<UserViewModel, UserShortViewModel>().ReverseMap();
+        CreateMap<UserModel, UserShortViewModel>().ReverseMap();
 
         CreateMap<MessageViewModel, MessageModel>().ReverseMap();
         CreateMap<MessageViewModel, MessageShortViewModel>().ReverseMap();
         CreateMap<MessageViewModel, MessageChangeStatusViewModel>().ReverseMap();
+        CreateMap<MessageModel, MessageChangeStatusViewModel>().ReverseMap();
+        CreateMap<MessageModel, MessageChangeStatusViewModel>().ReverseMap();
     }
 }
