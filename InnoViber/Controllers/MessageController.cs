@@ -1,11 +1,8 @@
 using AutoMapper;
-using InnoViber.API.ViewModels;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using FluentValidation;
 using InnoViber.API.ViewModels.Message;
-using InnoViber.API.Extensions;
 
 namespace InnoViber.Controllers;
 
@@ -15,16 +12,11 @@ public class MessageController : ControllerBase
 {
     private readonly IMessageService _service;
     private readonly IMapper _mapper;
-    private readonly IValidator<MessageShortViewModel> _validator;
-    private readonly IValidator<MessageChangeStatusViewModel> _statusValidator;
 
-    public MessageController(IMessageService service, IMapper mapper, 
-        IValidator<MessageShortViewModel> validator, IValidator<MessageChangeStatusViewModel> statusValidator)
+    public MessageController(IMessageService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
-        _validator = validator;
-        _statusValidator = statusValidator;
     }
 
     // GET: api/<ValuesController>
@@ -56,8 +48,7 @@ public class MessageController : ControllerBase
     public void Update(Guid id, [FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
-        model.Id = id;
-        _service.Update(model, default);
+        _service.Update(id, model, default);
     }
 
     // PUT api/<ValuesController>/status/5
@@ -66,7 +57,7 @@ public class MessageController : ControllerBase
     {
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
         model.Status = message.Status;
-        _service.Update(model, default);
+        _service.Update(id, model, default);
     }
 
     // DELETE api/<ValuesController>/5

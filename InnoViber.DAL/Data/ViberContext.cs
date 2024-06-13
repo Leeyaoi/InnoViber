@@ -35,33 +35,20 @@ public class ViberContext : DbContext
         foreach (var entry in entries)
         {
             var entity = entry.Entity as BaseEntity;
+
+            if (entity == null) { throw new FormatException("entity"); }
+
             switch (entry.State)
             {
                 case EntityState.Modified:
-                    Entry(entity!).Property(x => x.CreatedAt).IsModified = false;
-                    entity!.UpdatedAt = utcNow;
+                    Entry(entity).Property(x => x.CreatedAt).IsModified = false;
+                    entity.UpdatedAt = utcNow;
                     break;
 
                 case EntityState.Added:
                     entity!.CreatedAt = utcNow;
                     entity!.UpdatedAt = utcNow;
                     break;
-            }
-
-            if(entry.Entity is MessageEntity)
-            {
-                var message = entry.Entity as MessageEntity;
-                switch (entry.State)
-                {
-                    case EntityState.Modified:
-                        Entry(message!).Property(x => x.Date).IsModified = false;
-                        break;
-
-                    case EntityState.Added:
-                        message!.Date = utcNow;
-                        message!.Status = MessageStatus.Send;
-                        break;
-                }
             }
         }
 

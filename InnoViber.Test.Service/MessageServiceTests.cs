@@ -8,6 +8,7 @@ using InnoViber.BLL.Services;
 using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Models;
 using InnoViber.Domain.Enums;
+using InnoViber.Domain.Providers;
 using Moq;
 using Shouldly;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -18,6 +19,7 @@ public class MessageServiceTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<IMessageRepository> _repoMock;
+    private readonly Mock<IDateTimeProvider> _dateMock;
     private readonly MessageService _service;
 
     public MessageServiceTests()
@@ -32,7 +34,9 @@ public class MessageServiceTests
 
         _repoMock = new Mock<IMessageRepository>();
 
-        _service = new MessageService(_mapper, _repoMock.Object);
+        _dateMock = new Mock<IDateTimeProvider>();
+
+        _service = new MessageService(_mapper, _repoMock.Object, _dateMock.Object);
     }
 
     [Theory, AutoData]

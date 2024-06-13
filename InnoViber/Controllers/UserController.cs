@@ -3,8 +3,6 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.User;
-using FluentValidation;
-using InnoViber.API.Extensions;
 
 namespace InnoViber.Controllers;
 
@@ -14,13 +12,11 @@ public class UserController : ControllerBase
 {
     private readonly IUserService _service;
     private readonly IMapper _mapper;
-    private readonly IValidator<UserShortViewModel> _validator;
 
-    public UserController(IUserService service, IMapper mapper, IValidator<UserShortViewModel> validator)
+    public UserController(IUserService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
-        _validator = validator;
     }
 
     // GET: api/<ValuesController>
@@ -52,8 +48,7 @@ public class UserController : ControllerBase
     public void Update(Guid id, [FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
-        model.Id = id;
-        _service.Update(model, default);
+        _service.Update(id, model, default);
     }
 
     // DELETE api/<ValuesController>/5

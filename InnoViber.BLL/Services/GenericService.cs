@@ -30,8 +30,10 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel> where TMo
         var entity = _mapper.Map<TEntity>(model);
         return _repository.Delete(entity, ct);
     }
-    public Task Update(TModel model, CancellationToken ct)
+
+    public Task Update(Guid id, TModel model, CancellationToken ct)
     {
+        model.Id = id;
         var entity = _mapper.Map<TEntity>(model);
         return _repository.Update(entity, ct);
     }
