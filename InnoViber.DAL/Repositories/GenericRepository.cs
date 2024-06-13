@@ -22,10 +22,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return _dbSet.ToListAsync(ct);
     }
 
-    public async Task Create(TEntity entity, CancellationToken ct)
+    public async Task<TEntity> Create(TEntity entity, CancellationToken ct)
     {
         await _dbSet.AddAsync(entity);
         await _viberContext.SaveChangesAsync(ct);
+        return entity;
     }
 
     public virtual async Task<TEntity> Update(TEntity entity, CancellationToken ct)

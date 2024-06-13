@@ -64,10 +64,8 @@ public class MessageController : ControllerBase
 
     // DELETE api/<ValuesController>/5
     [HttpDelete("{id}")]
-    public async Task<MessageViewModel> Delete(Guid id)
+    public Task Delete(Guid id)
     {
-        var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
-        await _service.Delete(model, default);
-        return _mapper.Map<MessageViewModel>(model);
+        return _service.Delete(id, default);
     }
 }

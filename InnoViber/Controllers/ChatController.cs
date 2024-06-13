@@ -55,10 +55,8 @@ public class ChatController : ControllerBase
 
     // DELETE api/<ChatController>/5
     [HttpDelete("{id}")]
-    public async Task<ChatViewModel> Delete(Guid id)
+    public Task Delete(Guid id)
     {
-        var model = _mapper.Map<ChatModel>(_service.GetById(id, default));
-        await _service.Delete(model, default);
-        return _mapper.Map<ChatViewModel>(model);
+        return _service.Delete(id, default);
     }
 }
