@@ -83,4 +83,36 @@ public class ChatServiceTests
         var entity = _mapper.Map<ChatEntity>(result);
         entity.ShouldBeEquivalentTo(chat);
     }
+
+    [Theory, AutoData]
+    public async Task CreateTest_HasData_ReturnsChatModel([NoAutoProperties] ChatModel model)
+    {
+        //Arrange
+        var entity = _mapper.Map<ChatEntity>(model);
+        _repoMock.Setup(repo => repo.Create(entity, default)).ReturnsAsync(entity);
+
+        //Act
+
+        var result = await _service.Create(model, default);
+
+        //Assert
+
+        result.ShouldBeEquivalentTo(model);
+    }
+
+    [Theory, AutoData]
+    public async Task UpdateTest_HasData_ReturnsChatModel([NoAutoProperties] ChatModel model)
+    {
+        //Arrange
+        var entity = _mapper.Map<ChatEntity>(model);
+        _repoMock.Setup(repo => repo.Update(entity, default)).ReturnsAsync(entity);
+
+        //Act
+
+        var result = await _service.Update(Guid.Empty, model, default);
+
+        //Assert
+
+        result.ShouldBeEquivalentTo(model);
+    }
 }
