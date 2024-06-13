@@ -1,9 +1,8 @@
 using AutoMapper;
-using InnoViber.API.ViewModels;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
+using InnoViber.API.ViewModels.Message;
 using Microsoft.AspNetCore.Mvc;
-using InnoViber.API.ViewModels.Message
 
 namespace InnoViber.Controllers;
 
