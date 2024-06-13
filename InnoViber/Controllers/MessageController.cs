@@ -2,6 +2,7 @@ using AutoMapper;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using InnoViber.API.ViewModels.Message;
 
 namespace InnoViber.Controllers;
 
@@ -36,7 +37,7 @@ public class MessageController : ControllerBase
 
     // POST api/<ValuesController>
     [HttpPost]
-    public void Post([FromBody] MessageModel message)
+    public void Create([FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
         _service.Create(model, default);
@@ -44,10 +45,18 @@ public class MessageController : ControllerBase
 
     // PUT api/<ValuesController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] MessageModel message)
+    public void Update(Guid id, [FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
-        _service.Update(model, default);
+        _service.Update(id, model, default);
+    }
+
+    // PUT api/<ValuesController>/status/5
+    [HttpPut("status/{id}")]
+    public void UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
+    {
+        var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
+        _service.UpdateStatus(message.Status, model, default);
     }
 
     // DELETE api/<ValuesController>/5

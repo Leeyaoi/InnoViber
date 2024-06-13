@@ -2,6 +2,7 @@
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using InnoViber.API.ViewModels.Chat;
 
 namespace InnoViber.Controllers;
 
@@ -36,7 +37,7 @@ public class ChatController : ControllerBase
 
     // POST api/<ChatController>
     [HttpPost]
-    public void Post([FromBody] ChatViewModel chat)
+    public void Create([FromBody] ChatShortViewModel chat)
     {
         var model = _mapper.Map<ChatModel>(chat);
         _service.Create(model, default);
@@ -44,10 +45,10 @@ public class ChatController : ControllerBase
 
     // PUT api/<ChatController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] ChatViewModel chat)
+    public void Update(Guid id, [FromBody] ChatShortViewModel chat)
     {
         var model = _mapper.Map<ChatModel>(chat);
-        _service.Update(model, default);
+        _service.Update(id, model, default);
     }
 
     // DELETE api/<ChatController>/5

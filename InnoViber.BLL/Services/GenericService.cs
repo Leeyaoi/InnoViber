@@ -19,7 +19,7 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel> where TMo
         this._repository = repository;
     }
 
-    public Task Create(TModel model, CancellationToken ct)
+    public virtual Task Create(TModel model, CancellationToken ct)
     {
         var entity = _mapper.Map<TEntity>(model);
         return _repository.Create(entity, ct);
@@ -30,8 +30,10 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel> where TMo
         var entity = _mapper.Map<TEntity>(model);
         return _repository.Delete(entity, ct);
     }
-    public Task Update(TModel model, CancellationToken ct)
+
+    public virtual Task Update(Guid id, TModel model, CancellationToken ct)
     {
+        model.Id = id;
         var entity = _mapper.Map<TEntity>(model);
         return _repository.Update(entity, ct);
     }

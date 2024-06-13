@@ -2,6 +2,7 @@ using InnoViber.DAL.DI;
 using InnoViber.BLL.DI;
 using InnoViber.API.DI;
 using InnoViber.Domain.DI;
+using InnoViber.API.Extensions;
 
 namespace InnoViber
 {
@@ -28,6 +29,8 @@ namespace InnoViber
             builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(BuisnessLayerDependencies).Assembly);
 
             var app = builder.Build();
+
+            app.UseExeptionHandlerMiddleware();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -28,7 +28,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         await _viberContext.SaveChangesAsync(ct);
     }
 
-    public async Task<TEntity> Update(TEntity entity, CancellationToken ct)
+    public virtual async Task<TEntity> Update(TEntity entity, CancellationToken ct)
     {
         _dbSet.Update(entity);
         await _viberContext.SaveChangesAsync(ct);

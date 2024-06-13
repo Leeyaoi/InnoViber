@@ -14,5 +14,5 @@ public interface IGenericService<TModel>
 
     Task Delete(TModel model, CancellationToken ct);
 
-    Task Update(TModel model, CancellationToken ct);
+    Task Update(Guid id, TModel model, CancellationToken ct);
 }

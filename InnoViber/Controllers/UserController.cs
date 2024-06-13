@@ -2,6 +2,7 @@
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using InnoViber.API.ViewModels.User;
 
 namespace InnoViber.Controllers;
 
@@ -36,7 +37,7 @@ public class UserController : ControllerBase
 
     // POST api/<ValuesController>
     [HttpPost]
-    public void Post([FromBody] UserModel user)
+    public void Create([FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
         _service.Create(model, default);
@@ -44,10 +45,10 @@ public class UserController : ControllerBase
 
     // PUT api/<ValuesController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] UserModel user)
+    public void Update(Guid id, [FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
-        _service.Update(model, default);
+        _service.Update(id, model, default);
     }
 
     // DELETE api/<ValuesController>/5
