@@ -37,7 +37,7 @@ public class ViberContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Modified:
-                    Entry(track)!.Property(x => x.CreatedAt).IsModified = false;
+                    Entry(track!).Property(x => x.CreatedAt).IsModified = false;
                     track!.UpdatedAt = utcNow;
                     break;
 
