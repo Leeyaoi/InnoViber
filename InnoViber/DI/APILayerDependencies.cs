@@ -1,8 +1,7 @@
 ﻿using Serilog;
 using FluentValidation;
-using static FluentValidation.DependencyInjectionExtensions;
 using InnoViber.API.ViewModels.Chat;
-using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace InnoViber.API.DI;
 
