@@ -48,7 +48,6 @@ public class ChatController : ControllerBase
     public void Update(Guid id, [FromBody] ChatShortViewModel chat)
     {
         var model = _mapper.Map<ChatModel>(chat);
-        model.Id = id;
         _service.Update(id, model, default);
     }
 
