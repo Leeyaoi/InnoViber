@@ -23,7 +23,7 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
         _repository = repository;
     }
 
-    public new Task Create(MessageModel model, CancellationToken ct)
+    public override Task Create(MessageModel model, CancellationToken ct)
     {
         var utcNow = _dateTimeProvider.GetDate();
         var entity = _mapper.Map<MessageEntity>(model);
@@ -32,9 +32,16 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
         return _repository.Create(entity, ct);
     }
 
-    public new Task Update(Guid id, MessageModel model, CancellationToken ct)
+    public override Task Update(Guid id, MessageModel model, CancellationToken ct)
     {
         model.Id = id;
+        var entity = _mapper.Map<MessageEntity>(model);
+        return _repository.Update(entity, ct);
+    }
+
+    public Task UpdateStatus(MessageStatus status, MessageModel model, CancellationToken ct)
+    {
+        model.Status = status;
         var entity = _mapper.Map<MessageEntity>(model);
         return _repository.Update(entity, ct);
     }

@@ -56,8 +56,7 @@ public class MessageController : ControllerBase
     public void UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
     {
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
-        model.Status = message.Status;
-        _service.Update(id, model, default);
+        _service.UpdateStatus(message.Status, model, default);
     }
 
     // DELETE api/<ValuesController>/5

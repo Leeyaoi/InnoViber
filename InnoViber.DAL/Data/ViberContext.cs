@@ -36,7 +36,7 @@ public class ViberContext : DbContext
         {
             var entity = entry.Entity as BaseEntity;
 
-            if (entity == null) { throw new FormatException("entity"); }
+            if (entity == null) { continue; }
 
             switch (entry.State)
             {
@@ -46,8 +46,8 @@ public class ViberContext : DbContext
                     break;
 
                 case EntityState.Added:
-                    entity!.CreatedAt = utcNow;
-                    entity!.UpdatedAt = utcNow;
+                    entity.CreatedAt = utcNow;
+                    entity.UpdatedAt = utcNow;
                     break;
             }
         }
