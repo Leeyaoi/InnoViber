@@ -47,11 +47,6 @@ public class MessageController : ControllerBase
     [HttpPost]
     public void Create([FromBody] MessageShortViewModel message)
     {
-        var result = _validator.Validate(message);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<MessageModel>(message);
         _service.Create(model, default);
     }
@@ -60,11 +55,6 @@ public class MessageController : ControllerBase
     [HttpPut("{id}")]
     public void Update(Guid id, [FromBody] MessageShortViewModel message)
     {
-        var result = _validator.Validate(message);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<MessageModel>(message);
         model.Id = id;
         _service.Update(model, default);
@@ -74,11 +64,6 @@ public class MessageController : ControllerBase
     [HttpPut("status/{id}")]
     public void UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
     {
-        var result = _statusValidator.Validate(message);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
         model.Status = message.Status;
         _service.Update(model, default);

@@ -43,11 +43,6 @@ public class ChatController : ControllerBase
     [HttpPost]
     public void Create([FromBody] ChatShortViewModel chat)
     {
-        var result = _validator.Validate(chat);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<ChatModel>(chat);
         _service.Create(model, default);
     }
@@ -56,11 +51,6 @@ public class ChatController : ControllerBase
     [HttpPut("{id}")]
     public void Update(Guid id, [FromBody] ChatShortViewModel chat)
     {
-        var result = _validator.Validate(chat);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<ChatModel>(chat);
         model.Id = id;
         _service.Update(model, default);

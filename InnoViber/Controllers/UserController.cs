@@ -43,11 +43,6 @@ public class UserController : ControllerBase
     [HttpPost]
     public void Create([FromBody] UserShortViewModel user)
     {
-        var result = _validator.Validate(user);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<UserModel>(user);
         _service.Create(model, default);
     }
@@ -56,11 +51,6 @@ public class UserController : ControllerBase
     [HttpPut("{id}")]
     public void Update(Guid id, [FromBody] UserShortViewModel user)
     {
-        var result = _validator.Validate(user);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<UserModel>(user);
         model.Id = id;
         _service.Update(model, default);
