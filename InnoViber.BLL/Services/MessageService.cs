@@ -29,22 +29,23 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
         var entity = _mapper.Map<MessageEntity>(model);
         entity.Date = utcNow;
         entity.Status = MessageStatus.Send;
-        await _repository.Create(entity, ct);
-        return model;
+        var result = await _repository.Create(entity, ct);
+        return _mapper.Map<MessageModel>(result);
     }
 
     public override async Task<MessageModel> Update(Guid id, MessageModel model, CancellationToken ct)
     {
         model.Id = id;
         var entity = _mapper.Map<MessageEntity>(model);
-        await _repository.Update(entity, ct);
-        return model;
+        var result = await _repository.Update(entity, ct);
+        return _mapper.Map<MessageModel>(result);
     }
 
-    public Task UpdateStatus(MessageStatus status, MessageModel model, CancellationToken ct)
+    public async Task<MessageModel> UpdateStatus(MessageStatus status, MessageModel model, CancellationToken ct)
     {
         model.Status = status;
         var entity = _mapper.Map<MessageEntity>(model);
-        return _repository.Update(entity, ct);
+        var result = await _repository.Update(entity, ct);
+        return _mapper.Map<MessageModel>(result);
     }
 }

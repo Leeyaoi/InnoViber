@@ -17,9 +17,9 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
 
     public override async Task<MessageEntity> Update(MessageEntity entity, CancellationToken ct)
     {
-        _dbSet.Update(entity);
+        var result = _dbSet.Update(entity);
         _dbSet.Entry(entity).Property(x => x.Date).IsModified = false;
         await _viberContext.SaveChangesAsync(ct);
-        return entity;
+        return result.Entity;
     }
 }
