@@ -3,9 +3,7 @@ using InnoViber.API.ViewModels;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using FluentValidation;
-using InnoViber.API.ViewModels.Message;
-using InnoViber.API.Extensions;
+using InnoViber.API.ViewModels.Message
 
 namespace InnoViber.Controllers;
 
@@ -15,16 +13,11 @@ public class MessageController : ControllerBase
 {
     private readonly IMessageService _service;
     private readonly IMapper _mapper;
-    private readonly IValidator<MessageShortViewModel> _validator;
-    private readonly IValidator<MessageChangeStatusViewModel> _statusValidator;
 
-    public MessageController(IMessageService service, IMapper mapper, 
-        IValidator<MessageShortViewModel> validator, IValidator<MessageChangeStatusViewModel> statusValidator)
+    public MessageController(IMessageService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
-        _validator = validator;
-        _statusValidator = statusValidator;
     }
 
     // GET: api/<ValuesController>
@@ -47,11 +40,6 @@ public class MessageController : ControllerBase
     [HttpPost]
     public async Task<MessageViewModel> Create([FromBody] MessageShortViewModel message)
     {
-        var result = await _validator.ValidateAsync(message);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<MessageModel>(message);
         await _service.Create(model, default);
         return _mapper.Map<MessageViewModel>(model);
@@ -61,14 +49,8 @@ public class MessageController : ControllerBase
     [HttpPut("{id}")]
     public async Task<MessageViewModel> Update(Guid id, [FromBody] MessageShortViewModel message)
     {
-        var result = await _validator.ValidateAsync(message);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<MessageModel>(message);
-        model.Id = id;
-        await _service.Update(model, default);
+        await _service.Update(id, model, default);
         return _mapper.Map<MessageViewModel>(model);
     }
 
@@ -76,14 +58,8 @@ public class MessageController : ControllerBase
     [HttpPut("status/{id}")]
     public async Task<MessageViewModel> UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
     {
-        var result = await _statusValidator.ValidateAsync(message);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
-        model.Status = message.Status;
-        await _service.Update(model, default);
+        await _service.UpdateStatus(message.Status, model, default);
         return _mapper.Map<MessageViewModel>(model);
     }
 

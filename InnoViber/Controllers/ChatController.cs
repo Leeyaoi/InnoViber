@@ -3,8 +3,6 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.Chat;
-using FluentValidation;
-using InnoViber.API.Extensions;
 
 namespace InnoViber.Controllers;
 
@@ -14,13 +12,11 @@ public class ChatController : ControllerBase
 {
     private readonly IChatService _service;
     private readonly IMapper _mapper;
-    private readonly IValidator<ChatShortViewModel> _validator;
 
-    public ChatController(IChatService service, IMapper mapper, IValidator<ChatShortViewModel> validator)
+    public ChatController(IChatService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
-        _validator = validator;
     }
 
     // GET: api/<ChatController>
@@ -43,11 +39,6 @@ public class ChatController : ControllerBase
     [HttpPost]
     public async Task<ChatViewModel> Create([FromBody] ChatShortViewModel chat)
     {
-        var result = await _validator.ValidateAsync(chat);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<ChatModel>(chat);
         await _service.Create(model, default);
         return _mapper.Map<ChatViewModel>(model);
@@ -57,14 +48,8 @@ public class ChatController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ChatViewModel> Update(Guid id, [FromBody] ChatShortViewModel chat)
     {
-        var result = await _validator.ValidateAsync(chat);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<ChatModel>(chat);
-        model.Id = id;
-        await _service.Update(model, default);
+        await _service.Update(id, model, default);
         return _mapper.Map<ChatViewModel>(model);
     }
 

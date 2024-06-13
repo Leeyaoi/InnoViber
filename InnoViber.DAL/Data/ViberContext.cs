@@ -1,4 +1,5 @@
 ﻿using InnoViber.DAL.Models;
+using InnoViber.Domain.Enums;
 using InnoViber.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,17 +34,20 @@ public class ViberContext : DbContext
 
         foreach (var entry in entries)
         {
-            var track = entry.Entity as BaseEntity;
+            var entity = entry.Entity as BaseEntity;
+
+            if (entity == null) { continue; }
+
             switch (entry.State)
             {
                 case EntityState.Modified:
-                    Entry(track!).Property(x => x.CreatedAt).IsModified = false;
-                    track!.UpdatedAt = utcNow;
+                    Entry(entity).Property(x => x.CreatedAt).IsModified = false;
+                    entity.UpdatedAt = utcNow;
                     break;
 
                 case EntityState.Added:
-                    track!.CreatedAt = utcNow;
-                    track!.UpdatedAt = utcNow;
+                    entity.CreatedAt = utcNow;
+                    entity.UpdatedAt = utcNow;
                     break;
             }
         }

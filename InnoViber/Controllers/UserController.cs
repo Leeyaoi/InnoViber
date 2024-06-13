@@ -3,8 +3,6 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.User;
-using FluentValidation;
-using InnoViber.API.Extensions;
 
 namespace InnoViber.Controllers;
 
@@ -14,13 +12,11 @@ public class UserController : ControllerBase
 {
     private readonly IUserService _service;
     private readonly IMapper _mapper;
-    private readonly IValidator<UserShortViewModel> _validator;
 
-    public UserController(IUserService service, IMapper mapper, IValidator<UserShortViewModel> validator)
+    public UserController(IUserService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
-        _validator = validator;
     }
 
     // GET: api/<ValuesController>
@@ -43,11 +39,6 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<UserViewModel> Create([FromBody] UserShortViewModel user)
     {
-        var result = await _validator.ValidateAsync(user);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<UserModel>(user);
         await _service.Create(model, default);
         return _mapper.Map<UserViewModel>(model);
@@ -57,14 +48,8 @@ public class UserController : ControllerBase
     [HttpPut("{id}")]
     public async Task<UserViewModel> Update(Guid id, [FromBody] UserShortViewModel user)
     {
-        var result = await _validator.ValidateAsync(user);
-        if (!result.IsValid)
-        {
-            result.GenerateValidationExeption();
-        }
         var model = _mapper.Map<UserModel>(user);
-        model.Id = id;
-        await _service.Update(model, default);
+        await _service.Update(id, model, default);
         return _mapper.Map<UserViewModel>(model);
     }
 
