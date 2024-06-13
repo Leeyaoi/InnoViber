@@ -15,7 +15,7 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
             .Include(x => x.Chat)
             .FirstOrDefaultAsync(ct);
 
-    public new async Task<MessageEntity> Update(MessageEntity entity, CancellationToken ct)
+    public override async Task<MessageEntity> Update(MessageEntity entity, CancellationToken ct)
     {
         _dbSet.Update(entity);
         _dbSet.Entry(entity).Property(x => x.Date).IsModified = false;
