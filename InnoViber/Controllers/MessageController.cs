@@ -1,8 +1,8 @@
 using AutoMapper;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.Message;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InnoViber.Controllers;
 
@@ -37,33 +37,35 @@ public class MessageController : ControllerBase
 
     // POST api/<ValuesController>
     [HttpPost]
-    public void Create([FromBody] MessageShortViewModel message)
+    public async Task<MessageViewModel> Create([FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
-        _service.Create(model, default);
+        await _service.Create(model, default);
+        return _mapper.Map<MessageViewModel>(model);
     }
 
     // PUT api/<ValuesController>/5
     [HttpPut("{id}")]
-    public void Update(Guid id, [FromBody] MessageShortViewModel message)
+    public async Task<MessageViewModel> Update(Guid id, [FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
-        _service.Update(id, model, default);
+        await _service.Update(id, model, default);
+        return _mapper.Map<MessageViewModel>(model);
     }
 
     // PUT api/<ValuesController>/status/5
     [HttpPut("status/{id}")]
-    public void UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
+    public async Task<MessageViewModel> UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
     {
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
-        _service.UpdateStatus(message.Status, model, default);
+        await _service.UpdateStatus(message.Status, model, default);
+        return _mapper.Map<MessageViewModel>(model);
     }
 
     // DELETE api/<ValuesController>/5
     [HttpDelete("{id}")]
-    public void Delete(Guid id)
+    public Task Delete(Guid id)
     {
-        var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
-        _service.Delete(model, default);
+        return _service.Delete(id, default);
     }
 }

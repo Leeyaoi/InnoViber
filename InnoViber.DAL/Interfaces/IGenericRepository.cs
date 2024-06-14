@@ -12,7 +12,7 @@ public interface IGenericRepository<TEntity>
 {
     Task<List<TEntity>> GetAll(CancellationToken ct);
 
-    Task Create(TEntity entity, CancellationToken ct);
+    Task<TEntity> Create(TEntity entity, CancellationToken ct);
 
     Task<TEntity> Update(TEntity entity, CancellationToken ct);
 

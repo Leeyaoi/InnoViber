@@ -19,23 +19,25 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel> where TMo
         this._repository = repository;
     }
 
-    public virtual Task Create(TModel model, CancellationToken ct)
+    public virtual async Task<TModel> Create(TModel model, CancellationToken ct)
     {
         var entity = _mapper.Map<TEntity>(model);
-        return _repository.Create(entity, ct);
+        var result = await _repository.Create(entity, ct);
+        return _mapper.Map<TModel>(result);
     }
 
-    public Task Delete(TModel model, CancellationToken ct)
+    public Task Delete(Guid id, CancellationToken ct)
     {
-        var entity = _mapper.Map<TEntity>(model);
+        var entity = _mapper.Map<TEntity>(GetById(id, ct));
         return _repository.Delete(entity, ct);
     }
 
-    public virtual Task Update(Guid id, TModel model, CancellationToken ct)
+    public virtual async Task<TModel> Update(Guid id, TModel model, CancellationToken ct)
     {
         model.Id = id;
         var entity = _mapper.Map<TEntity>(model);
-        return _repository.Update(entity, ct);
+        var result = await _repository.Update(entity, ct);
+        return _mapper.Map<TModel>(result);
     }
 
     public async Task<List<TModel>> GetAll(CancellationToken ct)

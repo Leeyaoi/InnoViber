@@ -37,25 +37,26 @@ public class UserController : ControllerBase
 
     // POST api/<ValuesController>
     [HttpPost]
-    public void Create([FromBody] UserShortViewModel user)
+    public async Task<UserViewModel> Create([FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
-        _service.Create(model, default);
+        await _service.Create(model, default);
+        return _mapper.Map<UserViewModel>(model);
     }
 
     // PUT api/<ValuesController>/5
     [HttpPut("{id}")]
-    public void Update(Guid id, [FromBody] UserShortViewModel user)
+    public async Task<UserViewModel> Update(Guid id, [FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
-        _service.Update(id, model, default);
+        await _service.Update(id, model, default);
+        return _mapper.Map<UserViewModel>(model);
     }
 
     // DELETE api/<ValuesController>/5
     [HttpDelete("{id}")]
-    public void Delete(Guid id)
+    public Task Delete(Guid id)
     {
-        var model = _mapper.Map<UserModel>(_service.GetById(id, default));
-        _service.Delete(model, default);
+        return _service.Delete(id, default);
     }
 }

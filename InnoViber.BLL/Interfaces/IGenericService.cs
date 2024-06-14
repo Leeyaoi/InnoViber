@@ -10,9 +10,9 @@ public interface IGenericService<TModel>
 
     Task<TModel?> GetByPredicate(Expression<Func<TModel, bool>> predicate, CancellationToken ct);
 
-    Task Create(TModel model, CancellationToken ct);
+    Task<TModel> Create(TModel model, CancellationToken ct);
 
-    Task Delete(TModel model, CancellationToken ct);
+    Task Delete(Guid id, CancellationToken ct);
 
-    Task Update(Guid id, TModel model, CancellationToken ct);
+    Task<TModel> Update(Guid id, TModel model, CancellationToken ct);
 }
