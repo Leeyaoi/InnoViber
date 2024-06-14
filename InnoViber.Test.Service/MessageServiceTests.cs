@@ -121,7 +121,7 @@ public class MessageServiceTests
 
         result.ShouldBeEquivalentTo(model);
     }
-
+  
     [Theory, AutoData]
     public async Task UpdateStatusTest_HasData_ReturnsMessageModel([NoAutoProperties] MessageModel model)
     {
