@@ -95,7 +95,7 @@ public class MessageServiceTests
     {
         //Arrange
         var entity = _mapper.Map<MessageEntity>(model);
-        _repoMock.Setup(repo => repo.Create(entity, default)).ReturnsAsync(entity);
+        _repoMock.Setup(repo => repo.Create(It.IsAny<MessageEntity>(), default)).ReturnsAsync(entity);
 
         //Act
 
@@ -111,11 +111,28 @@ public class MessageServiceTests
     {
         //Arrange
         var entity = _mapper.Map<MessageEntity>(model);
-        _repoMock.Setup(repo => repo.Update(entity, default)).ReturnsAsync(entity);
+        _repoMock.Setup(repo => repo.Update(It.IsAny<MessageEntity>(), default)).ReturnsAsync(entity);
 
         //Act
 
         var result = await _service.Update(Guid.Empty, model, default);
+
+        //Assert
+
+        result.ShouldBeEquivalentTo(model);
+    }
+  
+    [Theory, AutoData]
+    public async Task UpdateStatusTest_HasData_ReturnsMessageModel([NoAutoProperties] MessageModel model)
+    {
+        //Arrange
+        var entity = _mapper.Map<MessageEntity>(model);
+        entity.Status = MessageStatus.Delivered;
+        _repoMock.Setup(repo => repo.Update(It.IsAny<MessageEntity>(), default)).ReturnsAsync(entity);
+
+        //Act
+
+        var result = await _service.UpdateStatus(MessageStatus.Delivered, model, default);
 
         //Assert
 
