@@ -22,7 +22,7 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel> where TMo
     public virtual async Task<TModel> Create(TModel model, CancellationToken ct)
     {
         var entity = _mapper.Map<TEntity>(model);
-        var result = _repository.Create(entity, ct);
+        var result = await _repository.Create(entity, ct);
         return _mapper.Map<TModel>(result);
     }
 
@@ -36,7 +36,7 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel> where TMo
     {
         model.Id = id;
         var entity = _mapper.Map<TEntity>(model);
-        var result = _repository.Update(entity, ct);
+        var result = await _repository.Update(entity, ct);
         return _mapper.Map<TModel>(result);
     }
 

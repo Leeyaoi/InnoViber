@@ -89,7 +89,7 @@ public class UserServiceTests
     {
         //Arrange
         var entity = _mapper.Map<UserEntity>(model);
-        _repoMock.Setup(repo => repo.Create(entity, default)).ReturnsAsync(entity);
+        _repoMock.Setup(repo => repo.Create(It.IsAny<UserEntity>(), default)).ReturnsAsync(entity);
 
         //Act
 
@@ -105,7 +105,7 @@ public class UserServiceTests
     {
         //Arrange
         var entity = _mapper.Map<UserEntity>(model);
-        _repoMock.Setup(repo => repo.Update(entity, default)).ReturnsAsync(entity);
+        _repoMock.Setup(repo => repo.Update(It.IsAny<UserEntity>(), default)).ReturnsAsync(entity);
 
         //Act
 
