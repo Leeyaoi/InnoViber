@@ -12,4 +12,9 @@ public class MessageModel : BaseModel
     public Guid ChatId { get; set; }
     public UserEntity? User { get; set; }
     public ChatEntity? Chat { get; set; }
+
+    public bool IsSeen()
+    {
+        return Status == MessageStatus.Read;
+    }
 }
