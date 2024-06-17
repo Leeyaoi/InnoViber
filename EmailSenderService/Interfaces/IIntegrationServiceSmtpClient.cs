@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace EmailSenderService;
+namespace EmailSenderService.Interfaces;
 
 public interface IIntegrationServiceSmtpClient
 {

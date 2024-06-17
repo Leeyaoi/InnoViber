@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using EmailSenderService.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
 
-namespace EmailSenderService;
+namespace EmailSenderService.Services;
 
 public class IntegrationServiceSmtpClient : IIntegrationServiceSmtpClient
 {

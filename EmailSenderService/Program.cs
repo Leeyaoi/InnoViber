@@ -1,28 +1,28 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using EmailSenderService.Interfaces;
+using EmailSenderService.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Net;
 using System.Net.Mail;
 
 namespace EmailSenderService
 {
-    class Program
+    public static class Program
     {
         static void Main(string[] args)
         {
             var builder = Host.CreateApplicationBuilder(args);
 
             builder.Services.AddSingleton<IIntegrationServiceSmtpClient, IntegrationServiceSmtpClient>();
+            builder.Services.AddSingleton<IEmailSenderService, EmailSender>();
 
             var host = builder.Build();
 
-            var smtpClient = host.Services.GetRequiredService<IIntegrationServiceSmtpClient>();
-            var config = host.Services.GetRequiredService<IConfiguration>();
+            var sender = host.Services.GetRequiredService<IEmailSenderService>();
 
-            var sender = new EmailSender("Darya", "work.yaskodarya@gmail.com", config, smtpClient);
             try
             {
-                sender.SendEmailAsync().GetAwaiter();
+                sender.SendEmailAsync("Darya", "work.yaskodarya@gmail.com").GetAwaiter();
             }
             catch (SmtpException ex)
             {
