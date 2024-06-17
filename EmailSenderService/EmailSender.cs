@@ -6,9 +6,9 @@ namespace EmailSenderService
 {
     public class EmailSender
     {
-        private readonly string _appEmail;
-        private readonly string _appPassword;
-        private readonly string _appName;
+        private readonly string? _appEmail;
+        private readonly string? _appPassword;
+        private readonly string? _appName;
         private readonly string _userEmail;
         private readonly string _userName;
 
@@ -20,7 +20,7 @@ namespace EmailSenderService
 
             var config = builder.Build();
             _appEmail = config["EmailCredentials:Address"];
-            _appPassword = config["EmailCredentials:Password"];
+            _appPassword = config["EmailCredentials:Passkey"];
             _appName = config["EmailCredentials:Name"];
             _userEmail = userEmail;
             _userName = userName;
