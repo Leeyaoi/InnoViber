@@ -15,6 +15,7 @@ public static class BuisnessLayerDependencies
 {
     public static void RegisterBLLDependencies(this IServiceCollection services)
     {
+        services.AddSingleton<CheckIsSeenMessagesService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IChatService, ChatService>();
         services.AddScoped<IMessageService, MessageService>();
