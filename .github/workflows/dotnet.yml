@@ -24,11 +24,6 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
-    - name: Notify failed build
-      uses: jayqi/failed-build-issue-action@v1
-      if: failure() && github.event.pull_request == null
-      with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
       
