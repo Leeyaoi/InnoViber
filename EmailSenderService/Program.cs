@@ -12,16 +12,7 @@ namespace EmailSenderService
         {
             var builder = Host.CreateApplicationBuilder(args);
 
-            builder.Services.AddSingleton(x => {
-                var config = builder.Configuration;
-                return new SmtpClient()
-                {
-                    Port = config.GetValue<int>("EmailCredentials:Port"),
-                    Host = config["EmailCredentials:Host"]!,
-                    Credentials = new NetworkCredential(config["EmailCredentials:Address"]!, config["EmailCredentials:Passkey"]!),
-                    EnableSsl = true
-                };
-            });
+            builder.Services.AddSingleton<IIntegrationServiceSmtpClient, IntegrationServiceSmtpClient>();
 
             var host = builder.Build();
 

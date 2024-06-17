@@ -12,13 +12,13 @@ namespace EmailSenderService
         private readonly string _userName;
         private readonly SmtpClient _client;
 
-        public EmailSender(string userName, string userEmail, IConfiguration config, SmtpClient smtpClient)
+        public EmailSender(string userName, string userEmail, IConfiguration config, IIntegrationServiceSmtpClient smtpClient)
         {
             _appEmail = config["EmailCredentials:Address"]!;
             _appName = config["EmailCredentials:Name"]!;
             _userEmail = userEmail;
             _userName = userName;
-            _client = smtpClient;
+            _client = smtpClient.Client;
         }
 
         private MailMessage BuildMessage()
