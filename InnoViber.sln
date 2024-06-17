@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoViber.Domain", "InnoVib
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSenderService", "EmailSenderService\EmailSenderService.csproj", "{7B2CB99D-34B3-4BEB-9D37-C0427158B74F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender", "try\EmailSender.csproj", "{1F8B5E57-D2D0-4382-B9C3-10B887DF4720}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
