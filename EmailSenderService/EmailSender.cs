@@ -6,22 +6,21 @@ namespace EmailSenderService
 {
     public class EmailSender
     {
-        private readonly string? _appEmail;
-        private readonly string? _appPassword;
-        private readonly string? _appName;
+        private readonly string _appEmail;
+        private readonly string _appPassword;
+        private readonly string _appName;
+        private readonly string _appHost;
+        private readonly int _appPort;
         private readonly string _userEmail;
         private readonly string _userName;
 
-        public EmailSender(string userName, string userEmail)
+        public EmailSender(string userName, string userEmail, IConfiguration config)
         {
-            var builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            var config = builder.Build();
-            _appEmail = config["EmailCredentials:Address"];
-            _appPassword = config["EmailCredentials:Passkey"];
-            _appName = config["EmailCredentials:Name"];
+            _appEmail = config["EmailCredentials:Address"]!;
+            _appPassword = config["EmailCredentials:Passkey"]!;
+            _appName = config["EmailCredentials:Name"]!;
+            _appHost = config["EmailCredentials:Host"]!;
+            _appPort = config.GetValue<int>("EmailCredentials:Port");
             _userEmail = userEmail;
             _userName = userName;
         }
@@ -38,7 +37,7 @@ namespace EmailSenderService
 
         private SmtpClient BuildClient()
         {
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            SmtpClient smtp = new SmtpClient(_appHost, _appPort);
             smtp.Credentials = new NetworkCredential(_appEmail, _appPassword);
             smtp.EnableSsl = true;
             return smtp;

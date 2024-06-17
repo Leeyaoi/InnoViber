@@ -1,4 +1,7 @@
-﻿using System.Net.Mail;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Net.Mail;
 
 namespace EmailSenderService
 {
@@ -6,7 +9,13 @@ namespace EmailSenderService
     {
         static void Main(string[] args)
         {
-            var sender = new EmailSender("Darya", "work.yaskodarya@gmail.com");
+            var builder = Host.CreateApplicationBuilder(args);
+
+            var host = builder.Build();
+
+            IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+
+            var sender = new EmailSender("Darya", "work.yaskodarya@gmail.com", config);
             try
             {
                 sender.SendEmailAsync().GetAwaiter();
