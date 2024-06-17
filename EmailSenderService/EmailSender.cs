@@ -30,17 +30,29 @@ namespace EmailSenderService
             _userName = userName;
         }
 
-        public async Task SendEmailAsync()
+        private MailMessage BuildMessage()
         {
             MailAddress from = new MailAddress(_appEmail, _appName);
             MailAddress to = new MailAddress(_userEmail);
             MailMessage m = new MailMessage(from, to);
             m.Subject = $"Тест для {_userName}";
             m.Body = "Письмо-тест 2 работы smtp-клиента";
+            return m;
+        }
+
+        private SmtpClient BuildClient()
+        {
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             smtp.Credentials = new NetworkCredential(_appEmail, _appPassword);
             smtp.EnableSsl = true;
-            await smtp.SendMailAsync(m);
+            return smtp;
+        }
+
+        public async Task SendEmailAsync()
+        {
+            var message = BuildMessage();
+            var smtp = BuildClient();
+            await smtp.SendMailAsync(message);
             Console.WriteLine("Письмо отправлено");
         }
     }
