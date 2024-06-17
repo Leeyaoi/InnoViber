@@ -16,7 +16,7 @@ namespace EmailSenderService
 
             var host = builder.Build();
 
-            var smtpClient = host.Services.GetRequiredService<SmtpClient>();
+            var smtpClient = host.Services.GetRequiredService<IIntegrationServiceSmtpClient>();
             var config = host.Services.GetRequiredService<IConfiguration>();
 
             var sender = new EmailSender("Darya", "work.yaskodarya@gmail.com", config, smtpClient);
