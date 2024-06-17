@@ -7,22 +7,18 @@ namespace EmailSenderService
     public class EmailSender
     {
         private readonly string _appEmail;
-        private readonly string _appPassword;
         private readonly string _appName;
-        private readonly string _appHost;
-        private readonly int _appPort;
         private readonly string _userEmail;
         private readonly string _userName;
+        private readonly SmtpClient _client;
 
-        public EmailSender(string userName, string userEmail, IConfiguration config)
+        public EmailSender(string userName, string userEmail, IConfiguration config, SmtpClient smtpClient)
         {
             _appEmail = config["EmailCredentials:Address"]!;
-            _appPassword = config["EmailCredentials:Passkey"]!;
             _appName = config["EmailCredentials:Name"]!;
-            _appHost = config["EmailCredentials:Host"]!;
-            _appPort = config.GetValue<int>("EmailCredentials:Port");
             _userEmail = userEmail;
             _userName = userName;
+            _client = smtpClient;
         }
 
         private MailMessage BuildMessage()
@@ -35,19 +31,10 @@ namespace EmailSenderService
             return m;
         }
 
-        private SmtpClient BuildClient()
-        {
-            SmtpClient smtp = new SmtpClient(_appHost, _appPort);
-            smtp.Credentials = new NetworkCredential(_appEmail, _appPassword);
-            smtp.EnableSsl = true;
-            return smtp;
-        }
-
         public async Task SendEmailAsync()
         {
             var message = BuildMessage();
-            var smtp = BuildClient();
-            await smtp.SendMailAsync(message);
+            await _client.SendMailAsync(message);
             Console.WriteLine("Письмо отправлено");
         }
     }
