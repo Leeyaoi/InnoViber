@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>EmailSenderService</RootNamespace>
     <AssemblyName>EmailSenderService</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFramework>netcoreapp8.0</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
