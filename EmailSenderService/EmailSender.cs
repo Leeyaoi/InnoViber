@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
 using System.Net.Mail;
 using System.Net;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 
 namespace EmailSenderService
 {

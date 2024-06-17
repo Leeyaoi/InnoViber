@@ -1,7 +1,4 @@
 ﻿using System.Net.Mail;
-using System.Net;
-using System;
-using System.Threading.Tasks;
 
 namespace EmailSenderService
 {
