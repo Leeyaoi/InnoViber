@@ -43,7 +43,7 @@ public class CheckIsSeenMessagesService : BackgroundService
                 var howLong = (_dateTimeProvider.GetDate() - message.Date).TotalMinutes;
                 if(!message.IsSeen && howLong > 20)
                 {
-                    var users = GetUsers(message);
+                    var users = await GetUsers(message);
                     foreach (var user in users)
                     {
                         Publish(user);
@@ -81,7 +81,7 @@ public class CheckIsSeenMessagesService : BackgroundService
         }
     }
 
-    private List<UserModel> GetUsers(MessageModel message)
+    private async Task<List<UserModel>> GetUsers(MessageModel message)
     {
         if(message.Chat == null || message.Chat.Users == null)
         {
@@ -89,6 +89,15 @@ public class CheckIsSeenMessagesService : BackgroundService
         }
 
         var users = _mapper.Map<List<UserModel>>(message.Chat.Users);
+
+        using (IServiceScope scope = _serviceScopeFactory.CreateScope())
+        {
+            var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+
+            var user = await userService.GetById(message.Chat.OwnerId, default);
+
+            users.Add(user);
+        }
 
         users.RemoveAll(x => x.Id == message.UserId);
 
