@@ -10,10 +10,11 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
     public MessageRepository(ViberContext context) : base(context)
     { }
 
-    public override Task<MessageEntity?> GetById(Guid Id, CancellationToken ct) => _dbSet.AsNoTracking().Where(x => x.Id == Id)
-            .Include(x => x.User)
-            .Include(x => x.Chat)
-            .FirstOrDefaultAsync(ct);
+    public override Task<MessageEntity?> GetById(Guid Id, CancellationToken ct) => _dbSet.AsNoTracking()
+                                                                                         .Where(x => x.Id == Id)
+                                                                                         .Include(x => x.User)
+                                                                                         .Include(x => x.Chat)
+                                                                                         .FirstOrDefaultAsync(ct);
 
     public override async Task<MessageEntity> Update(MessageEntity entity, CancellationToken ct)
     {
@@ -23,8 +24,8 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
         return result.Entity;
     }
 
-    public override Task<List<MessageEntity>> GetAll(CancellationToken ct)
-    {
-        return _dbSet.AsNoTracking().Include(x => x.User).ToListAsync(ct);
-    }
+    public override Task<List<MessageEntity>> GetAll(CancellationToken ct) => _dbSet.AsNoTracking()
+                                                                                    .Include(x => x.Chat)
+                                                                                    .ThenInclude(c => c.Users)
+                                                                                    .ToListAsync(ct);
 }

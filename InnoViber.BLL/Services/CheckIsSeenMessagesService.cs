@@ -1,4 +1,5 @@
-﻿using InnoViber.BLL.Interfaces;
+﻿using AutoMapper;
+using InnoViber.BLL.Interfaces;
 using InnoViber.BLL.Models;
 using InnoViber.Domain.Providers;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,13 +15,14 @@ public class CheckIsSeenMessagesService : BackgroundService
     private readonly TimeSpan _period;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IMapper _mapper;
 
-    public CheckIsSeenMessagesService(IServiceScopeFactory serviceScopeFactory, IDateTimeProvider timeProvider)
+    public CheckIsSeenMessagesService(IServiceScopeFactory serviceScopeFactory, IDateTimeProvider timeProvider, IMapper mapper)
     {
-        _period = TimeSpan.FromMinutes(1);
+        _period = TimeSpan.FromMinutes(100);
         _serviceScopeFactory = serviceScopeFactory;
         _dateTimeProvider = timeProvider;
-
+        _mapper = mapper;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -39,20 +41,24 @@ public class CheckIsSeenMessagesService : BackgroundService
             foreach (var message in messages)
             {
                 var howLong = (_dateTimeProvider.GetDate() - message.Date).TotalMinutes;
-                if(!message.IsSeen() && howLong > 3)
+                if(!message.IsSeen && howLong > 3)
                 {
-                    Publish(message);
+                    var users = GetUsers(message);
+                    foreach (var user in users)
+                    {
+                        Publish(user);
+                    }
                 }
             }
         }
     }
 
-    static string GetMessage(string[] args)
+    private string GetMessage(string[] args)
     {
         return ((args.Length > 0) ? string.Join(" ", args) : "Hello World!");
     }
 
-    private void Publish(MessageModel message)
+    private void Publish(UserModel user)
     {
         var factory = new ConnectionFactory() { HostName = "localhost" };
         var qName = "sendEmail";
@@ -63,7 +69,7 @@ public class CheckIsSeenMessagesService : BackgroundService
             {
                 channel.QueueDeclare(queue: "sendEmail", durable: true, exclusive: false, autoDelete: true);
 
-                var args = GetMessage([message.User.Name, message.User.Email]);
+                var args = GetMessage([user.Name, user.Email]);
 
                 var body = Encoding.UTF8.GetBytes(args);
 
@@ -73,5 +79,19 @@ public class CheckIsSeenMessagesService : BackgroundService
                 channel.BasicPublish("", routingKey: qName, prop, body);
             }
         }
+    }
+
+    private List<UserModel> GetUsers(MessageModel message)
+    {
+        if(message.Chat == null || message.Chat.Users == null)
+        {
+            return new List<UserModel>();
+        }
+
+        var users = _mapper.Map<List<UserModel>>(message.Chat.Users);
+
+        users.RemoveAll(x => x.Id == message.UserId);
+
+        return users;
     }
 }
