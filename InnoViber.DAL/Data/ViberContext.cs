@@ -2,6 +2,7 @@
 using InnoViber.Domain.Enums;
 using InnoViber.Domain.Providers;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace InnoViber.DAL.Data;
 
@@ -53,5 +54,17 @@ public class ViberContext : DbContext
         }
 
         return base.SaveChanges();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ChatEntity>().HasMany(c => c.Users);
+        modelBuilder.Entity<ChatEntity>().HasOne(c => c.Owner);
+        modelBuilder.Entity<UserEntity>().HasMany(c => c.Chats);
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
     }
 }

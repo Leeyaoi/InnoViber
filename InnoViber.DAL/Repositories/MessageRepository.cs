@@ -10,7 +10,7 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
     public MessageRepository(ViberContext context) : base(context)
     { }
 
-    public override Task<MessageEntity?> GetById(Guid Id, CancellationToken ct) => _dbSet.Where(x => x.Id == Id)
+    public override Task<MessageEntity?> GetById(Guid Id, CancellationToken ct) => _dbSet.AsNoTracking().Where(x => x.Id == Id)
             .Include(x => x.User)
             .Include(x => x.Chat)
             .FirstOrDefaultAsync(ct);
