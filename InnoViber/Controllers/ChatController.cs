@@ -55,11 +55,10 @@ public class ChatController : ControllerBase
 
     // PUT api/<ChatController>/5
     [HttpPut("{id}/{UserId}")]
-    public async Task<ChatViewModel> UpdateUsersList(Guid id, Guid UserId, [FromBody] ChatShortViewModel chat)
+    public async Task<ChatViewModel> UpdateUsersList(Guid id, Guid UserId)
     {
-        var model = _mapper.Map<ChatModel>(chat);
-        await _service.UpdateUsersList(id, UserId, model, default);
-        return _mapper.Map<ChatViewModel>(model);
+        var result = await _service.UpdateUsersList(id, UserId, default);
+        return _mapper.Map<ChatViewModel>(result);
     }
 
     // DELETE api/<ChatController>/5

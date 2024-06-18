@@ -4,5 +4,5 @@ namespace InnoViber.BLL.Interfaces;
 
 public interface IChatService : IGenericService<ChatModel>
 {
-    Task<ChatModel> UpdateUsersList(Guid id, Guid UserId, ChatModel model, CancellationToken ct);
+    Task<ChatModel> UpdateUsersList(Guid id, Guid UserId, CancellationToken ct);
 }

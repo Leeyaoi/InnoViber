@@ -19,10 +19,9 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
         _userRepository = userRepository;
     }
 
-    public async Task<ChatModel> UpdateUsersList(Guid id, Guid UserId, ChatModel model, CancellationToken ct)
+    public async Task<ChatModel> UpdateUsersList(Guid id, Guid UserId, CancellationToken ct)
     {
-        model.Id = id;
-        var entity = _mapper.Map<ChatEntity>(model);
+        var entity = new ChatEntity() {Id = id};
         var user = await _userRepository.GetById(UserId, ct);
         if (user != null)
         {
