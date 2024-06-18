@@ -26,10 +26,10 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel> where TMo
         return _mapper.Map<TModel>(result);
     }
 
-    public Task Delete(Guid id, CancellationToken ct)
+    public async Task Delete(Guid id, CancellationToken ct)
     {
-        var entity = _mapper.Map<TEntity>(GetById(id, ct));
-        return _repository.Delete(entity, ct);
+        var entity = await _repository.GetById(id, ct);
+        await _repository.Delete(entity, ct);
     }
 
     public virtual async Task<TModel> Update(Guid id, TModel model, CancellationToken ct)

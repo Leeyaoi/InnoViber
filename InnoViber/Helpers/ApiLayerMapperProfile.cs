@@ -22,6 +22,6 @@ public class ApiLayerMapperProfile : Profile
         CreateMap<MessageViewModel, MessageShortViewModel>().ReverseMap();
         CreateMap<MessageViewModel, MessageChangeStatusViewModel>().ReverseMap();
         CreateMap<MessageModel, MessageChangeStatusViewModel>().ReverseMap();
-        CreateMap<MessageModel, MessageChangeStatusViewModel>().ReverseMap();
+        CreateMap<MessageModel, MessageShortViewModel>().ReverseMap();
     }
 }

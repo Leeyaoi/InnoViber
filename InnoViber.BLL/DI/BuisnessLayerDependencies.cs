@@ -8,9 +8,9 @@ public static class BuisnessLayerDependencies
 {
     public static void RegisterBLLDependencies(this IServiceCollection services)
     {
-        services.AddSingleton<CheckIsSeenMessagesService>();
-        services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IChatService, ChatService>();
-        services.AddScoped<IMessageService, MessageService>();
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IChatService, ChatService>();
+        services.AddTransient<IMessageService, MessageService>();
+        services.AddScoped<CheckIsSeenMessagesService>();
     }
 }

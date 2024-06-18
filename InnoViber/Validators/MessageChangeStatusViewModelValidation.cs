@@ -8,6 +8,6 @@ public class MessageChangeStatusViewModelValidation : AbstractValidator<MessageC
 {
     public MessageChangeStatusViewModelValidation()
     {
-        RuleFor(x => x.Status).NotEmpty();
+        RuleFor(x => x.Status).NotNull();
     }
 }
