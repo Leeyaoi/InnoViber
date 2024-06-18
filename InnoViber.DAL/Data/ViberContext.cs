@@ -62,4 +62,9 @@ public class ViberContext : DbContext
         modelBuilder.Entity<ChatEntity>().HasOne(c => c.Owner);
         modelBuilder.Entity<UserEntity>().HasMany(c => c.Chats);
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+    }
 }

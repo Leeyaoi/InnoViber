@@ -19,7 +19,7 @@ public class UserController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: api/<ValuesController>
+    // GET: api/<UserController>
     [HttpGet]
     public async Task<IEnumerable<UserViewModel>> Get()
     {
@@ -27,7 +27,7 @@ public class UserController : ControllerBase
         return _mapper.Map<List<UserViewModel>>(models);
     }
 
-    // GET api/<ValuesController>/5
+    // GET api/<UserController>/5
     [HttpGet("{id}")]
     public async Task<UserViewModel> GetById(Guid id)
     {
@@ -35,7 +35,7 @@ public class UserController : ControllerBase
         return _mapper.Map<UserViewModel>(model);
     }
 
-    // POST api/<ValuesController>
+    // POST api/<UserController>
     [HttpPost]
     public async Task<UserViewModel> Create([FromBody] UserShortViewModel user)
     {
@@ -44,7 +44,7 @@ public class UserController : ControllerBase
         return _mapper.Map<UserViewModel>(model);
     }
 
-    // PUT api/<ValuesController>/5
+    // PUT api/<UserController>/5
     [HttpPut("{id}")]
     public async Task<UserViewModel> Update(Guid id, [FromBody] UserShortViewModel user)
     {
@@ -53,7 +53,7 @@ public class UserController : ControllerBase
         return _mapper.Map<UserViewModel>(model);
     }
 
-    // DELETE api/<ValuesController>/5
+    // DELETE api/<UserController>/5
     [HttpDelete("{id}")]
     public Task Delete(Guid id)
     {

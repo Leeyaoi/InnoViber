@@ -19,7 +19,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public Task<List<TEntity>> GetAll(CancellationToken ct)
     {
-        return _dbSet.ToListAsync(ct);
+        return _dbSet.AsNoTracking().ToListAsync(ct);
     }
 
     public async Task<TEntity> Create(TEntity entity, CancellationToken ct)
@@ -44,11 +44,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public Task<TEntity?> GetByPredicate(Expression<Func<TEntity, bool>> predicate, CancellationToken ct)
     {
-        return _dbSet.Where(predicate).FirstOrDefaultAsync(ct);
+        return _dbSet.AsNoTracking().Where(predicate).FirstOrDefaultAsync(ct);
     }
 
     public virtual Task<TEntity?> GetById(Guid Id, CancellationToken ct)
     {
-        return _dbSet.Where(x => x.Id == Id).FirstOrDefaultAsync(ct);
+        return _dbSet.AsNoTracking().Where(x => x.Id == Id).FirstOrDefaultAsync(ct);
     }
 }
