@@ -19,7 +19,7 @@ public class CheckIsSeenMessagesService : BackgroundService
 
     public CheckIsSeenMessagesService(IServiceScopeFactory serviceScopeFactory, IDateTimeProvider timeProvider, IMapper mapper)
     {
-        _period = TimeSpan.FromMinutes(100);
+        _period = TimeSpan.FromMinutes(20);
         _serviceScopeFactory = serviceScopeFactory;
         _dateTimeProvider = timeProvider;
         _mapper = mapper;
@@ -41,7 +41,7 @@ public class CheckIsSeenMessagesService : BackgroundService
             foreach (var message in messages)
             {
                 var howLong = (_dateTimeProvider.GetDate() - message.Date).TotalMinutes;
-                if(!message.IsSeen && howLong > 3)
+                if(!message.IsSeen && howLong > 20)
                 {
                     var users = GetUsers(message);
                     foreach (var user in users)
