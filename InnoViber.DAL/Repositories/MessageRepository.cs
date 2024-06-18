@@ -22,4 +22,9 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
         await _viberContext.SaveChangesAsync(ct);
         return result.Entity;
     }
+
+    public override Task<List<MessageEntity>> GetAll(CancellationToken ct)
+    {
+        return _dbSet.AsNoTracking().Include(x => x.User).ToListAsync(ct);
+    }
 }

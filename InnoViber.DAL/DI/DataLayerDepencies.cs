@@ -16,7 +16,7 @@ public static class DataLayerDepencies
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             option.UseNpgsql(connectionString);
-        }, ServiceLifetime.Transient);
+        });
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IChatRepository, ChatRepository>();
