@@ -16,6 +16,7 @@ public class ChatServiceTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<IChatRepository> _repoMock;
+    private readonly Mock<IUserRepository> _userRepoMock;
     private readonly ChatService _service;
 
     public ChatServiceTests()
@@ -30,7 +31,9 @@ public class ChatServiceTests
 
         _repoMock = new Mock<IChatRepository>();
 
-        _service = new ChatService(_mapper, _repoMock.Object);
+        _userRepoMock = new Mock<IUserRepository>();
+
+        _service = new ChatService(_mapper, _repoMock.Object, _userRepoMock.Object);
     }
 
     [Theory, AutoData]

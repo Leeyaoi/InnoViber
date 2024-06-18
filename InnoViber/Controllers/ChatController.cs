@@ -53,6 +53,15 @@ public class ChatController : ControllerBase
         return _mapper.Map<ChatViewModel>(model);
     }
 
+    // PUT api/<ChatController>/5
+    [HttpPut("{id}/{UserId}")]
+    public async Task<ChatViewModel> UpdateUsersList(Guid id, Guid UserId, [FromBody] ChatShortViewModel chat)
+    {
+        var model = _mapper.Map<ChatModel>(chat);
+        await _service.UpdateUsersList(id, UserId, model, default);
+        return _mapper.Map<ChatViewModel>(model);
+    }
+
     // DELETE api/<ChatController>/5
     [HttpDelete("{id}")]
     public Task Delete(Guid id)
