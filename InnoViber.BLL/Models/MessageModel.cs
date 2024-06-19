@@ -10,8 +10,8 @@ public class MessageModel : BaseModel
     public MessageStatus Status { get; set; }
     public Guid UserId { get; set; }
     public Guid ChatId { get; set; }
-    public UserEntity? User { get; set; }
-    public ChatEntity? Chat { get; set; }
+    public UserModel? User { get; set; }
+    public ChatModel? Chat { get; set; }
 
     public bool IsSeen()
     {
