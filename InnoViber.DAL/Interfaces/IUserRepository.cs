@@ -1,4 +1,4 @@
-﻿using InnoViber.DAL.Models;
+﻿using InnoViber.DAL.Entities;
 
 namespace InnoViber.DAL.Interfaces;
 
