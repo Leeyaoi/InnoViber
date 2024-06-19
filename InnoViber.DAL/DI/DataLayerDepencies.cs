@@ -21,5 +21,6 @@ public static class DataLayerDepencies
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IChatRepository, ChatRepository>();
         services.AddTransient<IMessageRepository, MessageRepository>();
+        services.AddTransient<IChatRoleRepository, ChatRoleRepository>();
     }
 }

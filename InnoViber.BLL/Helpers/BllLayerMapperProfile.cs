@@ -14,5 +14,7 @@ public class BllLayerMapperProfile : Profile
         CreateMap<MessageEntity, MessageModel>().ReverseMap();
 
         CreateMap<ChatEntity, ChatModel>().ReverseMap();
+
+        CreateMap<ChatRoleEntity, ChatRoleModel>().ReverseMap();
     }
 }
