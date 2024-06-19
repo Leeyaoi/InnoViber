@@ -19,7 +19,7 @@ public class MessageController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: api/<ValuesController>
+    // GET: api/<MessageController>
     [HttpGet]
     public async Task<IEnumerable<MessageViewModel>> Get()
     {
@@ -27,7 +27,7 @@ public class MessageController : ControllerBase
         return _mapper.Map<List<MessageViewModel>>(models);
     }
 
-    // GET api/<ValuesController>/5
+    // GET api/<MessageController>/5
     [HttpGet("{id}")]
     public async Task<MessageViewModel> GetById(Guid id)
     {
@@ -35,7 +35,7 @@ public class MessageController : ControllerBase
         return _mapper.Map<MessageViewModel>(model);
     }
 
-    // POST api/<ValuesController>
+    // POST api/<MessageController>
     [HttpPost]
     public async Task<MessageViewModel> Create([FromBody] MessageShortViewModel message)
     {
@@ -44,7 +44,7 @@ public class MessageController : ControllerBase
         return _mapper.Map<MessageViewModel>(model);
     }
 
-    // PUT api/<ValuesController>/5
+    // PUT api/<MessageController>/5
     [HttpPut("{id}")]
     public async Task<MessageViewModel> Update(Guid id, [FromBody] MessageShortViewModel message)
     {
@@ -53,7 +53,7 @@ public class MessageController : ControllerBase
         return _mapper.Map<MessageViewModel>(model);
     }
 
-    // PUT api/<ValuesController>/status/5
+    // PUT api/<MessageController>/status/5
     [HttpPut("status/{id}")]
     public async Task<MessageViewModel> UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
     {
@@ -62,7 +62,7 @@ public class MessageController : ControllerBase
         return _mapper.Map<MessageViewModel>(model);
     }
 
-    // DELETE api/<ValuesController>/5
+    // DELETE api/<MessageController>/5
     [HttpDelete("{id}")]
     public Task Delete(Guid id)
     {
