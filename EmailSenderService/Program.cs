@@ -1,12 +1,8 @@
 ﻿using EmailSenderService.Interfaces;
 using EmailSenderService.Services;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Channels;
 
 namespace EmailSenderService
 {
@@ -19,45 +15,26 @@ namespace EmailSenderService
 
             builder.Services.AddSingleton<IIntegrationServiceSmtpClient, IntegrationServiceSmtpClient>();
             builder.Services.AddSingleton<IEmailSenderService, EmailSender>();
-
-            var host = builder.Build();
-
-            var sender = host.Services.GetRequiredService<IEmailSenderService>();
-
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-            var qName = "sendEmail";
-            using (var connection = factory.CreateConnection())
+            builder.Services.AddMassTransit(x =>
             {
-                using (var channel = connection.CreateModel())
+                var assembly = typeof(Program).Assembly;
+                x.AddConsumers(assembly);
+                x.UsingRabbitMq((context, cfg) =>
                 {
-                    channel.QueueDeclare(queue: "sendEmail", durable: true, exclusive: false, autoDelete: true);
-                    channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
-
-                    var consumer = new EventingBasicConsumer(channel);
-                    channel.BasicConsume(qName, autoAck: false, consumer);
-
-                    consumer.Received += (model, ea) =>
+                    cfg.Host("localhost", "/", h =>
                     {
-                        var body = ea.Body.ToArray();
-                        var message = Encoding.UTF8.GetString(body).Split(" ");
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                    cfg.ReceiveEndpoint("UserInfoQueue", e =>
+                    {
+                        e.ConfigureConsumer<UserInfoConsumer>(context);
+                    });
+                });
+            });
 
-                        var name = message[0];
-                        var email = message[1];
+            builder.Build();
 
-                        try
-                        {
-                            sender.SendEmailAsync(name, email).GetAwaiter();
-                        }
-                        catch (SmtpException ex)
-                        {
-                            Console.WriteLine(ex.ToString());
-                        }
-
-                        channel.BasicAck(ea.DeliveryTag, multiple: false);
-                    };
-                }
-            }
-            
             Console.Read();
         }
     }

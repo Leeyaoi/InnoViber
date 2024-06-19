@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using EmailSenderService.Interfaces;
+using SharedModels;
 
 namespace EmailSenderService.Services
 {
@@ -17,21 +18,22 @@ namespace EmailSenderService.Services
             _client = smtpClient.Client;
         }
 
-        private MailMessage BuildMessage(string userName, string userEmail)
+        private MailMessage BuildMessage(IUserInfo userInfo)
         {
             MailAddress from = new MailAddress(_appEmail, _appName);
-            MailAddress to = new MailAddress(userEmail);
+            MailAddress to = new MailAddress(userInfo.Email);
             MailMessage m = new MailMessage(from, to);
-            m.Subject = $"Тест для {userName}";
-            m.Body = "Письмо-тест 2 работы smtp-клиента";
+            m.Subject = $"Dear {userInfo.UserName}";
+            m.Body = $"{userInfo.AuthorName} is waiting for your responce in {userInfo.ChatName} " +
+                $"chat for {userInfo.HowLong} minutes";
             return m;
         }
 
-        public async Task SendEmailAsync(string userName, string userEmail)
+        public async Task SendEmailAsync(IUserInfo userInfo)
         {
-            var message = BuildMessage(userName, userEmail);
+            var message = BuildMessage(userInfo);
             await _client.SendMailAsync(message);
-            Console.WriteLine("Письмо отправлено");
+            Console.WriteLine("Send");
         }
     }
 }

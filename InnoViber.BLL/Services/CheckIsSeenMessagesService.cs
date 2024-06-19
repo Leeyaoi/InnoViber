@@ -2,11 +2,13 @@
 using InnoViber.BLL.Interfaces;
 using InnoViber.BLL.Models;
 using InnoViber.Domain.Providers;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
+using SharedModels;
 using System.Text;
-using System.Xml.Linq;
+using System.Threading.Tasks.Sources;
 
 namespace InnoViber.BLL.Services;
 
@@ -17,9 +19,10 @@ public class CheckIsSeenMessagesService : BackgroundService
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IMapper _mapper;
 
-    public CheckIsSeenMessagesService(IServiceScopeFactory serviceScopeFactory, IDateTimeProvider timeProvider, IMapper mapper)
+    public CheckIsSeenMessagesService(IServiceScopeFactory serviceScopeFactory, IDateTimeProvider timeProvider,
+                                      IMapper mapper)
     {
-        _period = TimeSpan.FromMinutes(20);
+        _period = TimeSpan.FromMinutes(0.1);
         _serviceScopeFactory = serviceScopeFactory;
         _dateTimeProvider = timeProvider;
         _mapper = mapper;
@@ -41,43 +44,44 @@ public class CheckIsSeenMessagesService : BackgroundService
             foreach (var message in messages)
             {
                 var howLong = (_dateTimeProvider.GetDate() - message.Date).TotalMinutes;
-                if(!message.IsSeen && howLong > 20)
+                var author = await GetAuthorName(message);
+                if (!message.IsSeen && howLong > 20)
                 {
                     var users = await GetUsers(message);
                     foreach (var user in users)
                     {
-                        Publish(user);
+                        await Publish(user, author, message.Chat.Name, howLong);
                     }
                 }
             }
         }
     }
 
-    private string GetMessage(string[] args)
+    private Task Publish(UserModel user, string author, string chatName, double howLong)
     {
-        return ((args.Length > 0) ? string.Join(" ", args) : "Hello World!");
+        using (IServiceScope scope = _serviceScopeFactory.CreateScope())
+        {
+            var publishEndpoint = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
+            return publishEndpoint.Publish<IUserInfo>(new
+            {
+                UserName = user.Name,
+                user.Email,
+                HowLong = howLong,
+                AutorName = author,
+                ChatName = chatName
+            });
+        }
     }
 
-    private void Publish(UserModel user)
+    private async Task<string> GetAuthorName(MessageModel message)
     {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        var qName = "sendEmail";
-
-        using (var connection = factory.CreateConnection())
+        using (IServiceScope scope = _serviceScopeFactory.CreateScope())
         {
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(queue: "sendEmail", durable: true, exclusive: false, autoDelete: true);
+            var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-                var args = GetMessage([user.Name, user.Email]);
+            var user = await userService.GetById(message.UserId, default);
 
-                var body = Encoding.UTF8.GetBytes(args);
-
-                var prop = channel.CreateBasicProperties();
-                prop.Persistent = true;
-
-                channel.BasicPublish("", routingKey: qName, prop, body);
-            }
+            return user.Name;
         }
     }
 
@@ -96,7 +100,10 @@ public class CheckIsSeenMessagesService : BackgroundService
 
             var user = await userService.GetById(message.Chat.OwnerId, default);
 
-            users.Add(user);
+            if (user != null)
+            {
+                users.Add(user);
+            }
         }
 
         users.RemoveAll(x => x.Id == message.UserId);
