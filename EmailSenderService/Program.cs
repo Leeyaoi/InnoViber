@@ -3,39 +3,20 @@ using EmailSenderService.Services;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedModels;
 
-namespace EmailSenderService
-{
-    public static class Program
-    {
-        static void Main(string[] args)
-        {
+var builder = Host.CreateApplicationBuilder(args);
 
-            var builder = Host.CreateApplicationBuilder(args);
+builder.Services.AddSingleton<IIntegrationServiceSmtpClient, IntegrationServiceSmtpClient>();
+builder.Services.AddSingleton<IEmailSenderService, EmailSender>();
+builder.Services.AddSingleton<IBusConfigureManager, BusConfigureManager>();
 
-            builder.Services.AddSingleton<IIntegrationServiceSmtpClient, IntegrationServiceSmtpClient>();
-            builder.Services.AddSingleton<IEmailSenderService, EmailSender>();
-            builder.Services.AddMassTransit(x =>
-            {
-                var assembly = typeof(Program).Assembly;
-                x.AddConsumers(assembly);
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("localhost", "/", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                    cfg.ReceiveEndpoint("UserInfoQueue", e =>
-                    {
-                        e.ConfigureConsumer<UserInfoConsumer>(context);
-                    });
-                });
-            });
+var services = builder.Build().Services;
 
-            builder.Build();
+var bus = services.GetService<IBusConfigureManager>()!.SetUpBus();
 
-            Console.Read();
-        }
-    }
-}
+await bus.StartAsync();
+
+while (Console.ReadKey().Key != ConsoleKey.Q) { }
+
+await bus.StopAsync();
