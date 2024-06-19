@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InnoViber.API.ViewModels.Chat;
+using InnoViber.API.ViewModels.ChatRole;
 using InnoViber.API.ViewModels.Message;
 using InnoViber.API.ViewModels.User;
 using InnoViber.BLL.Models;
@@ -23,5 +24,9 @@ public class ApiLayerMapperProfile : Profile
         CreateMap<MessageViewModel, MessageChangeStatusViewModel>().ReverseMap();
         CreateMap<MessageModel, MessageChangeStatusViewModel>().ReverseMap();
         CreateMap<MessageModel, MessageShortViewModel>().ReverseMap();
+
+        CreateMap<ChatRoleModel, ChatRoleViewModel>().ReverseMap();
+        CreateMap<ChatRoleModel, ChatRoleShortViewModel>().ReverseMap();
+        CreateMap<ChatRoleShortViewModel, ChatRoleViewModel>().ReverseMap();
     }
 }
