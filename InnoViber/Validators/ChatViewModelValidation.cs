@@ -8,6 +8,5 @@ public class ChatViewModelValidation : AbstractValidator<ChatShortViewModel>
     public ChatViewModelValidation()
     {
         RuleFor(x => x.Name).Length(1, 10);
-        RuleFor(x => x.OwnerId).NotEmpty().NotNull();
     }
 }

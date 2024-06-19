@@ -2,10 +2,9 @@
 using InnoViber.BLL.Interfaces;
 using InnoViber.BLL.Models;
 using InnoViber.DAL.Interfaces;
-using InnoViber.DAL.Models;
+using InnoViber.DAL.Entities;
 using InnoViber.Domain.Providers;
 using InnoViber.Domain.Enums;
-using InnoViber.DAL.Data;
 
 namespace InnoViber.BLL.Services;
 

@@ -1,4 +1,3 @@
-using AutoFixture;
 using AutoFixture.Xunit2;
 using AutoMapper;
 using AutoMapper.Extensions.ExpressionMapping;
@@ -6,7 +5,7 @@ using InnoViber.BLL.Helpers;
 using InnoViber.BLL.Models;
 using InnoViber.BLL.Services;
 using InnoViber.DAL.Interfaces;
-using InnoViber.DAL.Models;
+using InnoViber.DAL.Entities;
 using Moq;
 using Shouldly;
 
