@@ -47,7 +47,10 @@ public class CheckIsSeenMessagesService : BackgroundService
                     var users = await GetUsers(message);
                     foreach (var user in users)
                     {
-                        await Publish(user, author, message.Chat.Name, howLong);
+                        if(user.Email != "")
+                        {
+                            await Publish(user, author, message.Chat.Name, howLong);
+                        }
                     }
                 }
             }
