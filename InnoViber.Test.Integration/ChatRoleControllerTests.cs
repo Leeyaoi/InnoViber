@@ -6,11 +6,11 @@ using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
 using Shouldly;
-using System.Data;
 using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
 
+[Collection("Tests")]
 public class ChatRoleControllerTests : BaseTestClass
 {
     public ChatRoleControllerTests(DataBaseWebApplicationFactory<Program> factory) : base(factory)

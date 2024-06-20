@@ -7,11 +7,9 @@ namespace InnoViber.Test.Integration;
 public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory<Program>>
 {
     protected readonly HttpClient _client;
-    protected readonly DataBaseWebApplicationFactory<Program> _factory;
 
     public BaseTestClass(DataBaseWebApplicationFactory<Program> factory)
     {
-        _factory = factory;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false

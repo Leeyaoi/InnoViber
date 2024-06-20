@@ -1,5 +1,4 @@
-﻿using AutoFixture.Xunit2;
-using InnoViber.API.ViewModels.Chat;
+﻿using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +7,7 @@ using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
 
+[Collection("Tests")]
 public class ChatsControllerTests : BaseTestClass
 {
     public ChatsControllerTests(DataBaseWebApplicationFactory<Program> factory) : base(factory)

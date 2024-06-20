@@ -9,6 +9,7 @@ using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
 
+[Collection("Tests")]
 public class MessagesControllerTests : BaseTestClass
 {
     public MessagesControllerTests(DataBaseWebApplicationFactory<Program> factory) : base(factory)

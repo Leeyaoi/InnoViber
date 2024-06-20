@@ -1,5 +1,4 @@
-﻿using AutoFixture.Xunit2;
-using InnoViber.API.ViewModels.User;
+﻿using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
 using Shouldly;
@@ -7,6 +6,7 @@ using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
 
+[Collection("Tests")]
 public class UsersControllerTests : BaseTestClass
 {
     public UsersControllerTests(DataBaseWebApplicationFactory<Program> factory) : base(factory)
