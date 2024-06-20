@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
 using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;

@@ -19,7 +19,7 @@ public static class BuisnessLayerDependencies
         {
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("localhost", "/", h =>
+                cfg.Host("localhost:15672", "/", h =>
                 {
                     h.Username("guest");
                     h.Password("guest");
