@@ -1,4 +1,4 @@
-﻿namespace InnoViber.DAL.Models;
+﻿namespace InnoViber.DAL.Entities;
 
 public class BaseEntity
 {

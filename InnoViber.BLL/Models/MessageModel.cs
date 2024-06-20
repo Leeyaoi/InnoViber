@@ -1,4 +1,4 @@
-using InnoViber.DAL.Models;
+using InnoViber.DAL.Entities;
 using InnoViber.Domain.Enums;
 using System.Linq.Expressions;
 
