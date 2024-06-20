@@ -17,7 +17,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         _dbSet = context.Set<TEntity>();
     }
 
-    public Task<List<TEntity>> GetAll(CancellationToken ct)
+    public virtual Task<List<TEntity>> GetAll(CancellationToken ct)
     {
         return _dbSet.AsNoTracking().ToListAsync(ct);
     }

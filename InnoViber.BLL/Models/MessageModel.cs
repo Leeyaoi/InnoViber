@@ -1,5 +1,6 @@
 using InnoViber.DAL.Entities;
 using InnoViber.Domain.Enums;
+using System.Linq.Expressions;
 
 namespace InnoViber.BLL.Models;
 
@@ -13,8 +14,9 @@ public class MessageModel : BaseModel
     public UserModel? User { get; set; }
     public ChatModel? Chat { get; set; }
 
-    public bool IsSeen()
-    {
-        return Status == MessageStatus.Read;
+    public bool IsSeen { get
+        {
+            return Status == MessageStatus.Read;
+        }
     }
 }

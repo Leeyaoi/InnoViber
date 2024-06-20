@@ -1,34 +1,22 @@
 ﻿using EmailSenderService.Interfaces;
 using EmailSenderService.Services;
-using Microsoft.Extensions.Configuration;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Net.Mail;
+using SharedModels;
 
-namespace EmailSenderService
-{
-    public static class Program
-    {
-        static void Main(string[] args)
-        {
-            var builder = Host.CreateApplicationBuilder(args);
+var builder = Host.CreateApplicationBuilder(args);
 
-            builder.Services.AddSingleton<IIntegrationServiceSmtpClient, IntegrationServiceSmtpClient>();
-            builder.Services.AddSingleton<IEmailSenderService, EmailSender>();
+builder.Services.AddSingleton<IIntegrationServiceSmtpClient, IntegrationServiceSmtpClient>();
+builder.Services.AddSingleton<IEmailSenderService, EmailSender>();
+builder.Services.AddSingleton<IBusConfigureManager, BusConfigureManager>();
 
-            var host = builder.Build();
+var services = builder.Build().Services;
 
-            var sender = host.Services.GetRequiredService<IEmailSenderService>();
+var bus = services.GetService<IBusConfigureManager>()!.SetUpBus();
 
-            try
-            {
-                sender.SendEmailAsync("Darya", "work.yaskodarya@gmail.com").GetAwaiter();
-            }
-            catch (SmtpException ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            Console.Read();
-        }
-    }
-}
+await bus.StartAsync();
+
+while (Console.ReadKey().Key != ConsoleKey.Q) { }
+
+await bus.StopAsync();

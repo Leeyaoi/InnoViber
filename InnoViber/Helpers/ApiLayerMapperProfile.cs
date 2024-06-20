@@ -4,6 +4,7 @@ using InnoViber.API.ViewModels.ChatRole;
 using InnoViber.API.ViewModels.Message;
 using InnoViber.API.ViewModels.User;
 using InnoViber.BLL.Models;
+using System.Linq.Expressions;
 
 namespace InnoViber.API.Helpers;
 
