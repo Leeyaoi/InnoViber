@@ -23,7 +23,7 @@ public class BusConfigureManager : IBusConfigureManager
             cfg.Host(_configuration["RabbitMq:HostName"], _configuration["RabbitMq:VirtualHost"], h =>
             {
                 h.Username(_configuration["RabbitMq:UserName"]);
-                h.Password(_configuration["RabbitMq:Password"]);
+                h.Password(_configuration["RabbitMq:Passkey"]);
             });
 
             cfg.ReceiveEndpoint(_configuration["RabbitMq:QueueName"], ep =>
