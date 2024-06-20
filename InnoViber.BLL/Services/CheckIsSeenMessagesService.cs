@@ -17,15 +17,12 @@ public class CheckIsSeenMessagesService : BackgroundService
     private readonly TimeSpan _period;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IMapper _mapper;
 
-    public CheckIsSeenMessagesService(IServiceScopeFactory serviceScopeFactory, IDateTimeProvider timeProvider,
-                                      IMapper mapper)
+    public CheckIsSeenMessagesService(IServiceScopeFactory serviceScopeFactory, IDateTimeProvider timeProvider)
     {
-        _period = TimeSpan.FromMinutes(0.1);
+        _period = TimeSpan.FromMinutes(20);
         _serviceScopeFactory = serviceScopeFactory;
         _dateTimeProvider = timeProvider;
-        _mapper = mapper;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
