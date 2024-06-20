@@ -6,8 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace InnoViber.Test.Integration;
 
-public class DataBaseWebApplicationFactory<TProgram>
-    : WebApplicationFactory<TProgram> where TProgram : class
+public class DataBaseWebApplicationFactory
 {
     internal readonly WebApplicationFactory<Program> WebHost;
 

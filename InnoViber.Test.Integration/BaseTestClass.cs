@@ -3,13 +3,13 @@ using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
 
-public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory<Program>>
+public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
 {
     protected readonly HttpClient _client;
 
-    public BaseTestClass(DataBaseWebApplicationFactory<Program> factory)
+    public BaseTestClass(DataBaseWebApplicationFactory factory)
     {
-        _client = factory.CreateClient(new WebApplicationFactoryClientOptions
+        _client = factory.WebHost.CreateClient(new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false
         });

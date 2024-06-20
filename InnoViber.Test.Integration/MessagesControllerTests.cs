@@ -12,7 +12,7 @@ namespace InnoViber.Test.Integration;
 [Collection("Tests")]
 public class MessagesControllerTests : BaseTestClass
 {
-    public MessagesControllerTests(DataBaseWebApplicationFactory<Program> factory) : base(factory)
+    public MessagesControllerTests(DataBaseWebApplicationFactory factory) : base(factory)
     { }
 
     [Theory, AutoData]

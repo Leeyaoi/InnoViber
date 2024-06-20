@@ -9,7 +9,7 @@ namespace InnoViber.Test.Integration;
 [Collection("Tests")]
 public class UsersControllerTests : BaseTestClass
 {
-    public UsersControllerTests(DataBaseWebApplicationFactory<Program> factory) : base(factory)
+    public UsersControllerTests(DataBaseWebApplicationFactory factory) : base(factory)
     {}
 
     [Fact]
