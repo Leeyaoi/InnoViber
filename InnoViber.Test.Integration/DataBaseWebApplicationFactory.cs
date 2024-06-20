@@ -1,5 +1,4 @@
 ﻿using InnoViber.DAL.Data;
-using MassTransit;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +25,6 @@ public class DataBaseWebApplicationFactory<TProgram>
                 {
                     options.UseInMemoryDatabase("InMemoryDbContextTest");
                 });
-
-                services.AddMassTransitTestHarness();
             }));
     }
 }
