@@ -26,6 +26,6 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
 
     public override Task<List<MessageEntity>> GetAll(CancellationToken ct) => _dbSet.AsNoTracking()
                                                                                     .Include(x => x.Chat)
-                                                                                    .ThenInclude(c => c.Users)
+                                                                                    .ThenInclude(c => c.Roles)
                                                                                     .ToListAsync(ct);
 }

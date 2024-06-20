@@ -81,28 +81,30 @@ public class CheckIsSeenMessagesService : BackgroundService
 
             var user = await userService.GetById(message.UserId, default);
 
-            return user.Name;
+            return user!.Name;
         }
     }
 
     private async Task<List<UserModel>> GetUsers(MessageModel message)
     {
-        if(message.Chat == null || message.Chat.Users == null)
+        if(message.Chat == null || message.Chat.Roles == null)
         {
             return new List<UserModel>();
         }
 
-        var users = _mapper.Map<List<UserModel>>(message.Chat.Users);
+        var users = new List<UserModel>();
 
         using (IServiceScope scope = _serviceScopeFactory.CreateScope())
         {
             var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var user = await userService.GetById(message.Chat.OwnerId, default);
-
-            if (user != null)
+            foreach (var role in message.Chat.Roles)
             {
-                users.Add(user);
+                var user = await userService.GetById(role.UserId, default);
+                if(user != null)
+                {
+                    users.Add(user);
+                }
             }
         }
 
