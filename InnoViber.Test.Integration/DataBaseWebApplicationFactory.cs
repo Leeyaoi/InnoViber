@@ -1,46 +1,33 @@
 ﻿using InnoViber.DAL.Data;
-using Microsoft.AspNetCore.Hosting;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
-using Npgsql;
-using System.Data.Common;
 
 namespace InnoViber.Test.Integration;
 
 public class DataBaseWebApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class
 {
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    internal readonly WebApplicationFactory<Program> WebHost;
+
+    public DataBaseWebApplicationFactory()
     {
-        builder.ConfigureTestServices(services =>
-        {
-            services.RemoveAll(typeof(DbContextOptions<ViberContext>));
+        WebHost = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+            builder.ConfigureServices(services =>
+            {
+                var dbContextDescriptor =
+                    services.SingleOrDefault(i =>
+                        i.ServiceType == typeof(DbContextOptions<ViberContext>));
 
-            var connectionString = GetConnectionString();
-            services.AddNpgsql<ViberContext>(connectionString);
+                services.Remove(dbContextDescriptor!);
 
-            var dbContext = CreateDbContext(services);
-            dbContext.Database.EnsureDeleted();
-        });
-    }
+                services.AddDbContext<ViberContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryDbContextTest");
+                });
 
-    private static string? GetConnectionString()
-    {
-        var builder = Host.CreateApplicationBuilder();
-        var config = builder.Configuration;
-        return config["ConnectionStrings:DefaultConnection"];
-    }
-
-    private static ViberContext CreateDbContext(IServiceCollection services)
-    {
-        var serviceProvider = services.BuildServiceProvider();
-        var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ViberContext>();
-        return dbContext;
+                services.AddMassTransitTestHarness();
+            }));
     }
 }
