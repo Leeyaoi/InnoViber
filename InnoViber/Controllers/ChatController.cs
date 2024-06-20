@@ -40,8 +40,8 @@ public class ChatController : ControllerBase
     public async Task<ChatViewModel> Create([FromBody] ChatShortViewModel chat)
     {
         var model = _mapper.Map<ChatModel>(chat);
-        await _service.Create(model, default);
-        return _mapper.Map<ChatViewModel>(model);
+        var chatModel = await _service.Create(model, default);
+        return _mapper.Map<ChatViewModel>(chatModel);
     }
 
     // PUT api/<ChatController>/5
@@ -49,8 +49,8 @@ public class ChatController : ControllerBase
     public async Task<ChatViewModel> Update(Guid id, [FromBody] ChatShortViewModel chat)
     {
         var model = _mapper.Map<ChatModel>(chat);
-        await _service.Update(id, model, default);
-        return _mapper.Map<ChatViewModel>(model);
+        var chatModel = await _service.Update(id, model, default);
+        return _mapper.Map<ChatViewModel>(chatModel);
     }
 
     // DELETE api/<ChatController>/5

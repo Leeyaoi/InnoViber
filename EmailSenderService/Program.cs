@@ -1,9 +1,7 @@
 ﻿using EmailSenderService.Interfaces;
 using EmailSenderService.Services;
-using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SharedModels;
 
 var builder = Host.CreateApplicationBuilder(args);
 
