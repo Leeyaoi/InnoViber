@@ -8,12 +8,12 @@ using UserService.DAL.Interfaces;
 
 namespace UserService.BLL.Services;
 
-public class UserService : IUserService
+public class UsersService : IUserService
 {
     private readonly IUserRepository _repository;
     private readonly IMapper _mapper;
 
-    public UserService(IUserRepository repository, IMapper mapper)
+    public UsersService(IUserRepository repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
