@@ -39,20 +39,3 @@ jobs:
     env: 
         EXCLUDE_FROM_COVERAGE: "**/Program.cs, **/ViberContext.cs, **/Migrations/*, **/DI/*, **/Helpers/*, **/Validators/*, **/Middlewares/**/*, **/Constants/**/*, **/Repositories/*, *.json"
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-  users_build:
-  
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: go up
-      run: cd..
-    - name: Install tree
-      run: sudo apt-get install tree
-    - name: See tree
-      run: tree
