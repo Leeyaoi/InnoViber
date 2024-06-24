@@ -40,8 +40,8 @@ public class UserController : ControllerBase
     public async Task<UserViewModel> Create([FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
-        await _service.Create(model, default);
-        return _mapper.Map<UserViewModel>(model);
+        var userModel = await _service.Create(model, default);
+        return _mapper.Map<UserViewModel>(userModel);
     }
 
     // PUT api/<UserController>/5
@@ -49,8 +49,8 @@ public class UserController : ControllerBase
     public async Task<UserViewModel> Update(Guid id, [FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
-        await _service.Update(id, model, default);
-        return _mapper.Map<UserViewModel>(model);
+        var userModel = await _service.Update(id, model, default);
+        return _mapper.Map<UserViewModel>(userModel);
     }
 
     // DELETE api/<UserController>/5

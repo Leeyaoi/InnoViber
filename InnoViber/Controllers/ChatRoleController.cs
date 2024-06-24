@@ -41,8 +41,8 @@ public class ChatRoleController : ControllerBase
     public async Task<ChatRoleViewModel> Create([FromBody] ChatRoleShortViewModel role)
     {
         var model = _mapper.Map<ChatRoleModel>(role);
-        await _service.Create(model, default);
-        return _mapper.Map<ChatRoleViewModel>(model);
+        var chatRoleModel = await _service.Create(model, default);
+        return _mapper.Map<ChatRoleViewModel>(chatRoleModel);
     }
 
     // PUT api/<ChatRoleController>/5
@@ -50,8 +50,8 @@ public class ChatRoleController : ControllerBase
     public async Task<ChatRoleViewModel> Update(Guid id, [FromBody] ChatRoleShortViewModel role)
     {
         var model = _mapper.Map<ChatRoleModel>(role);
-        await _service.Update(id, model, default);
-        return _mapper.Map<ChatRoleViewModel>(model);
+        var chatRoleModel = await _service.Update(id, model, default);
+        return _mapper.Map<ChatRoleViewModel>(chatRoleModel);
     }
 
     // PUT api/<ChatRoleController>/status/5
@@ -59,8 +59,8 @@ public class ChatRoleController : ControllerBase
     public async Task<ChatRoleViewModel> UpdateRole(Guid id, [FromBody] ChatRoleShortViewModel role)
     {
         var model = _mapper.Map<ChatRoleModel>(_service.GetById(id, default));
-        await _service.UpdateRole(role.Role, model, default);
-        return _mapper.Map<ChatRoleViewModel>(model);
+        var chatRoleModel = await _service.UpdateRole(role.Role, model, default);
+        return _mapper.Map<ChatRoleViewModel>(chatRoleModel);
     }
 
     // DELETE api/<ChatRoleController>/5

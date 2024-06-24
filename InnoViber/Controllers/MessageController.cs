@@ -40,8 +40,8 @@ public class MessageController : ControllerBase
     public async Task<MessageViewModel> Create([FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
-        await _service.Create(model, default);
-        return _mapper.Map<MessageViewModel>(model);
+        var messageModel = await _service.Create(model, default);
+        return _mapper.Map<MessageViewModel>(messageModel);
     }
 
     // PUT api/<MessageController>/5
@@ -49,8 +49,8 @@ public class MessageController : ControllerBase
     public async Task<MessageViewModel> Update(Guid id, [FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
-        await _service.Update(id, model, default);
-        return _mapper.Map<MessageViewModel>(model);
+        var messageModel = await _service.Update(id, model, default);
+        return _mapper.Map<MessageViewModel>(messageModel);
     }
 
     // PUT api/<MessageController>/status/5
@@ -58,8 +58,8 @@ public class MessageController : ControllerBase
     public async Task<MessageViewModel> UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message)
     {
         var model = _mapper.Map<MessageModel>(_service.GetById(id, default));
-        await _service.UpdateStatus(message.Status, model, default);
-        return _mapper.Map<MessageViewModel>(model);
+        var messageModel = await _service.UpdateStatus(message.Status, model, default);
+        return _mapper.Map<MessageViewModel>(messageModel);
     }
 
     // DELETE api/<MessageController>/5
