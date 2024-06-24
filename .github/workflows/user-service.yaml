@@ -35,12 +35,12 @@ jobs:
     - name: Sonar Scan
       uses: highbyte/sonarscan-dotnet@v2.3.0
       with:
-        sonarProjectKey: DarPers_Service-desk
-        sonarProjectName: Service-desk
-        sonarOrganization: darpers
+        sonarProjectKey: Leeyaoi_InnoViber
+        sonarProjectName: InnoViber
+        sonarOrganization: leeyaoi
         dotnetBuildArguments: ${{ env.WORKING_DIR }} --configuration Release
         dotnetTestArguments: ${{ env.WORKING_DIR }} --no-build --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
     env: 
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      WORKING_DIR: "NotificationService"
+      WORKING_DIR: "InnoViberUserService"
