@@ -37,6 +37,8 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+    - name: go up
+      run: cd..
     - name: Install tree
       run: sudo apt-get install tree
     - name: See tree
