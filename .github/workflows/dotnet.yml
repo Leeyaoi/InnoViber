@@ -27,6 +27,11 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
 
+  users_build:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: Go to InnoViberUserService
       run: cd InnoViberUserService
     - uses: actions/checkout@v4
@@ -41,6 +46,11 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
       
+  sonar:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: Sonar Scan
       uses: highbyte/sonarscan-dotnet@v2.3.0
       with:
