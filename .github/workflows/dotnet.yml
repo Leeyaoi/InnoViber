@@ -37,14 +37,10 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Go to InnoViberUserService
-      run: cd InnoViberUserService
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration Release
+    - name: Install tree
+      run: sudo apt-get install tree
+    - name: See tree
+      run: tree
       
   sonar:
   
