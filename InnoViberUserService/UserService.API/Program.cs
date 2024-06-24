@@ -1,3 +1,4 @@
+using UserService.BLL.Helper;
 using UserService.DAL.DI;
 
 namespace UserService.API;
@@ -11,6 +12,7 @@ public static class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddAutoMapper(typeof(BllLayerMapperProfile).Assembly);
 
         builder.Services.RegisterDALDependencies();
 
