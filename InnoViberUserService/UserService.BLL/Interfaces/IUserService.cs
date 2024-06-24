@@ -16,5 +16,5 @@ public interface IUserService
 
     Task Delete(ObjectId id, CancellationToken ct);
 
-    Task<UserModel> Update(UserModel model, CancellationToken ct);
+    Task<UserModel> Update(ObjectId id, UserModel model, CancellationToken ct);
 }

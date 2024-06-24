@@ -51,8 +51,9 @@ public class UserService : IUserService
         await _repository.Delete(result, ct);
     }
 
-    public async Task<UserModel> Update(UserModel model, CancellationToken ct)
+    public async Task<UserModel> Update(ObjectId id, UserModel model, CancellationToken ct)
     {
+        model.Id = id;
         var entity = _mapper.Map<UserEntity>(model);
         var result = await _repository.Update(entity, ct);
         return _mapper.Map<UserModel>(result);

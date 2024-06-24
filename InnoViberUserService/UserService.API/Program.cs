@@ -12,7 +12,7 @@ public static class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddAutoMapper(typeof(BllLayerMapperProfile).Assembly);
+        builder.Services.AddAutoMapper(typeof(BllLayerMapperProfile).Assembly, typeof(Program).Assembly);
 
         builder.Services.RegisterDALDependencies();
 
