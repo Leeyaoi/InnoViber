@@ -26,6 +26,19 @@ jobs:
       run: dotnet build --no-restore --configuration Release
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
+      
+    - name: Sonar Scan
+      uses: highbyte/sonarscan-dotnet@v2.3.0
+      with:
+        sonarProjectKey: Leeyaoi_InnoViber
+        sonarProjectName: InnoViber
+        sonarOrganization: leeyaoi
+        dotnetBuildArguments: --configuration Release
+        dotnetTestArguments: --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx" /d:sonar.coverage.exclusions="$EXCLUDE_FROM_COVERAGE" 
+    env: 
+        EXCLUDE_FROM_COVERAGE: "**/Program.cs, **/ViberContext.cs, **/Migrations/*, **/DI/*, **/Helpers/*, **/Validators/*, **/Middlewares/**/*, **/Constants/**/*, **/Repositories/*, *.json"
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   users_build:
   
@@ -43,21 +56,3 @@ jobs:
       run: sudo apt-get install tree
     - name: See tree
       run: tree
-      
-  sonar:
-  
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Sonar Scan
-      uses: highbyte/sonarscan-dotnet@v2.3.0
-      with:
-        sonarProjectKey: Leeyaoi_InnoViber
-        sonarProjectName: InnoViber
-        sonarOrganization: leeyaoi
-        dotnetBuildArguments: --configuration Release
-        dotnetTestArguments: --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx" /d:sonar.coverage.exclusions="$EXCLUDE_FROM_COVERAGE" 
-    env: 
-        EXCLUDE_FROM_COVERAGE: "**/Program.cs, **/ViberContext.cs, **/Migrations/*, **/DI/*, **/Helpers/*, **/Validators/*, **/Middlewares/**/*, **/Constants/**/*, **/Repositories/*, *.json"
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
