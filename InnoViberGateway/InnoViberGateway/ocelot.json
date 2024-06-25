@@ -1,122 +1,68 @@
 {
     "Routes": [
         {
-            "UpstreamHttpMethod": [ "Get", "Post" ],
-            "UpstreamPathTemplate": "/Chat",
-            "DownstreamPathTemplate": "/api/Chat",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
+            "UpstreamPathTemplate": "/Chat/{everything}",
+            "DownstreamPathTemplate": "/api/Chat/{everything}",
+            "ServiceName": "Chat",
+            "SwaggerKey": "Chat"
+        },
+        {
+            "UpstreamPathTemplate": "/ChatRole/{everything}",
+            "DownstreamPathTemplate": "/api/ChatRole/{everything}",
+            "ServiceName": "ChatRole",
+            "SwaggerKey": "ChatRole"
+        },
+        {
+            "UpstreamPathTemplate": "/Message/{everything}",
+            "DownstreamPathTemplate": "/api/Message/{everything}",
+            "ServiceName": "Message",
+            "SwaggerKey": "Message"
+        },
+        {
+            "UpstreamPathTemplate": "/Users/{everything}",
+            "DownstreamPathTemplate": "/api/Users/{everything}",
+            "ServiceName": "Users",
+            "SwaggerKey": "Users"
+        }
+    ],
+    "SwaggerEndPoints": [
+        {
+            "Key": "Chat",
+            "Config": [
                 {
-                    "Host": "localhost",
-                    "Port": 7060
+                    "Name": "Chat API",
+                    "Version": "v1",
+                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
                 }
             ]
         },
         {
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
-            "UpstreamPathTemplate": "/Chat/{chatId}",
-            "DownstreamPathTemplate": "/api/Chat/{chatId}",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
+            "Key": "ChatRole",
+            "Config": [
                 {
-                    "Host": "localhost",
-                    "Port": 7060
+                    "Name": "ChatRole API",
+                    "Version": "v1",
+                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
                 }
             ]
         },
         {
-            "UpstreamHttpMethod": [ "Get", "Post" ],
-            "UpstreamPathTemplate": "/ChatRole",
-            "DownstreamPathTemplate": "/api/ChatRole",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
+            "Key": "Message",
+            "Config": [
                 {
-                    "Host": "localhost",
-                    "Port": 7060
+                    "Name": "Message API",
+                    "Version": "v1",
+                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
                 }
             ]
         },
         {
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
-            "UpstreamPathTemplate": "/ChatRole/{chatRoleId}",
-            "DownstreamPathTemplate": "/api/ChatRole/{chatRoleId}",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
+            "Key": "Users",
+            "Config": [
                 {
-                    "Host": "localhost",
-                    "Port": 7060
-                }
-            ]
-        },
-        {
-            "UpstreamHttpMethod": [ "Put" ],
-            "UpstreamPathTemplate": "/ChatRole/role/{chatRoleId}",
-            "DownstreamPathTemplate": "/api/ChatRole/role/{chatRoleId}",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 7060
-                }
-            ]
-        },
-        {
-            "UpstreamHttpMethod": [ "Get", "Post" ],
-            "UpstreamPathTemplate": "/Message",
-            "DownstreamPathTemplate": "/api/Message",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 7060
-                }
-            ]
-        },
-        {
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
-            "UpstreamPathTemplate": "/Message/{messageId}",
-            "DownstreamPathTemplate": "/api/Message/{messageId}",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 7060
-                }
-            ]
-        },
-        {
-            "UpstreamHttpMethod": [ "Put" ],
-            "UpstreamPathTemplate": "/Message/status/{messageId}",
-            "DownstreamPathTemplate": "/api/Message/status/{messageId}",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 7060
-                }
-            ]
-        },
-        {
-            "UpstreamHttpMethod": [ "Get", "Post" ],
-            "UpstreamPathTemplate": "/Users",
-            "DownstreamPathTemplate": "/api/Users",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 7081
-                }
-            ]
-        },
-        {
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
-            "UpstreamPathTemplate": "/Users/{userId}",
-            "DownstreamPathTemplate": "/api/Users/{userId}",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 7081
+                    "Name": "Users API",
+                    "Version": "v1",
+                    "Url": "https://localhost:7081/swagger/v1/swagger.json"
                 }
             ]
         }
