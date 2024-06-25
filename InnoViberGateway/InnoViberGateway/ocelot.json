@@ -1,0 +1,16 @@
+{
+    "Routes": [
+        {
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "UpstreamPathTemplate": "/Chat",
+            "DownstreamPathTemplate": "/Chat",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ]
+        }
+    ]
+}
