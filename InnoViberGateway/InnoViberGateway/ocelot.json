@@ -3,12 +3,120 @@
         {
             "UpstreamHttpMethod": [ "Get", "Post" ],
             "UpstreamPathTemplate": "/Chat",
-            "DownstreamPathTemplate": "/Chat",
+            "DownstreamPathTemplate": "/api/Chat",
             "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
                     "Port": 7060
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+            "UpstreamPathTemplate": "/Chat/{chatId}",
+            "DownstreamPathTemplate": "/api/Chat/{chatId}",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "UpstreamPathTemplate": "/ChatRole",
+            "DownstreamPathTemplate": "/api/ChatRole",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+            "UpstreamPathTemplate": "/ChatRole/{chatRoleId}",
+            "DownstreamPathTemplate": "/api/ChatRole/{chatRoleId}",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Put" ],
+            "UpstreamPathTemplate": "/ChatRole/role/{chatRoleId}",
+            "DownstreamPathTemplate": "/api/ChatRole/role/{chatRoleId}",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "UpstreamPathTemplate": "/Message",
+            "DownstreamPathTemplate": "/api/Message",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+            "UpstreamPathTemplate": "/Message/{messageId}",
+            "DownstreamPathTemplate": "/api/Message/{messageId}",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Put" ],
+            "UpstreamPathTemplate": "/Message/status/{messageId}",
+            "DownstreamPathTemplate": "/api/Message/status/{messageId}",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "UpstreamPathTemplate": "/Users",
+            "DownstreamPathTemplate": "/api/Users",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7081
+                }
+            ]
+        },
+        {
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+            "UpstreamPathTemplate": "/Users/{userId}",
+            "DownstreamPathTemplate": "/api/Users/{userId}",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7081
                 }
             ]
         }
