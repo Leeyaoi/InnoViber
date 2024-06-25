@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using UserService.API.UserViewModels;
 using UserService.BLL.Interfaces;
 using UserService.BLL.Models;
@@ -30,7 +29,7 @@ public class UsersController : ControllerBase
 
     // GET api/<UsersController>/5
     [HttpGet("{id}")]
-    public async Task<UserViewModel> GetById(ObjectId id)
+    public async Task<UserViewModel> GetById(Guid id)
     {
         var model = await _service.GetById(id, default);
         return _mapper.Map<UserViewModel>(model);
@@ -47,7 +46,7 @@ public class UsersController : ControllerBase
 
     // PUT api/<UsersController>/5
     [HttpPut("{id}")]
-    public async Task<UserViewModel> Update(ObjectId id, [FromBody] UserShortViewModel vm)
+    public async Task<UserViewModel> Update(Guid id, [FromBody] UserShortViewModel vm)
     {
         var model = _mapper.Map<UserModel>(vm);
         var result = await _service.Update(id, model, default);
@@ -56,7 +55,7 @@ public class UsersController : ControllerBase
 
     // DELETE api/<UsersController>/5
     [HttpDelete("{id}")]
-    public Task Delete(ObjectId id)
+    public Task Delete(Guid id)
     {
         return _service.Delete(id, default);
     }

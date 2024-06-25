@@ -21,7 +21,7 @@ public class UserRepository : IUserRepository
         return _users.Find(FilterDefinition<UserEntity>.Empty).ToListAsync(ct);
     }
 
-    public Task<UserEntity> GetById(ObjectId Id, CancellationToken ct)
+    public Task<UserEntity> GetById(Guid Id, CancellationToken ct)
     {
         return _users.Find(x => x.Id == Id).FirstOrDefaultAsync(ct);
     }
