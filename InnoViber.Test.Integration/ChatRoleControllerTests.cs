@@ -20,9 +20,9 @@ public class ChatRoleControllerTests : BaseTestClass
     public async Task PostUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
+        var userVM = UserViewModels.User;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
@@ -38,9 +38,9 @@ public class ChatRoleControllerTests : BaseTestClass
     public async Task PutUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
+        var userVM = UserViewModels.User;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
@@ -72,9 +72,9 @@ public class ChatRoleControllerTests : BaseTestClass
     public async Task DeleteUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
+        var userVM = UserViewModels.User;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;

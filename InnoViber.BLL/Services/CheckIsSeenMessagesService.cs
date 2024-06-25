@@ -2,13 +2,12 @@
 using InnoViber.BLL.Interfaces;
 using InnoViber.BLL.Models;
 using InnoViber.Domain.Providers;
+using InnoViber.User.DAL.Interfaces;
+using InnoViber.User.DAL.Models;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RabbitMQ.Client;
 using SharedModels;
-using System.Text;
-using System.Threading.Tasks.Sources;
 
 namespace InnoViber.BLL.Services;
 
@@ -57,7 +56,7 @@ public class CheckIsSeenMessagesService : BackgroundService
         }
     }
 
-    private Task Publish(UserModel user, string author, string chatName, double howLong)
+    private Task Publish(ExternalUserModel user, string author, string chatName, double howLong)
     {
         using (IServiceScope scope = _serviceScopeFactory.CreateScope())
         {
@@ -77,30 +76,30 @@ public class CheckIsSeenMessagesService : BackgroundService
     {
         using (IServiceScope scope = _serviceScopeFactory.CreateScope())
         {
-            var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+            var userService = scope.ServiceProvider.GetRequiredService<IUserHttpService>();
 
-            var user = await userService.GetById(message.UserId, default);
+            var user = await userService.GetUser(message.UserId, default);
 
             return user!.Name;
         }
     }
 
-    private async Task<List<UserModel>> GetUsers(MessageModel message)
+    private async Task<List<ExternalUserModel>> GetUsers(MessageModel message)
     {
         if(message.Chat == null || message.Chat.Roles == null)
         {
-            return new List<UserModel>();
+            return new List<ExternalUserModel>();
         }
 
-        var users = new List<UserModel>();
+        var users = new List<ExternalUserModel>();
 
         using (IServiceScope scope = _serviceScopeFactory.CreateScope())
         {
-            var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+            var userService = scope.ServiceProvider.GetRequiredService<IUserHttpService>();
 
             foreach (var role in message.Chat.Roles)
             {
-                var user = await userService.GetById(role.UserId, default);
+                var user = await userService.GetUser(role.UserId, default);
                 if(user != null)
                 {
                     users.Add(user);

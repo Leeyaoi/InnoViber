@@ -1,4 +1,5 @@
 using InnoViber.DAL.DI;
+using InnoViber.User.DAL.DI;
 using InnoViber.BLL.DI;
 using InnoViber.API.DI;
 using InnoViber.Domain.DI;
@@ -19,6 +20,8 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.RegisterDALDependencies(builder.Configuration);
+
+        builder.Services.RegisterUserDALDependencies();
 
         builder.Services.RegisterBLLDependencies();
 

@@ -39,6 +39,7 @@
     <ProjectReference Include="..\InnoViber.DAL\InnoViber.DAL.csproj" />
     <ProjectReference Include="..\InnoViber.Domain\InnoViber.Domain.csproj" />
     <ProjectReference Include="..\InnoViber.Test.Service\InnoViber.Test.Service.csproj" />
+    <ProjectReference Include="..\InnoViber.User.DAL\InnoViber.User.DAL.csproj" />
   </ItemGroup>
 
 </Project>

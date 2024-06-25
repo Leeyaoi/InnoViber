@@ -18,9 +18,9 @@ public static class DataLayerDepencies
             option.UseNpgsql(connectionString);
         }, ServiceLifetime.Transient);
 
-        services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IChatRepository, ChatRepository>();
         services.AddTransient<IMessageRepository, MessageRepository>();
         services.AddTransient<IChatRoleRepository, ChatRoleRepository>();
+        services.AddTransient<IUserRepository, UserRepository>();
     }
 }

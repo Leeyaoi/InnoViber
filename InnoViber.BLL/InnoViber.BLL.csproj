@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\InnoViber.DAL\InnoViber.DAL.csproj" />
     <ProjectReference Include="..\InnoViber.Domain\InnoViber.Domain.csproj" />
+    <ProjectReference Include="..\InnoViber.User.DAL\InnoViber.User.DAL.csproj" />
     <ProjectReference Include="..\SharedModels\SharedModels.csproj" />
   </ItemGroup>
 

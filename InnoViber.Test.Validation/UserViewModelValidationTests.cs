@@ -16,11 +16,10 @@ public class UserViewModelValidationTests
     public void UserValidator_ShouldPass_WhenEverythingIsValid()
     {
         // Arrange
-        var user = new UserShortViewModel()
+        var user = new UserViewModel()
         {
-            Name = "Test",
-            Surname = "Test",
-            Email = "example@mail.com"
+            Id = Guid.NewGuid(),
+            MongoId = Guid.NewGuid(),
         };
 
         // Act
@@ -31,50 +30,13 @@ public class UserViewModelValidationTests
     }
 
     [Fact]
-    public void UserValidator_ShouldFail_WhenEmailIsWrong()
+    public void UserValidator_ShouldFail_WhenMongoIdIsEmpty()
     {
         // Arrange
-        var user = new UserShortViewModel()
+        var user = new UserViewModel()
         {
-            Name = "Test",
-            Surname = "Test",
-            Email = " "
-        };
-
-        // Act
-        var result = _validator.Validate(user);
-
-        // Assert
-        Assert.False(result.IsValid);
-    }
-
-    [Fact]
-    public void UserValidator_ShouldFail_WhenNameIsWrong()
-    {
-        // Arrange
-        var user = new UserShortViewModel()
-        {
-            Name = "",
-            Surname = "Test",
-            Email = "example@mail.com"
-        };
-
-        // Act
-        var result = _validator.Validate(user);
-
-        // Assert
-        Assert.False(result.IsValid);
-    }
-
-    [Fact]
-    public void UserValidator_ShouldFail_WhenSurnameIsWrong()
-    {
-        // Arrange
-        var user = new UserShortViewModel()
-        {
-            Name = "Test",
-            Surname = "",
-            Email = "example@mail.com"
+            Id = Guid.NewGuid(),
+            MongoId = new(),
         };
 
         // Act

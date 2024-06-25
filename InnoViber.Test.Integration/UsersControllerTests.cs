@@ -16,30 +16,13 @@ public class UsersControllerTests : BaseTestClass
     public async Task PostUser_HasData_ReturnsOk()
     {
         //Arrange
-        var request = UserViewModels.ShortUser;
+        var request = UserViewModels.User;
 
         //Act
-        var response = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", request);
+        var response = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", request);
 
         //Assert
         response.ShouldNotBeNull();
-    }
-
-    [Fact]
-    public async Task PutUser_HasData_ReturnsOk()
-    {
-        // Arrange
-        var request = UserViewModels.ShortUser;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", request);
-
-        //Act
-        var response = await _client.PutAsJsonAsync($"/api/User/{user.Id}", request);
-
-        // Assert
-        response.EnsureSuccessStatusCode();
-        var userResponse = await response.Content.ReadFromJsonAsync<UserViewModel>();
-
-        userResponse.ShouldNotBeNull();
     }
 
     [Fact]
@@ -57,8 +40,8 @@ public class UsersControllerTests : BaseTestClass
     public async Task DeleteUser_HasData_ReturnsOk()
     {
         //Arrange
-        var request = UserViewModels.ShortUser;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", request);
+        var request = UserViewModels.User;
+        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", request);
 
         //Act
         var response = await _client.DeleteAsync($"/api/User/{user.Id}");

@@ -71,11 +71,11 @@ public class UserServiceTests
     {
         //Arrange
 
-        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Name == "Test", default)).ReturnsAsync(user);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.MongoId == Guid.NewGuid(), default)).ReturnsAsync(user);
 
         //Act
 
-        UserModel? result = await _service.GetByPredicate(x => x.Name == "Test", default);
+        UserModel? result = await _service.GetByPredicate(x => x.MongoId == Guid.NewGuid(), default);
 
         //Assert
 
