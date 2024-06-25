@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MongoDB.Bson" Version="2.26.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DI\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\UserService.DAL\UserService.DAL.csproj" />
   </ItemGroup>
 
 </Project>
