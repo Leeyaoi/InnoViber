@@ -1,0 +1,70 @@
+{
+    "Routes": [
+        {
+            "UpstreamPathTemplate": "/Chat/{everything}",
+            "DownstreamPathTemplate": "/api/Chat/{everything}",
+            "ServiceName": "Chat",
+            "SwaggerKey": "Chat"
+        },
+        {
+            "UpstreamPathTemplate": "/ChatRole/{everything}",
+            "DownstreamPathTemplate": "/api/ChatRole/{everything}",
+            "ServiceName": "ChatRole",
+            "SwaggerKey": "ChatRole"
+        },
+        {
+            "UpstreamPathTemplate": "/Message/{everything}",
+            "DownstreamPathTemplate": "/api/Message/{everything}",
+            "ServiceName": "Message",
+            "SwaggerKey": "Message"
+        },
+        {
+            "UpstreamPathTemplate": "/Users/{everything}",
+            "DownstreamPathTemplate": "/api/Users/{everything}",
+            "ServiceName": "Users",
+            "SwaggerKey": "Users"
+        }
+    ],
+    "SwaggerEndPoints": [
+        {
+            "Key": "Chat",
+            "Config": [
+                {
+                    "Name": "Chat API",
+                    "Version": "v1",
+                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
+                }
+            ]
+        },
+        {
+            "Key": "ChatRole",
+            "Config": [
+                {
+                    "Name": "ChatRole API",
+                    "Version": "v1",
+                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
+                }
+            ]
+        },
+        {
+            "Key": "Message",
+            "Config": [
+                {
+                    "Name": "Message API",
+                    "Version": "v1",
+                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
+                }
+            ]
+        },
+        {
+            "Key": "Users",
+            "Config": [
+                {
+                    "Name": "Users API",
+                    "Version": "v1",
+                    "Url": "https://localhost:7081/swagger/v1/swagger.json"
+                }
+            ]
+        }
+    ]
+}
