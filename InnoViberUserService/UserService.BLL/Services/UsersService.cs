@@ -25,7 +25,7 @@ public class UsersService : IUserService
         return _mapper.Map<List<UserModel>>(result);
     }
 
-    public async Task<UserModel?> GetById(ObjectId id, CancellationToken ct)
+    public async Task<UserModel?> GetById(Guid id, CancellationToken ct)
     {
         var result = await _repository.GetById(id, ct);
         return _mapper.Map<UserModel>(result);
@@ -45,13 +45,13 @@ public class UsersService : IUserService
         return _mapper.Map<UserModel>(result);
     }
 
-    public async Task Delete(ObjectId id, CancellationToken ct)
+    public async Task Delete(Guid id, CancellationToken ct)
     {
         var result = await _repository.GetById(id, ct);
         await _repository.Delete(result, ct);
     }
 
-    public async Task<UserModel> Update(ObjectId id, UserModel model, CancellationToken ct)
+    public async Task<UserModel> Update(Guid id, UserModel model, CancellationToken ct)
     {
         model.Id = id;
         var entity = _mapper.Map<UserEntity>(model);

@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace UserService.BLL.Models;
+namespace UserService.API.UserViewModels;
 
 public class UserShortViewModel
 {

@@ -8,7 +8,7 @@ public interface IUserRepository
 {
     Task<List<UserEntity>> GetAll(CancellationToken ct);
 
-    Task<UserEntity> GetById(ObjectId Id, CancellationToken ct);
+    Task<UserEntity> GetById(Guid Id, CancellationToken ct);
 
     Task<UserEntity> GetByPredicate(Expression<Func<UserEntity, bool>> predicate, CancellationToken ct);
 
