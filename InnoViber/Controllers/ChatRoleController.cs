@@ -54,8 +54,8 @@ public class ChatRoleController : ControllerBase
         return _mapper.Map<ChatRoleViewModel>(chatRoleModel);
     }
 
-    // PUT api/<ChatRoleController>/status/5
-    [HttpPut("status/{id}")]
+    // PUT api/<ChatRoleController>/role/5
+    [HttpPut("role/{id}")]
     public async Task<ChatRoleViewModel> UpdateRole(Guid id, [FromBody] ChatRoleShortViewModel role)
     {
         var model = _mapper.Map<ChatRoleModel>(_service.GetById(id, default));

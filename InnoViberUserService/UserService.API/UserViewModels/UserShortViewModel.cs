@@ -1,11 +1,9 @@
 ﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
-namespace UserService.DAL.Entities;
+namespace UserService.API.UserViewModels;
 
-public class UserEntity
+public class UserShortViewModel
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
