@@ -4,33 +4,33 @@ using InnoViber.API.DI;
 using InnoViber.Domain.DI;
 using InnoViber.API.Extensions;
 
-namespace InnoViber
+namespace InnoViber;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+        var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews();
 
-            builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddEndpointsApiExplorer();
 
-            builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen();
 
-            builder.Services.RegisterDALDependencies(builder.Configuration);
+        builder.Services.RegisterDALDependencies(builder.Configuration);
 
-            builder.Services.RegisterBLLDependencies();
+        builder.Services.RegisterBLLDependencies();
 
-            builder.RegisterAPIDependencies();
+        builder.RegisterAPIDependencies();
 
-            builder.Services.RegisterDomainDependencies();
+        builder.Services.RegisterDomainDependencies();
 
-            builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(BuisnessLayerDependencies).Assembly);
+        builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(BuisnessLayerDependencies).Assembly);
 
-            var app = builder.Build();
+        var app = builder.Build();
 
-            app.UseExeptionHandlerMiddleware();
+        app.UseExeptionHandlerMiddleware();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -39,18 +39,17 @@ namespace InnoViber
             app.UseSwaggerUI();
         }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
 
-            app.UseRouting();
+        app.UseRouting();
 
-            app.UseAuthorization();
+        app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            app.Run();
-        }
+        app.Run();
     }
 }
