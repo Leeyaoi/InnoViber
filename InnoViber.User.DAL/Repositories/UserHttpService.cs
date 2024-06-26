@@ -1,5 +1,6 @@
 ﻿using InnoViber.User.DAL.Interfaces;
 using InnoViber.User.DAL.Models;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 using System.Threading;
 
@@ -9,10 +10,11 @@ public class UserHttpService : IUserHttpService
 {
     private readonly HttpClient _httpClient;
 
-    public UserHttpService(HttpClient httpClient)
+    public UserHttpService(HttpClient httpClient, IConfiguration config)
     {
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri("https://localhost:7081/");
+        var baseUri = config.GetConnectionString("UsersConnection");
+        _httpClient.BaseAddress = new Uri(baseUri);
     }
 
     public Task<List<ExternalUserModel>?> GetAllUsers(CancellationToken ct)
