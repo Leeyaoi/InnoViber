@@ -5,24 +5,26 @@ using InnoViber.API.ViewModels.Message;
 using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
 
-[Collection("Tests")]
+[Route("api/[controller]")]
+[ApiController]
 public class ChatRoleControllerTests : BaseTestClass
 {
     public ChatRoleControllerTests(DataBaseWebApplicationFactory factory) : base(factory)
     { }
 
     [Theory, AutoData]
-    public async Task PostUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
+    public async Task PostRole_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.User;
+        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
@@ -35,12 +37,12 @@ public class ChatRoleControllerTests : BaseTestClass
     }
 
     [Theory, AutoData]
-    public async Task PutUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
+    public async Task PutRole_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.User;
+        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
@@ -58,7 +60,7 @@ public class ChatRoleControllerTests : BaseTestClass
     }
 
     [Fact]
-    public async Task GetUsers_HasData_ReturnsOk()
+    public async Task GetRoles_HasData_ReturnsOk()
     {
         //Act
         var response = await _client.GetAsync("/api/ChatRole");
@@ -69,12 +71,12 @@ public class ChatRoleControllerTests : BaseTestClass
     }
 
     [Theory, AutoData]
-    public async Task DeleteUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
+    public async Task DeleteRole_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.User;
+        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;

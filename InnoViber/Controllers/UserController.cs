@@ -37,7 +37,7 @@ public class UserController : ControllerBase
 
     // POST api/<UserController>
     [HttpPost]
-    public async Task<UserViewModel> Create([FromBody] UserViewModel user)
+    public async Task<UserViewModel> Create([FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
         var userModel = await _service.Create(model, default);

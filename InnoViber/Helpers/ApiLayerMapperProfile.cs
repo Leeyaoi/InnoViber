@@ -17,6 +17,8 @@ public class ApiLayerMapperProfile : Profile
         CreateMap<ChatModel, ChatShortViewModel>().ReverseMap();
 
         CreateMap<UserViewModel, UserModel>().ReverseMap();
+        CreateMap<UserShortViewModel, UserModel>().ReverseMap();
+        CreateMap<UserShortViewModel, UserViewModel>().ReverseMap();
 
         CreateMap<MessageViewModel, MessageModel>().ReverseMap();
         CreateMap<MessageViewModel, MessageShortViewModel>().ReverseMap();

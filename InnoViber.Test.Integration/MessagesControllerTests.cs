@@ -4,12 +4,14 @@ using InnoViber.API.ViewModels.Message;
 using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
 
-[Collection("Tests")]
+[Route("api/[controller]")]
+[ApiController]
 public class MessagesControllerTests : BaseTestClass
 {
     public MessagesControllerTests(DataBaseWebApplicationFactory factory) : base(factory)
@@ -19,9 +21,9 @@ public class MessagesControllerTests : BaseTestClass
     public async Task PostMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.User;
+        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
@@ -37,9 +39,9 @@ public class MessagesControllerTests : BaseTestClass
     public async Task PutMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.User;
+        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
@@ -71,9 +73,10 @@ public class MessagesControllerTests : BaseTestClass
     public async Task DeleteMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.User;
+        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserViewModel>("/api/User", userVM);
+
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
