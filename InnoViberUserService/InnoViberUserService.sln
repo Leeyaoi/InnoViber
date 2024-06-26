@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.DAL", "UserService.DAL\UserService.DAL.csproj", "{A46EB477-99DD-4EAA-A21F-C50F6286A595}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.DAL", "UserService.DAL\UserService.DAL.csproj", "{A46EB477-99DD-4EAA-A21F-C50F6286A595}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.BLL", "UserService.BLL\UserService.BLL.csproj", "{A37E461C-9B5D-440D-856F-7DABD69F8483}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.BLL", "UserService.BLL\UserService.BLL.csproj", "{A37E461C-9B5D-440D-856F-7DABD69F8483}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.API", "UserService.API\UserService.API.csproj", "{F2416683-512F-4B2D-9B3F-6E16B6E61EDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.API", "UserService.API\UserService.API.csproj", "{F2416683-512F-4B2D-9B3F-6E16B6E61EDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.ExternalUsers.DAL", "InnoViber.Users.DAL\UserService.ExternalUsers.DAL.csproj", "{F540986E-213C-4FF0-91CC-DF59698C4983}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{F2416683-512F-4B2D-9B3F-6E16B6E61EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2416683-512F-4B2D-9B3F-6E16B6E61EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2416683-512F-4B2D-9B3F-6E16B6E61EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F540986E-213C-4FF0-91CC-DF59698C4983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F540986E-213C-4FF0-91CC-DF59698C4983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F540986E-213C-4FF0-91CC-DF59698C4983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F540986E-213C-4FF0-91CC-DF59698C4983}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

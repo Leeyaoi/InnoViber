@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using MongoDB.Bson;
+using UserService.ExternalUsers.DAL.Interfaces;
+using UserService.ExternalUsers.DAL.Models;
 using System.Linq.Expressions;
 using UserService.BLL.Interfaces;
 using UserService.BLL.Models;
@@ -12,11 +13,13 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IUserHttpService _userHttpService;
 
-    public UserService(IUserRepository repository, IMapper mapper)
+    public UserService(IUserRepository repository, IMapper mapper, IUserHttpService userHttpService)
     {
         _repository = repository;
         _mapper = mapper;
+        _userHttpService = userHttpService;
     }
 
     public async Task<List<UserModel>> GetAll(CancellationToken ct)
@@ -42,6 +45,7 @@ public class UserService : IUserService
     {
         var entity = _mapper.Map<UserEntity>(model);
         var result = await _repository.Create(entity, ct);
+        await _userHttpService.CreateUser(new ExternalUserModel() { MongoId = result.Id }, ct);
         return _mapper.Map<UserModel>(result);
     }
 

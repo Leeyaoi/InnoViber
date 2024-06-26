@@ -1,6 +1,7 @@
 using UserService.BLL.Helper;
 using UserService.DAL.DI;
 using UserService.BLL.DI;
+using UserService.ExternalUsers.DAL.DI;
 
 namespace UserService.API;
 
@@ -17,6 +18,7 @@ public static class Program
 
         builder.Services.RegisterDALDependencies();
         builder.Services.RegisterBllDependencies();
+        builder.Services.RegisterUserDALDependencies();
 
         var app = builder.Build();
 
