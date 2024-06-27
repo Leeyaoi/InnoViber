@@ -1,4 +1,5 @@
-﻿using InnoViber.API.Validators;
+﻿using FluentValidation;
+using InnoViber.API.Validators;
 using InnoViber.API.ViewModels.User;
 
 namespace InnoViber.Test.Validation;
@@ -16,8 +17,9 @@ public class UserViewModelValidationTests
     public void UserValidator_ShouldPass_WhenEverythingIsValid()
     {
         // Arrange
-        var user = new UserShortViewModel()
+        var user = new UserViewModel()
         {
+            Id = Guid.NewGuid(),
             MongoId = Guid.NewGuid(),
         };
 
@@ -29,44 +31,13 @@ public class UserViewModelValidationTests
     }
 
     [Fact]
-    public void UserValidator_ShouldFail_WhenEmailIsWrong()
+    public void UserValidator_ShouldFail_WhenMongoIdIsEmpty()
     {
         // Arrange
-        var user = new UserShortViewModel()
+        var user = new UserViewModel()
         {
-            MongoId = Guid.NewGuid(),
-        };
-
-        // Act
-        var result = _validator.Validate(user);
-
-        // Assert
-        Assert.False(result.IsValid);
-    }
-
-    [Fact]
-    public void UserValidator_ShouldFail_WhenNameIsWrong()
-    {
-        // Arrange
-        var user = new UserShortViewModel()
-        {
-            MongoId = Guid.NewGuid(),
-        };
-
-        // Act
-        var result = _validator.Validate(user);
-
-        // Assert
-        Assert.False(result.IsValid);
-    }
-
-    [Fact]
-    public void UserValidator_ShouldFail_WhenSurnameIsWrong()
-    {
-        // Arrange
-        var user = new UserShortViewModel()
-        {
-            MongoId = Guid.NewGuid()
+            Id = Guid.NewGuid(),
+            MongoId = new(),
         };
 
         // Act

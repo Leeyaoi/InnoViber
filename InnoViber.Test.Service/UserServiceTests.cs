@@ -66,22 +66,22 @@ public class UserServiceTests
         entity.ShouldBeEquivalentTo(user);
     }
 
-    /*[Theory, AutoData]
+    [Theory, AutoData]
     public async Task GetByPredicateTest_HasData_ReturnsUser([NoAutoProperties] UserEntity user)
     {
         //Arrange
 
-        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Name == "Test", default)).ReturnsAsync(user);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.MongoId == Guid.NewGuid(), default)).ReturnsAsync(user);
 
         //Act
 
-        UserModel? result = await _service.GetByPredicate(x => x.Name == "Test", default);
+        UserModel? result = await _service.GetByPredicate(x => x.MongoId == Guid.NewGuid(), default);
 
         //Assert
 
         var entity = _mapper.Map<UserEntity>(result);
         entity.ShouldBeEquivalentTo(user);
-    }*/
+    }
 
     [Theory, AutoData]
     public async Task CreateTest_HasData_ReturnsMessageModel([NoAutoProperties] UserModel model)
