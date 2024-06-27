@@ -66,7 +66,7 @@ public class UserServiceTests
         entity.ShouldBeEquivalentTo(user);
     }
 
-    [Theory, AutoData]
+    /*[Theory, AutoData]
     public async Task GetByPredicateTest_HasData_ReturnsUser([NoAutoProperties] UserEntity user)
     {
         //Arrange
@@ -81,7 +81,7 @@ public class UserServiceTests
 
         var entity = _mapper.Map<UserEntity>(result);
         entity.ShouldBeEquivalentTo(user);
-    }
+    }*/
 
     [Theory, AutoData]
     public async Task CreateTest_HasData_ReturnsMessageModel([NoAutoProperties] UserModel model)

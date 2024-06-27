@@ -18,9 +18,7 @@ public class UserViewModelValidationTests
         // Arrange
         var user = new UserShortViewModel()
         {
-            Name = "Test",
-            Surname = "Test",
-            Email = "example@mail.com"
+            MongoId = Guid.NewGuid(),
         };
 
         // Act
@@ -36,9 +34,7 @@ public class UserViewModelValidationTests
         // Arrange
         var user = new UserShortViewModel()
         {
-            Name = "Test",
-            Surname = "Test",
-            Email = " "
+            MongoId = Guid.NewGuid(),
         };
 
         // Act
@@ -54,9 +50,7 @@ public class UserViewModelValidationTests
         // Arrange
         var user = new UserShortViewModel()
         {
-            Name = "",
-            Surname = "Test",
-            Email = "example@mail.com"
+            MongoId = Guid.NewGuid(),
         };
 
         // Act
@@ -72,9 +66,7 @@ public class UserViewModelValidationTests
         // Arrange
         var user = new UserShortViewModel()
         {
-            Name = "Test",
-            Surname = "",
-            Email = "example@mail.com"
+            MongoId = Guid.NewGuid()
         };
 
         // Act
