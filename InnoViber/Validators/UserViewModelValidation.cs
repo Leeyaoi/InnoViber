@@ -3,12 +3,10 @@ using InnoViber.API.ViewModels.User;
 
 namespace InnoViber.API.Validators;
 
-public class UserViewModelValidation : AbstractValidator<UserShortViewModel>
+public class UserViewModelValidation : AbstractValidator<UserViewModel>
 {
     public UserViewModelValidation()
     {
-        RuleFor(x => x.Name).NotEmpty();
-        RuleFor(x => x.Surname).NotEmpty();
-        RuleFor(x => x.Email).Matches(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        RuleFor(x => x.MongoId).NotEmpty();
     }
 }

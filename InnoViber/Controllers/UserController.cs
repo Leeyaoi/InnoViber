@@ -44,15 +44,6 @@ public class UserController : ControllerBase
         return _mapper.Map<UserViewModel>(userModel);
     }
 
-    // PUT api/<UserController>/5
-    [HttpPut("{id}")]
-    public async Task<UserViewModel> Update(Guid id, [FromBody] UserShortViewModel user)
-    {
-        var model = _mapper.Map<UserModel>(user);
-        var userModel = await _service.Update(id, model, default);
-        return _mapper.Map<UserViewModel>(userModel);
-    }
-
     // DELETE api/<UserController>/5
     [HttpDelete("{id}")]
     public Task Delete(Guid id)

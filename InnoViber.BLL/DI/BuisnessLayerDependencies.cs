@@ -13,8 +13,8 @@ public static class BuisnessLayerDependencies
         services.AddTransient<IChatService, ChatService>();
         services.AddTransient<IMessageService, MessageService>();
         services.AddTransient<IChatRoleService, ChatRoleService>();
-        services.AddScoped<CheckIsSeenMessagesService>();
-        services.AddHostedService<CheckIsSeenMessagesService>();
+        /*services.AddScoped<CheckIsSeenMessagesService>();
+        services.AddHostedService<CheckIsSeenMessagesService>();*/
         services.AddMassTransit(x =>
         {
             x.UsingRabbitMq((context, cfg) =>

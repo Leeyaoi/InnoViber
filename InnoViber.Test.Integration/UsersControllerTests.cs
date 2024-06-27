@@ -26,23 +26,6 @@ public class UsersControllerTests : BaseTestClass
     }
 
     [Fact]
-    public async Task PutUser_HasData_ReturnsOk()
-    {
-        // Arrange
-        var request = UserViewModels.ShortUser;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", request);
-
-        //Act
-        var response = await _client.PutAsJsonAsync($"/api/User/{user.Id}", request);
-
-        // Assert
-        response.EnsureSuccessStatusCode();
-        var userResponse = await response.Content.ReadFromJsonAsync<UserViewModel>();
-
-        userResponse.ShouldNotBeNull();
-    }
-
-    [Fact]
     public async Task GetUsers_HasData_ReturnsOk()
     {
         //Act
