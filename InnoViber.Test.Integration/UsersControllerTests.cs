@@ -23,7 +23,7 @@ public class UsersControllerTests : BaseTestClass
 
         //Assert
         response.ShouldNotBeNull();
-    }s
+    }
 
     [Fact]
     public async Task GetUsers_HasData_ReturnsOk()
