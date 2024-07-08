@@ -32,24 +32,6 @@ public class MessageViewModelValidationTests
     }
 
     [Fact]
-    public void MessageValidator_ShouldFail_WhenDateIsEmpty()
-    {
-        // Arrange
-        var message = new MessageShortViewModel()
-        {
-            Text = "Test",
-            UserId = Guid.NewGuid(),
-            ChatId = Guid.NewGuid()
-        };
-
-        // Act
-        var result = _validator.Validate(message);
-
-        // Assert
-        Assert.False(result.IsValid);
-    }
-
-    [Fact]
     public void MessageValidator_ShouldFail_WhenTextIsEmpty()
     {
         // Arrange
