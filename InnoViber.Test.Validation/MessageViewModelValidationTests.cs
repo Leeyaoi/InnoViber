@@ -19,9 +19,7 @@ public class MessageViewModelValidationTests
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = DateTime.Now,
             Text = "Test",
-            Status = 0,
             UserId = Guid.NewGuid(),
             ChatId = Guid.NewGuid()
         };
@@ -39,9 +37,7 @@ public class MessageViewModelValidationTests
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = new(),
             Text = "Test",
-            Status = 0,
             UserId = Guid.NewGuid(),
             ChatId = Guid.NewGuid()
         };
@@ -59,9 +55,7 @@ public class MessageViewModelValidationTests
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = DateTime.Now,
             Text = "",
-            Status = 0,
             UserId = Guid.NewGuid(),
             ChatId = Guid.NewGuid()
         };
@@ -79,9 +73,7 @@ public class MessageViewModelValidationTests
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = DateTime.Now,
             Text = "Test",
-            Status = 0,
             UserId = new(),
             ChatId = Guid.NewGuid()
         };
@@ -99,9 +91,7 @@ public class MessageViewModelValidationTests
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = DateTime.Now,
             Text = "Test",
-            Status = 0,
             UserId = Guid.NewGuid(),
             ChatId = new()
         };
