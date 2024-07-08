@@ -42,7 +42,7 @@ public class ChatController : ControllerBase
 
     // POST api/<ChatController>
     [HttpPost]
-    public async Task<ChatViewModel> Create([FromBody] ChatShortViewModel chat)
+    public async Task<ChatViewModel> Create([FromBody] CreateChatViewModel chat)
     {
         var model = _mapper.Map<ChatModel>(chat);
         var chatModel = await _service.Create(model, default);
