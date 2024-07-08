@@ -19,9 +19,7 @@ public class MessageViewModelValidationTests
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = DateTime.Now,
             Text = "Test",
-            Status = 0,
             UserId = Guid.NewGuid(),
             ChatId = Guid.NewGuid()
         };
@@ -34,34 +32,12 @@ public class MessageViewModelValidationTests
     }
 
     [Fact]
-    public void MessageValidator_ShouldFail_WhenDateIsEmpty()
-    {
-        // Arrange
-        var message = new MessageShortViewModel()
-        {
-            Date = new(),
-            Text = "Test",
-            Status = 0,
-            UserId = Guid.NewGuid(),
-            ChatId = Guid.NewGuid()
-        };
-
-        // Act
-        var result = _validator.Validate(message);
-
-        // Assert
-        Assert.False(result.IsValid);
-    }
-
-    [Fact]
     public void MessageValidator_ShouldFail_WhenTextIsEmpty()
     {
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = DateTime.Now,
             Text = "",
-            Status = 0,
             UserId = Guid.NewGuid(),
             ChatId = Guid.NewGuid()
         };
@@ -79,9 +55,7 @@ public class MessageViewModelValidationTests
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = DateTime.Now,
             Text = "Test",
-            Status = 0,
             UserId = new(),
             ChatId = Guid.NewGuid()
         };
@@ -99,9 +73,7 @@ public class MessageViewModelValidationTests
         // Arrange
         var message = new MessageShortViewModel()
         {
-            Date = DateTime.Now,
             Text = "Test",
-            Status = 0,
             UserId = Guid.NewGuid(),
             ChatId = new()
         };
