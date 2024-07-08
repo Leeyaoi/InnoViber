@@ -3,6 +3,9 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.Chat;
+using InnoViber.API.ViewModels.ChatRole;
+using System.Data;
+using InnoViber.Domain.Enums;
 
 namespace InnoViber.Controllers;
 
@@ -12,11 +15,13 @@ public class ChatController : ControllerBase
 {
     private readonly IChatService _service;
     private readonly IMapper _mapper;
+    private readonly ChatRoleController _roleController;
 
-    public ChatController(IChatService service, IMapper mapper)
+    public ChatController(IChatService service, IMapper mapper, ChatRoleController roleController)
     {
         _service = service;
         _mapper = mapper;
+        _roleController = roleController;
     }
 
     // GET: api/<ChatController>
@@ -41,6 +46,7 @@ public class ChatController : ControllerBase
     {
         var model = _mapper.Map<ChatModel>(chat);
         var chatModel = await _service.Create(model, default);
+        await _roleController.Create(new ChatRoleShortViewModel { Role = UserRoles.Owner, ChatId = chatModel.Id, UserId = chat.UserId});
         return _mapper.Map<ChatViewModel>(chatModel);
     }
 

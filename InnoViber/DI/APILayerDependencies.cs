@@ -2,6 +2,7 @@
 using FluentValidation;
 using InnoViber.API.ViewModels.Chat;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using InnoViber.Controllers;
 
 namespace InnoViber.API.DI;
 
@@ -18,5 +19,7 @@ public static class ApiLayerDependencies
         builder.Services.AddFluentValidationAutoValidation();
 
         builder.Services.AddValidatorsFromAssemblyContaining<ChatShortViewModel>();
+
+        builder.Services.AddTransient<ChatRoleController>();
     }
 }
