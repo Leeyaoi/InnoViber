@@ -3,6 +3,7 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using InnoViber.API.ViewModels.Message;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InnoViber.Controllers;
 
