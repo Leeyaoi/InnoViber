@@ -1,4 +1,5 @@
 using InnoViber.DAL.DI;
+using InnoViber.User.DAL.DI;
 using InnoViber.BLL.DI;
 using InnoViber.API.DI;
 using InnoViber.Domain.DI;
@@ -36,6 +37,8 @@ public class Program
         builder.RegisterAPIDependencies();
 
         builder.Services.RegisterDomainDependencies();
+
+        builder.Services.RegisterUserDALDependencies();
 
         builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(BuisnessLayerDependencies).Assembly);
 

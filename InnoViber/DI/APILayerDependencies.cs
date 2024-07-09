@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using InnoViber.Controllers;
 
 namespace InnoViber.API.DI;
 
@@ -43,5 +44,7 @@ public static class ApiLayerDependencies
         });
 
         builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+
+        builder.Services.AddTransient<ChatRoleController>();
     }
 }
