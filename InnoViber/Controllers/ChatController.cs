@@ -4,12 +4,13 @@ using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.ChatRole;
-using System.Data;
 using InnoViber.Domain.Enums;
+using System.Web.Http.Cors;
 
 namespace InnoViber.Controllers;
 
 [Route("api/[controller]")]
+[EnableCors(origins: "*", headers: "*", methods: "*")]
 [ApiController]
 public class ChatController : ControllerBase
 {

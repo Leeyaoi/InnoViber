@@ -4,6 +4,7 @@ using InnoViber.BLL.Interfaces;
 using InnoViber.API.ViewModels.Message;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using InnoViber.API.Helpers;
 
 namespace InnoViber.Controllers;
 
@@ -22,6 +23,7 @@ public class MessageController : ControllerBase
 
     // GET: api/<MessageController>
     [HttpGet]
+    [Authorize]
     public async Task<IEnumerable<MessageViewModel>> Get()
     {
         var models = await _service.GetAll(default);

@@ -33,17 +33,12 @@ public static class ApiLayerDependencies
             options.Audience = builder.Configuration["Auth0:Audience"];
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                NameClaimType = ClaimTypes.NameIdentifier
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true
             };
         });
 
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("read:messages", policy => policy.Requirements.Add(new
-            HasScopeRequirement("read:messages", authority)));
-        });
-
-        builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+        builder.Services.AddAuthorization();
 
         builder.Services.AddTransient<ChatRoleController>();
     }
