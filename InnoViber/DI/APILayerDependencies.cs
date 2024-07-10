@@ -24,7 +24,7 @@ public static class ApiLayerDependencies
 
         builder.Services.AddValidatorsFromAssemblyContaining<ChatShortViewModel>();
 
-        var authority = $"https://{builder.Configuration["Auth0:Authority"]}/";
+        var authority = $"https://{builder.Configuration["Auth0:Domain"]}/";
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
@@ -34,7 +34,8 @@ public static class ApiLayerDependencies
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,
-                ValidateIssuerSigningKey = true
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true
             };
         });
 
