@@ -10,7 +10,6 @@ using System.Web.Http.Cors;
 namespace InnoViber.Controllers;
 
 [Route("api/[controller]")]
-[EnableCors(origins: "*", headers: "*", methods: "*")]
 [ApiController]
 public class ChatController : ControllerBase
 {
