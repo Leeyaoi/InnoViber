@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using InnoViber.Controllers;
+using Microsoft.OpenApi.Models;
 
 namespace InnoViber.API.DI;
 
@@ -42,5 +43,39 @@ public static class ApiLayerDependencies
         builder.Services.AddAuthorization();
 
         builder.Services.AddTransient<ChatRoleController>();
+
+        builder.Services.AddSwaggerGen(s =>
+        {
+            s.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Rent&Ride"
+            });
+            s.AddSecurityDefinition(
+                "Bearer",
+                new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Jwt Token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+            s.AddSecurityRequirement(
+                   new OpenApiSecurityRequirement
+                   {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                   });
+        });
     }
 }
