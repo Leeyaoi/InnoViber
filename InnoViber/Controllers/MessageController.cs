@@ -35,6 +35,14 @@ public class MessageController : ControllerBase
         return _mapper.Map<MessageViewModel>(model);
     }
 
+    // GET api/<MessageController>/chat/5
+    [HttpGet("Chat/{chatId}")]
+    public async Task<IEnumerable<MessageViewModel>> GetByChatId(Guid chatId)
+    {
+        var model = await _service.GetByChatId(chatId, default);
+        return _mapper.Map<IEnumerable<MessageViewModel>>(model);
+    }
+
     // POST api/<MessageController>
     [HttpPost]
     public async Task<MessageViewModel> Create([FromBody] MessageShortViewModel message)

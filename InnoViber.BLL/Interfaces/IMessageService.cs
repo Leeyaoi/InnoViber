@@ -6,4 +6,6 @@ namespace InnoViber.BLL.Interfaces;
 public interface IMessageService : IGenericService<MessageModel>
 {
     Task<MessageModel> UpdateStatus(MessageStatus status, MessageModel model, CancellationToken ct);
+
+    Task<List<MessageModel>> GetByChatId(Guid chatId, CancellationToken ct);
 }

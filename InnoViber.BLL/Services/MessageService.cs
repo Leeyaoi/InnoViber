@@ -32,6 +32,12 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
         return _mapper.Map<MessageModel>(result);
     }
 
+    public async Task<List<MessageModel>> GetByChatId(Guid chatId, CancellationToken ct)
+    {
+        var entities = await _repository.GetByPredicate(message => message.ChatId == chatId, ct);
+        return _mapper.Map<List<MessageModel>>(entities);
+    }
+
     public override async Task<MessageModel> Update(Guid id, MessageModel model, CancellationToken ct)
     {
         model.Id = id;

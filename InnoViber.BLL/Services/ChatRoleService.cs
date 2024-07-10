@@ -19,6 +19,12 @@ public class ChatRoleService : GenericService<ChatRoleModel, ChatRoleEntity>, IC
         _repository = repository;
     }
 
+    public async Task<List<ChatRoleModel>> GetByChatId(Guid chatId, CancellationToken ct)
+    {
+        var entities = await _repository.GetByPredicate(role => role.ChatId == chatId, ct);
+        return _mapper.Map<List<ChatRoleModel>>(entities);
+    }
+
     public async Task<ChatRoleModel> UpdateRole(UserRoles role, ChatRoleModel model, CancellationToken ct)
     {
         model.Role = role;
