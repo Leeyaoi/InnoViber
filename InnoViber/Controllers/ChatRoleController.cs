@@ -36,6 +36,14 @@ public class ChatRoleController : ControllerBase
         return _mapper.Map<ChatRoleViewModel>(model);
     }
 
+    // GET api/<ChatRoleController>/chat/5
+    [HttpGet("chat/{chatId}")]
+    public async Task<IEnumerable<ChatRoleViewModel>> GetByChatId(Guid chatId)
+    {
+        var model = await _service.GetByChatId(chatId, default);
+        return _mapper.Map<IEnumerable<ChatRoleViewModel>>(model);
+    }
+
     // POST api/<ChatRoleController>
     [HttpPost]
     public async Task<ChatRoleViewModel> Create([FromBody] ChatRoleShortViewModel role)
