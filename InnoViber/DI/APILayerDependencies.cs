@@ -4,8 +4,7 @@ using InnoViber.API.ViewModels.Chat;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+using dotenv.net;
 using InnoViber.Controllers;
 using Microsoft.OpenApi.Models;
 
@@ -25,13 +24,13 @@ public static class ApiLayerDependencies
 
         builder.Services.AddValidatorsFromAssemblyContaining<ChatShortViewModel>();
 
-        var authority = $"https://{builder.Configuration["Auth0:Domain"]}/";
+        var authority = $"https://{builder.Configuration.GetValue<string>("AUTH0_DOMAIN")}/";
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
             options.Authority = authority;
-            options.Audience = builder.Configuration["Auth0:Audience"];
+            options.Audience = builder.Configuration.GetValue<string>("AUTH0_AUDIENCE");
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,

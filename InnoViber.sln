@@ -22,6 +22,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{C02B73E1-1B8E-4F0C-B01F-B41CE3967A4C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InnoViber", "InnoViber", "{2B05F758-CEAD-46A1-B9C9-BEEAD455EB60}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{9D11CC09-79A2-4275-B79C-A265E4F95264}"
 EndProject
@@ -29,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{354582A0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoViber.Test.Validation", "InnoViber.Test.Validation\InnoViber.Test.Validation.csproj", "{8147AC3B-AA85-44E1-9025-877CE49E7707}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoViber.User.DAL", "InnoViber.User.DAL\InnoViber.User.DAL.csproj", "{23861E53-4EE3-4B40-B7EE-DD185BC3D832}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoViber.User.DAL", "InnoViber.User.DAL\InnoViber.User.DAL.csproj", "{23861E53-4EE3-4B40-B7EE-DD185BC3D832}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

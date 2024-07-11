@@ -14,7 +14,7 @@ public static class DataLayerDepencies
     {
         services.AddDbContext<ViberContext>(option =>
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetValue<string>("DB_CONNECTION");
             option.UseNpgsql(connectionString);
         }, ServiceLifetime.Transient);
 
