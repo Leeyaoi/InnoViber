@@ -13,7 +13,7 @@ public class UserHttpService : IUserHttpService
     public UserHttpService(HttpClient httpClient, IConfiguration config)
     {
         _httpClient = httpClient;
-        var baseUri = config.GetConnectionString("UsersConnection");
+        var baseUri = config.GetValue<string>("USERS_CONNECTION")!;
         _httpClient.BaseAddress = new Uri(baseUri);
     }
 
