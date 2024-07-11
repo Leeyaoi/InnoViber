@@ -17,7 +17,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-            DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { @"./.env" }));
+        DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { @".env" }));
 
         builder.Configuration.AddEnvironmentVariables();
 

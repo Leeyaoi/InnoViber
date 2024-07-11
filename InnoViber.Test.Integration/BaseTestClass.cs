@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using dotenv.net;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 
@@ -15,7 +16,7 @@ public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
         {
             AllowAutoRedirect = false,
         });
-        _client.DefaultRequestHeaders.Add("Authorization", config["JwtExample"]);
+        _client.DefaultRequestHeaders.Add("Authorization", config["JWT_EXAMPLE"]);
     }
 
     protected async Task<TViewModel> AddModelToDatabase<TViewModel, TCreationModel>(string endpoint, TCreationModel data)
@@ -27,8 +28,8 @@ public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
 
     public static IConfiguration InitConfiguration()
     {
+        DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { @".env" }));
         var config = new ConfigurationBuilder()
-           .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
             .Build();
         return config;
