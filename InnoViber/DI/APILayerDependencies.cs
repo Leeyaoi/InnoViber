@@ -48,7 +48,7 @@ public static class ApiLayerDependencies
         {
             s.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "Rent&Ride"
+                Title = "InnoViber"
             });
             s.AddSecurityDefinition(
                 "Bearer",
