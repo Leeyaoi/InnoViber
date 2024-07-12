@@ -26,6 +26,8 @@ jobs:
       run: dotnet build --no-restore --configuration Release
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
+      env:
+        AUTH0_CLIENT_ORIGIN: ${{ secrets.AUTH0_CLIENT_ORIGIN}}
       
     - name: Sonar Scan
       uses: highbyte/sonarscan-dotnet@v2.3.0
