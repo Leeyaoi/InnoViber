@@ -41,3 +41,4 @@ jobs:
     env: 
         EXCLUDE_FROM_COVERAGE: "**/Program.cs, **/ViberContext.cs, **/Migrations/*, **/DI/*, **/Helpers/*, **/Validators/*, **/Middlewares/**/*, **/Constants/**/*, **/Repositories/*, *.json"
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        AUTH0_CLIENT_ORIGIN: ${{ secrets.AUTH0_CLIENT_ORIGIN}}
