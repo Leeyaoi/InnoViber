@@ -4,6 +4,10 @@ using InnoViber.BLL.DI;
 using InnoViber.API.DI;
 using InnoViber.Domain.DI;
 using InnoViber.API.Extensions;
+using MassTransit;
+using Microsoft.Net.Http.Headers;
+using InnoViber.API.Middleware;
+using dotenv.net;
 
 namespace InnoViber;
 
@@ -13,14 +17,21 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { @".env" }));
+
+        builder.Configuration.AddEnvironmentVariables();
+
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("http://localhost:5173")
-                    .AllowAnyHeader()
+                policy.WithOrigins(builder.Configuration.GetValue<string>("AUTH0_CLIENT_ORIGIN")!)
+                    .WithHeaders(
+                        HeaderNames.ContentType,
+                        HeaderNames.Authorization
+                    )
                     .AllowAnyMethod()
-                    .AllowCredentials();
+                    .SetPreflightMaxAge(TimeSpan.FromSeconds(86400));
             });
         });
 
@@ -58,13 +69,19 @@ public class Program
 
         app.UseRouting();
 
-        app.UseAuthorization();
+        app.UseSecureHeaders();
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            pattern: "{controller}/{action}/{id?}");
 
-        app.UseCors();
+        app.UseCors(builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.Run();
     }

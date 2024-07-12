@@ -1,6 +1,7 @@
 using UserService.BLL.Helper;
 using UserService.DAL.DI;
 using UserService.BLL.DI;
+using dotenv.net;
 
 namespace UserService.API;
 
@@ -9,6 +10,10 @@ public static class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { @".env" }));
+
+        builder.Configuration.AddEnvironmentVariables();
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

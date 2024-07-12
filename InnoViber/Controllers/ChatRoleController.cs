@@ -3,7 +3,7 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.ChatRole;
-using InnoViber.API.ViewModels.Chat;
+using System.Web.Http.Cors;
 
 namespace InnoViber.Controllers;
 

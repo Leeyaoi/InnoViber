@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using dotenv.net;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
@@ -11,7 +13,7 @@ public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
     {
         _client = factory.WebHost.CreateClient(new WebApplicationFactoryClientOptions
         {
-            AllowAutoRedirect = false
+            AllowAutoRedirect = false,
         });
     }
 
@@ -20,5 +22,14 @@ public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
         var responseCreatingModel = await _client.PostAsJsonAsync(endpoint, data);
         var createdModelString = await responseCreatingModel.Content.ReadFromJsonAsync<TViewModel>();
         return createdModelString!;
+    }
+
+    public static IConfiguration InitConfiguration()
+    {
+        DotEnv.Load(options: new DotEnvOptions(envFilePaths: new[] { @".env" }));
+        var config = new ConfigurationBuilder()
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 }

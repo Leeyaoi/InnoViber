@@ -2,7 +2,11 @@
 using FluentValidation;
 using InnoViber.API.ViewModels.Chat;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using dotenv.net;
 using InnoViber.Controllers;
+using Microsoft.OpenApi.Models;
 
 namespace InnoViber.API.DI;
 
@@ -20,6 +24,57 @@ public static class ApiLayerDependencies
 
         builder.Services.AddValidatorsFromAssemblyContaining<ChatShortViewModel>();
 
+        var authority = $"https://{builder.Configuration.GetValue<string>("AUTH0_DOMAIN")}/";
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.Authority = authority;
+            options.Audience = builder.Configuration.GetValue<string>("AUTH0_AUDIENCE");
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true
+            };
+        });
+
+        builder.Services.AddAuthorization();
+
         builder.Services.AddTransient<ChatRoleController>();
+
+        builder.Services.AddSwaggerGen(s =>
+        {
+            s.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "InnoViber"
+            });
+            s.AddSecurityDefinition(
+                "Bearer",
+                new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Jwt Token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+            s.AddSecurityRequirement(
+                   new OpenApiSecurityRequirement
+                   {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                   });
+        });
     }
 }
