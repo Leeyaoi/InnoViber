@@ -19,6 +19,16 @@ public class DataBaseWebApplicationFactory
             {
                 builder.ConfigureServices(services =>
                 {
+                    services.AddCors(options =>
+                    {
+                        options.AddDefaultPolicy(policy =>
+                            {
+                                policy.WithOrigins("*")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .SetPreflightMaxAge(TimeSpan.FromSeconds(86400));
+                            });
+                    });
                     var dbContextDescriptor = services.SingleOrDefault(i => i.ServiceType == typeof(DbContextOptions<ViberContext>));
 
                     services.Remove(dbContextDescriptor!);
@@ -33,16 +43,6 @@ public class DataBaseWebApplicationFactory
                     });
 
                     services.AddMassTransitTestHarness();
-                    services.AddCors(options =>
-                    {
-                        options.AddDefaultPolicy(policy =>
-                            {
-                                policy.WithOrigins("*")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod()
-                                .SetPreflightMaxAge(TimeSpan.FromSeconds(86400));
-                            });
-                    });
                     services.AddAuthentication(options =>
                     {
                         options.DefaultAuthenticateScheme = "TestScheme";
