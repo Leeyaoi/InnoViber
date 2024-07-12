@@ -11,12 +11,10 @@ public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
 
     public BaseTestClass(DataBaseWebApplicationFactory factory)
     {
-        var config = InitConfiguration();
         _client = factory.WebHost.CreateClient(new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false,
         });
-        _client.DefaultRequestHeaders.Add("Authorization", config["JWT_EXAMPLE"]);
     }
 
     protected async Task<TViewModel> AddModelToDatabase<TViewModel, TCreationModel>(string endpoint, TCreationModel data)

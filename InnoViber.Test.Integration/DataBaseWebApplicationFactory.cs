@@ -1,6 +1,7 @@
 ﻿using dotenv.net;
 using InnoViber.DAL.Data;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,12 @@ public class DataBaseWebApplicationFactory
                                 .SetPreflightMaxAge(TimeSpan.FromSeconds(86400));
                             });
                     });
+                    services.AddAuthentication(options =>
+                    {
+                        options.DefaultAuthenticateScheme = "TestScheme";
+                        options.DefaultChallengeScheme = "TestScheme";
+                    })
+                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", options => { });
                 });
             });
     }
