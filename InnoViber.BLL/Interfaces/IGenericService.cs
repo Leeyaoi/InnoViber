@@ -8,7 +8,7 @@ public interface IGenericService<TModel>
 
     Task<TModel?> GetById(Guid id, CancellationToken ct);
 
-    Task<TModel?> GetByPredicate(Expression<Func<TModel, bool>> predicate, CancellationToken ct);
+    Task<List<TModel?>> GetByPredicate(Expression<Func<TModel, bool>> predicate, CancellationToken ct);
 
     Task<TModel> Create(TModel model, CancellationToken ct);
 

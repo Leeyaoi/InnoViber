@@ -4,7 +4,6 @@ using InnoViber.BLL.Interfaces;
 using InnoViber.API.ViewModels.Message;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using InnoViber.API.Helpers;
 
 namespace InnoViber.Controllers;
 
@@ -32,6 +31,7 @@ public class MessageController : ControllerBase
 
     // GET api/<MessageController>/5
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<MessageViewModel> GetById(Guid id)
     {
         var model = await _service.GetById(id, default);
@@ -40,6 +40,7 @@ public class MessageController : ControllerBase
 
     // GET api/<MessageController>/chat/5
     [HttpGet("Chat/{chatId}")]
+    [Authorize]
     public async Task<IEnumerable<MessageViewModel>> GetByChatId(Guid chatId)
     {
         var model = await _service.GetByChatId(chatId, default);
@@ -48,6 +49,7 @@ public class MessageController : ControllerBase
 
     // POST api/<MessageController>
     [HttpPost]
+    [Authorize]
     public async Task<MessageViewModel> Create([FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
@@ -57,6 +59,7 @@ public class MessageController : ControllerBase
 
     // PUT api/<MessageController>/5
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<MessageViewModel> Update(Guid id, [FromBody] MessageShortViewModel message)
     {
         var model = _mapper.Map<MessageModel>(message);
@@ -75,6 +78,7 @@ public class MessageController : ControllerBase
 
     // DELETE api/<MessageController>/5
     [HttpDelete("{id}")]
+    [Authorize]
     public Task Delete(Guid id)
     {
         return _service.Delete(id, default);

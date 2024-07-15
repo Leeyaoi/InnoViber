@@ -67,7 +67,7 @@ public class ChatServiceTests
     }
 
     [Theory, AutoData]
-    public async Task GetByPredicateTest_HasData_ReturnsChat([NoAutoProperties] ChatEntity chat)
+    public async Task GetByPredicateTest_HasData_ReturnsChat([NoAutoProperties] List<ChatEntity> chat)
     {
         //Arrange
 
@@ -79,7 +79,7 @@ public class ChatServiceTests
 
         //Assert
 
-        var entity = _mapper.Map<ChatEntity>(result);
+        var entity = _mapper.Map<List<ChatEntity>>(result);
         entity.ShouldBeEquivalentTo(chat);
     }
 

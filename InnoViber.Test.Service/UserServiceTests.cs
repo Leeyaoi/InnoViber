@@ -67,7 +67,7 @@ public class UserServiceTests
     }
 
     [Theory, AutoData]
-    public async Task GetByPredicateTest_HasData_ReturnsUser([NoAutoProperties] UserEntity user)
+    public async Task GetByPredicateTest_HasData_ReturnsUser([NoAutoProperties] List<UserEntity> user)
     {
         //Arrange
 
@@ -75,11 +75,11 @@ public class UserServiceTests
 
         //Act
 
-        UserModel? result = await _service.GetByPredicate(x => x.MongoId == Guid.NewGuid(), default);
+        var result = await _service.GetByPredicate(x => x.MongoId == Guid.NewGuid(), default);
 
         //Assert
 
-        var entity = _mapper.Map<UserEntity>(result);
+        var entity = _mapper.Map<List<UserEntity>>(result);
         entity.ShouldBeEquivalentTo(user);
     }
 

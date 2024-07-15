@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.ChatRole;
 using InnoViber.Domain.Enums;
-using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InnoViber.Controllers;
 
@@ -26,6 +26,7 @@ public class ChatController : ControllerBase
 
     // GET: api/<ChatController>
     [HttpGet]
+    [Authorize]
     public async Task<IEnumerable<ChatViewModel>> Get()
     {
         var models = await _service.GetAll(default);
@@ -34,6 +35,7 @@ public class ChatController : ControllerBase
 
     // GET api/<ChatController>/5
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ChatViewModel> GetById(Guid id)
     {
         var model = await _service.GetById(id, default);
@@ -42,6 +44,7 @@ public class ChatController : ControllerBase
 
     // GET api/<ChatController>/user/5
     [HttpGet("user/{userId}")]
+    [Authorize]
     public async Task<IEnumerable<ChatViewModel>> GetByUserId(Guid userId)
     {
         var model = await _service.GetByUserId(userId, default);
@@ -50,6 +53,7 @@ public class ChatController : ControllerBase
 
     // POST api/<ChatController>
     [HttpPost]
+    [Authorize]
     public async Task<ChatViewModel> Create([FromBody] CreateChatViewModel chat)
     {
         var model = _mapper.Map<ChatModel>(chat);
@@ -60,6 +64,7 @@ public class ChatController : ControllerBase
 
     // PUT api/<ChatController>/5
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<ChatViewModel> Update(Guid id, [FromBody] ChatShortViewModel chat)
     {
         var model = _mapper.Map<ChatModel>(chat);
@@ -69,6 +74,7 @@ public class ChatController : ControllerBase
 
     // DELETE api/<ChatController>/5
     [HttpDelete("{id}")]
+    [Authorize]
     public Task Delete(Guid id)
     {
         return _service.Delete(id, default);

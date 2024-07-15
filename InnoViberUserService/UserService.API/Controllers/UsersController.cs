@@ -8,18 +8,18 @@ namespace UserService.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController : ControllerBase
+public class UserController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IUserService _service;
 
-    public UsersController(IMapper mapper, IUserService userService)
+    public UserController(IMapper mapper, IUserService userService)
     {
         _mapper = mapper;
         _service = userService;
     }
 
-    // GET: api/<UsersController>
+    // GET: api/<UserController>
     [HttpGet]
     public async Task<IEnumerable<UserViewModel>> GetAll()
     {
@@ -27,7 +27,7 @@ public class UsersController : ControllerBase
         return _mapper.Map<List<UserViewModel>>(models);
     }
 
-    // GET api/<UsersController>/5
+    // GET api/<UserController>/5
     [HttpGet("{id}")]
     public async Task<UserViewModel> GetById(Guid id)
     {
@@ -35,7 +35,15 @@ public class UsersController : ControllerBase
         return _mapper.Map<UserViewModel>(model);
     }
 
-    // POST api/<UsersController>
+    // GET api/<UserController>/auth/5
+    [HttpGet("auth/{authId}")]
+    public async Task<UserViewModel> GetByAuthId(string authId)
+    {
+        var model = await _service.GetByAuthId(authId, default);
+        return _mapper.Map<UserViewModel>(model);
+    }
+
+    // POST api/<UserController>
     [HttpPost]
     public async Task<UserViewModel> Create([FromBody] UserShortViewModel vm)
     {
@@ -44,7 +52,7 @@ public class UsersController : ControllerBase
         return _mapper.Map<UserViewModel>(result);
     }
 
-    // PUT api/<UsersController>/5
+    // PUT api/<UserController>/5
     [HttpPut("{id}")]
     public async Task<UserViewModel> Update(Guid id, [FromBody] UserShortViewModel vm)
     {
@@ -53,7 +61,7 @@ public class UsersController : ControllerBase
         return _mapper.Map<UserViewModel>(result);
     }
 
-    // DELETE api/<UsersController>/5
+    // DELETE api/<UserController>/5
     [HttpDelete("{id}")]
     public Task Delete(Guid id)
     {

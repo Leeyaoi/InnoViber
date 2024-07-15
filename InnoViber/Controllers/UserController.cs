@@ -3,41 +3,53 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.User;
-using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InnoViber.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController : ControllerBase
+public class ShortUserController : ControllerBase
 {
     private readonly IUserService _service;
     private readonly IMapper _mapper;
 
-    public UserController(IUserService service, IMapper mapper)
+    public ShortUserController(IUserService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
     }
 
-    // GET: api/<UserController>
+    // GET: api/<ShortUserController>
     [HttpGet]
+    [Authorize]
     public async Task<IEnumerable<UserViewModel>> Get()
     {
         var models = await _service.GetAll(default);
         return _mapper.Map<List<UserViewModel>>(models);
     }
 
-    // GET api/<UserController>/5
+    // GET api/<ShortUserController>/5
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<UserViewModel> GetById(Guid id)
     {
         var model = await _service.GetById(id, default);
         return _mapper.Map<UserViewModel>(model);
     }
 
-    // POST api/<UserController>
+    // GET api/<ShortUserController>/auth/5
+    [HttpGet("auth/{id}")]
+    [Authorize]
+    public async Task<List<UserViewModel>> GetByMongoId(Guid id)
+    {
+        var model = await _service.GetByMongoId(id, default);
+        return _mapper.Map<List<UserViewModel>>(model);
+    }
+
+    // POST api/<ShortUserController>
     [HttpPost]
+    [Authorize]
     public async Task<UserViewModel> Create([FromBody] UserShortViewModel user)
     {
         var model = _mapper.Map<UserModel>(user);
@@ -45,8 +57,9 @@ public class UserController : ControllerBase
         return _mapper.Map<UserViewModel>(userModel);
     }
 
-    // DELETE api/<UserController>/5
+    // DELETE api/<ShortUserController>/5
     [HttpDelete("{id}")]
+    [Authorize]
     public Task Delete(Guid id)
     {
         return _service.Delete(id, default);
