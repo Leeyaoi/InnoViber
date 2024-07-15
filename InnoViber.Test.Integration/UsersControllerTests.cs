@@ -19,7 +19,7 @@ public class UsersControllerTests : BaseTestClass
         var request = UserViewModels.ShortUser;
 
         //Act
-        var response = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", request);
+        var response = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", request);
 
         //Assert
         response.ShouldNotBeNull();
@@ -29,7 +29,7 @@ public class UsersControllerTests : BaseTestClass
     public async Task GetUsers_HasData_ReturnsOk()
     {
         //Act
-        var response = await _client.GetAsync("/api/User");
+        var response = await _client.GetAsync("/api/ShortUser");
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -41,10 +41,10 @@ public class UsersControllerTests : BaseTestClass
     {
         //Arrange
         var request = UserViewModels.ShortUser;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", request);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", request);
 
         //Act
-        var response = await _client.DeleteAsync($"/api/User/{user.Id}");
+        var response = await _client.DeleteAsync($"/api/ShortUser/{user.Id}");
 
         //Assert
         response.EnsureSuccessStatusCode();

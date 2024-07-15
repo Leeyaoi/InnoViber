@@ -22,7 +22,7 @@ public class ChatRoleControllerTests : BaseTestClass
         //Arrange
         var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
@@ -40,7 +40,7 @@ public class ChatRoleControllerTests : BaseTestClass
         //Arrange
         var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
@@ -74,7 +74,7 @@ public class ChatRoleControllerTests : BaseTestClass
         //Arrange
         var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
+        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = user.Id;
         request.ChatId = chat.Id;
