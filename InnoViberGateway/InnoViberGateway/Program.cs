@@ -1,5 +1,6 @@
 using dotenv.net;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -36,6 +37,41 @@ public class Program
         builder.Services.AddOcelot(builder.Configuration);
 
         builder.Services.AddSwaggerForOcelot(builder.Configuration);
+
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+            {
+                Title = "API Gateway",
+                Version = "v1.0",
+                Description = ""
+            });
+            options.ResolveConflictingActions(x => x.First());
+            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.OAuth2,
+                BearerFormat = "JWT",
+                Flows = new OpenApiOAuthFlows
+                {
+                    Implicit = new OpenApiOAuthFlow{
+                        TokenUrl = new Uri($"https://{builder.Configuration.GetValue<string>("AUTH0_DOMAIN")}/oauth/token"),
+                        AuthorizationUrl = new Uri($"https://{builder.Configuration.GetValue<string>("AUTH0_DOMAIN")}/authorize?audience={builder.Configuration.GetValue<string>("AUTH0_AUDIENCE")}"),
+                        Scopes = new Dictionary<string, string> {
+                            { "openid", "OpenId" },
+                        }
+                    }
+                }
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                    },
+                    new[] { "openid" }
+                }
+            });
+        });
 
         var app = builder.Build();
 

@@ -16,7 +16,7 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
         _repository = repository;
     }
 
-    public async Task<List<ChatModel>> GetByUserId(Guid userId, CancellationToken ct)
+    public async Task<List<ChatModel>> GetByUserId(string userId, CancellationToken ct)
     {
         var entities = await _repository.GetByPredicate(chat => chat.Roles.Any(role => role.UserId == userId), ct);
         return _mapper.Map<List<ChatModel>>(entities);

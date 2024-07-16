@@ -43,38 +43,41 @@ public static class ApiLayerDependencies
 
         builder.Services.AddTransient<ChatRoleController>();
 
-        builder.Services.AddSwaggerGen(s =>
+        builder.Services.AddSwaggerGen(options =>
         {
-            s.SwaggerDoc("v1", new OpenApiInfo
+            options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
             {
-                Title = "InnoViber"
+                Title = "API Documentation",
+                Version = "v1.0",
+                Description = ""
             });
-            s.AddSecurityDefinition(
-                "Bearer",
-                new OpenApiSecurityScheme
+            options.ResolveConflictingActions(x => x.First());
+            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.OAuth2,
+                BearerFormat = "JWT",
+                Flows = new OpenApiOAuthFlows
                 {
-                    In = ParameterLocation.Header,
-                    Description = "Jwt Token",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    Scheme = "Bearer"
-                });
-            s.AddSecurityRequirement(
-                   new OpenApiSecurityRequirement
-                   {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                }
-                            },
-                            Array.Empty<string>()
-                        }
-                   });
+                    Implicit = new OpenApiOAuthFlow
+                    {
+                        TokenUrl = new Uri($"https://{builder.Configuration.GetValue<string>("AUTH0_DOMAIN")}/oauth/token"),
+                        AuthorizationUrl = new Uri($"https://{builder.Configuration.GetValue<string>("AUTH0_DOMAIN")}/authorize?audience={builder.Configuration.GetValue<string>("AUTH0_AUDIENCE")}"),
+                        Scopes = new Dictionary<string, string> {
+                        { "openid", "OpenId" },
+
+                    }
+                    }
+                }
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                    },
+                    new[] { "openid" }
+                }
+            });
         });
     }
 }

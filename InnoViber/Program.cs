@@ -61,7 +61,13 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(settings =>
+            {
+                settings.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1.0");
+                settings.OAuthClientId(builder.Configuration.GetValue<string>("AUTH0_CLIENT_ID"));
+                settings.OAuthClientSecret(builder.Configuration.GetValue<string>("AUTH0_CLIENT_SECRET"));
+                settings.OAuthUsePkce();
+            });
         }
 
         app.UseHttpsRedirection();

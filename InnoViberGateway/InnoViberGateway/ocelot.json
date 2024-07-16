@@ -34,17 +34,6 @@
             "SwaggerKey": "Message"
         },
         {
-            "UpstreamPathTemplate": "/ShortUser/{everything}",
-            "DownstreamPathTemplate": "/api/ShortUser/{everything}",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 7060
-                }
-            ],
-            "SwaggerKey": "ShortUser"
-        },
-        {
             "UpstreamPathTemplate": "/User/{everything}",
             "DownstreamPathTemplate": "/api/User/{everything}",
             "DownstreamHostAndPorts": [
@@ -82,16 +71,6 @@
             "Config": [
                 {
                     "Name": "Message API",
-                    "Version": "v1",
-                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
-                }
-            ]
-        },
-        {
-            "Key": "ShortUser",
-            "Config": [
-                {
-                    "Name": "ShortUser API",
                     "Version": "v1",
                     "Url": "https://localhost:7060/swagger/v1/swagger.json"
                 }

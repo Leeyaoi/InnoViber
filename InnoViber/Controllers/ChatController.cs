@@ -45,7 +45,7 @@ public class ChatController : ControllerBase
     // GET api/<ChatController>/user/5
     [HttpGet("user/{userId}")]
     [Authorize]
-    public async Task<IEnumerable<ChatViewModel>> GetByUserId(Guid userId)
+    public async Task<IEnumerable<ChatViewModel>> GetByUserId(string userId)
     {
         var model = await _service.GetByUserId(userId, default);
         return _mapper.Map<IEnumerable<ChatViewModel>>(model);

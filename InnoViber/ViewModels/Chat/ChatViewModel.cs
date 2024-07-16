@@ -1,7 +1,5 @@
 ﻿using InnoViber.API.ViewModels.ChatRole;
 using InnoViber.API.ViewModels.Message;
-using InnoViber.API.ViewModels.User;
-using InnoViber.BLL.Models;
 
 namespace InnoViber.API.ViewModels.Chat;
 

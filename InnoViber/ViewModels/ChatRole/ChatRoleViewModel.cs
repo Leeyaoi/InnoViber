@@ -7,6 +7,6 @@ public class ChatRoleViewModel
 {
     public Guid Id { get; set; }
     public UserRoles Role { get; set; }
-    public Guid UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
     public Guid ChatId { get; set; }
 }
