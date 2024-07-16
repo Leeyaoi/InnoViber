@@ -4,7 +4,6 @@ using InnoViber.API.ViewModels.Chat;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using dotenv.net;
 using InnoViber.Controllers;
 using Microsoft.OpenApi.Models;
 
