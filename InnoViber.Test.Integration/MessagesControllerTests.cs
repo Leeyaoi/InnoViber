@@ -20,7 +20,7 @@ public class MessagesControllerTests : BaseTestClass
         //Arrange
         var chatVM = ChatViewModels.ShortChat;
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = "";
+        request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
         //Act
