@@ -4,6 +4,7 @@ using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
+using InnoViber.User.DAL.Models;
 
 namespace InnoViber.Controllers;
 
@@ -45,6 +46,14 @@ public class ShortUserController : ControllerBase
     {
         var model = await _service.GetByMongoId(id, default);
         return _mapper.Map<List<UserViewModel>>(model);
+    }
+
+    // GET api/<ShortUserController>/auth
+    [HttpPost("auth")]
+    [Authorize]
+    public Task<ExternalUserModel> GetOrCreate(ShortExternalUserModel model)
+    {
+        return _service.GetOrCreate(model, default);
     }
 
     // POST api/<ShortUserController>

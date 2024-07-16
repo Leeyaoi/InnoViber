@@ -8,6 +8,7 @@ using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Entities;
 using Moq;
 using Shouldly;
+using InnoViber.User.DAL.Interfaces;
 
 namespace InnoViber.Test.Service;
 
@@ -15,6 +16,7 @@ public class UserServiceTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<IUserRepository> _repoMock;
+    private readonly Mock<IUserHttpService> _httpRepoMock;
     private readonly UserService _service;
 
     public UserServiceTests()
@@ -29,7 +31,9 @@ public class UserServiceTests
 
         _repoMock = new Mock<IUserRepository>();
 
-        _service = new UserService(_mapper, _repoMock.Object);
+        _httpRepoMock = new Mock<IUserHttpService>();
+
+        _service = new UserService(_mapper, _repoMock.Object, _httpRepoMock.Object);
     }
 
     [Theory, AutoData]

@@ -17,13 +17,18 @@ public class UserHttpService : IUserHttpService
         _httpClient.BaseAddress = new Uri(baseUri);
     }
 
-    public Task<List<ExternalUserModel>?> GetAllUsers(CancellationToken ct)
-    {
-        return _httpClient.GetFromJsonAsync<List<ExternalUserModel>>("Users", cancellationToken: ct);
-    }
-
     public Task<ExternalUserModel?> GetUser(Guid userId, CancellationToken ct)
     {
-        return _httpClient.GetFromJsonAsync<ExternalUserModel>($"Users/{userId}", cancellationToken: ct);
+        return _httpClient.GetFromJsonAsync<ExternalUserModel>($"/User/{userId}", cancellationToken: ct);
+    }
+
+    public Task<ExternalUserModel?> GetUserByAuthId(string authId, CancellationToken ct)
+    {
+        return _httpClient.GetFromJsonAsync<ExternalUserModel>($"/User/auth/{authId}", cancellationToken: ct);
+    }
+
+    public Task<HttpResponseMessage> PostUser(ShortExternalUserModel user, CancellationToken ct)
+    {
+        return _httpClient.PostAsJsonAsync($"/User", user, cancellationToken: ct);
     }
 }
