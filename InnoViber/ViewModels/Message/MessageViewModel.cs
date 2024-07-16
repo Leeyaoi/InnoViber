@@ -1,5 +1,4 @@
 ﻿using InnoViber.API.ViewModels.Chat;
-using InnoViber.API.ViewModels.User;
 using InnoViber.Domain.Enums;
 
 namespace InnoViber.API.ViewModels.Message;

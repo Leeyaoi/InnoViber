@@ -16,6 +16,8 @@ public interface IUserService
 
     Task<UserModel> Create(UserModel model, CancellationToken ct);
 
+    Task<UserModel> GetOrCreate(UserModel model, CancellationToken ct);
+
     Task Delete(Guid id, CancellationToken ct);
 
     Task<UserModel> Update(Guid id, UserModel model, CancellationToken ct);

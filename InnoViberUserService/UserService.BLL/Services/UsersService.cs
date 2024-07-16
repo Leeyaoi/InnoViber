@@ -64,4 +64,15 @@ public class UsersService : IUserService
         var result = await _repository.Update(entity, ct);
         return _mapper.Map<UserModel>(result);
     }
+
+    public async Task<UserModel> GetOrCreate(UserModel model, CancellationToken ct)
+    {
+        var user = await GetByAuthId(model.Auth0Id, ct);
+        if (user == null)
+        {
+            var userContent = await Create(model, ct);
+            user = userContent;
+        }
+        return user;
+    }
 }

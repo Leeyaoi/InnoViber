@@ -1,7 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.Message;
-using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
 using Shouldly;
@@ -19,11 +18,9 @@ public class MessagesControllerTests : BaseTestClass
     public async Task PostMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        request.UserId = "";
         request.ChatId = chat.Id;
 
         //Act
@@ -37,11 +34,9 @@ public class MessagesControllerTests : BaseTestClass
     public async Task PutMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
         var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);
@@ -71,11 +66,9 @@ public class MessagesControllerTests : BaseTestClass
     public async Task DeleteMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
         var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);

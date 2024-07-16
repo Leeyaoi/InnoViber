@@ -2,7 +2,6 @@
 using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.ChatRole;
 using InnoViber.API.ViewModels.Message;
-using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
 using Shouldly;
@@ -20,11 +19,9 @@ public class ChatRoleControllerTests : BaseTestClass
     public async Task PostUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        request.UserId = "";
         request.ChatId = chat.Id;
 
         //Act
@@ -38,11 +35,9 @@ public class ChatRoleControllerTests : BaseTestClass
     public async Task PutUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        request.UserId = "";
         request.ChatId = chat.Id;
 
         var role = await AddModelToDatabase<ChatRoleViewModel, ChatRoleShortViewModel>("/api/ChatRole", request);
@@ -72,11 +67,9 @@ public class ChatRoleControllerTests : BaseTestClass
     public async Task DeleteUser_HasData_ReturnsOk(ChatRoleShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/ShortUser", userVM);
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        request.UserId = "";
         request.ChatId = chat.Id;
 
         var role = await AddModelToDatabase<ChatRoleViewModel, ChatRoleShortViewModel>("/api/ChatRole", request);

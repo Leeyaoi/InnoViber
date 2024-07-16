@@ -1,5 +1,4 @@
 ﻿using InnoViber.API.ViewModels.Chat;
-using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
 using Shouldly;
@@ -38,7 +37,7 @@ public class ChatsControllerTests : BaseTestClass
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var userResponse = await response.Content.ReadFromJsonAsync<UserViewModel>();
+        var userResponse = await response.Content.ReadFromJsonAsync<ChatViewModel>();
 
         userResponse.ShouldNotBeNull();
     }

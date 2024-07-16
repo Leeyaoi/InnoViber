@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-
-namespace UserService.API.UserViewModels;
+﻿namespace UserService.API.UserViewModels;
 
 public class UserViewModel
 {

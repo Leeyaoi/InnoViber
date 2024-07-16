@@ -1,6 +1,5 @@
 ﻿using InnoViber.API.Validators;
 using InnoViber.API.ViewModels.Message;
-using InnoViber.API.ViewModels.User;
 
 namespace InnoViber.Test.Validation;
 

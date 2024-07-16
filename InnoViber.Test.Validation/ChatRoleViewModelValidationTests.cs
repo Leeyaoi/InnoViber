@@ -1,6 +1,5 @@
 ﻿using InnoViber.API.Validators;
 using InnoViber.API.ViewModels.ChatRole;
-using InnoViber.API.ViewModels.User;
 
 namespace InnoViber.Test.Validation;
 
@@ -14,54 +13,54 @@ public class ChatRoleViewModelValidationTests
     }
 
     [Fact]
-    public void UserValidator_ShouldPass_WhenEverythingIsValid()
+    public void ChatRoleValidator_ShouldPass_WhenEverythingIsValid()
     {
         // Arrange
-        var user = new ChatRoleViewModel()
+        var ChatRole = new ChatRoleViewModel()
         {
             Role = 0,
-            UserId = Guid.NewGuid(),
+            UserId = Guid.NewGuid().ToString(),
             ChatId = Guid.NewGuid()
         };
 
         // Act
-        var result = _validator.Validate(user);
+        var result = _validator.Validate(ChatRole);
 
         // Assert
         Assert.True(result.IsValid);
     }
 
     [Fact]
-    public void UserValidator_ShouldFail_WhenUserIdIsEmpty()
+    public void ChatRoleValidator_ShouldFail_WhenUserIdIsEmpty()
     {
         // Arrange
-        var user = new ChatRoleViewModel()
+        var ChatRole = new ChatRoleViewModel()
         {
             Role = 0,
-            UserId = new(),
+            UserId = string.Empty,
             ChatId = Guid.NewGuid()
         };
 
         // Act
-        var result = _validator.Validate(user);
+        var result = _validator.Validate(ChatRole);
 
         // Assert
         Assert.False(result.IsValid);
     }
 
     [Fact]
-    public void UserValidator_ShouldFail_WhenChatIdIsEmpty()
+    public void ChatRoleValidator_ShouldFail_WhenChatIdIsEmpty()
     {
         // Arrange
-        var user = new ChatRoleViewModel()
+        var ChatRole = new ChatRoleViewModel()
         {
             Role = 0,
-            UserId = Guid.NewGuid(),
+            UserId = "",
             ChatId = new()
         };
 
         // Act
-        var result = _validator.Validate(user);
+        var result = _validator.Validate(ChatRole);
 
         // Assert
         Assert.False(result.IsValid);

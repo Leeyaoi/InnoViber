@@ -2,7 +2,6 @@
 using InnoViber.User.DAL.Models;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
-using System.Threading;
 
 namespace InnoViber.User.DAL.Repositories;
 
@@ -17,18 +16,8 @@ public class UserHttpService : IUserHttpService
         _httpClient.BaseAddress = new Uri(baseUri);
     }
 
-    public Task<ExternalUserModel?> GetUser(Guid userId, CancellationToken ct)
+    public Task<ExternalUserModel?> GetUser(string userId, CancellationToken ct)
     {
-        return _httpClient.GetFromJsonAsync<ExternalUserModel>($"/User/{userId}", cancellationToken: ct);
-    }
-
-    public Task<ExternalUserModel?> GetUserByAuthId(string authId, CancellationToken ct)
-    {
-        return _httpClient.GetFromJsonAsync<ExternalUserModel>($"/User/auth/{authId}", cancellationToken: ct);
-    }
-
-    public Task<HttpResponseMessage> PostUser(ShortExternalUserModel user, CancellationToken ct)
-    {
-        return _httpClient.PostAsJsonAsync($"/User", user, cancellationToken: ct);
+        return _httpClient.GetFromJsonAsync<ExternalUserModel>($"/User/auth/{userId}", cancellationToken: ct);
     }
 }

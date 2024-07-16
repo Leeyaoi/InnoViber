@@ -106,7 +106,7 @@ public class CheckIsSeenMessagesService : BackgroundService
             }
         }
 
-        users.RemoveAll(x => x.Id == message.UserId);
+        users.RemoveAll(x => x.Auth0Id == message.UserId);
 
         return users;
     }
