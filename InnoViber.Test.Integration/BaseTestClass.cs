@@ -20,6 +20,8 @@ public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
     protected async Task<TViewModel> AddModelToDatabase<TViewModel, TCreationModel>(string endpoint, TCreationModel data)
     {
         var responseCreatingModel = await _client.PostAsJsonAsync(endpoint, data);
+        var json = await responseCreatingModel.Content.ReadAsStringAsync();
+        Console.WriteLine(json);
         var createdModelString = await responseCreatingModel.Content.ReadFromJsonAsync<TViewModel>();
         return createdModelString!;
     }
