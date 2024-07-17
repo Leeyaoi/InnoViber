@@ -13,7 +13,9 @@ public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
     {
         _client = factory.WebHost.CreateClient(new WebApplicationFactoryClientOptions
         {
+            BaseAddress = new Uri("http://localhost"),
             AllowAutoRedirect = false,
+
         });
     }
 
