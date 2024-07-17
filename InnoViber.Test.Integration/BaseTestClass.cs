@@ -1,7 +1,6 @@
 ﻿using dotenv.net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
-using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
 
