@@ -35,18 +35,23 @@ public class MessagesControllerTests : BaseTestClass
     {
         //Arrange
         var chatVM = ChatViewModels.ShortChat;
+        Console.WriteLine(chatVM.ToString());
         var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
         request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
+        Console.WriteLine(request.ToString());
         var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);
+        Console.WriteLine(message.ToString());
 
         //Act
         var response = await _client.PutAsJsonAsync($"/api/Message/{message.Id}", request);
+        Console.WriteLine(response.ToString());
 
         // Assert
         response.EnsureSuccessStatusCode();
         var userResponse = await response.Content.ReadFromJsonAsync<MessageViewModel>();
+        Console.WriteLine(userResponse.ToString());
 
         userResponse.ShouldNotBeNull();
     }
