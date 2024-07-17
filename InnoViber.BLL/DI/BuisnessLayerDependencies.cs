@@ -9,7 +9,6 @@ public static class BuisnessLayerDependencies
 {
     public static void RegisterBLLDependencies(this IServiceCollection services)
     {
-        services.AddTransient<IUserService, UserService>();
         services.AddTransient<IChatService, ChatService>();
         services.AddTransient<IMessageService, MessageService>();
         services.AddTransient<IChatRoleService, ChatRoleService>();

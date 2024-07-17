@@ -1,6 +1,10 @@
 ﻿using dotenv.net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using System.Text.Json;
+using System.Text;
+using System.Text.Json.Serialization;
 using System.Net.Http.Json;
 
 namespace InnoViber.Test.Integration;
@@ -14,13 +18,17 @@ public class BaseTestClass : IClassFixture<DataBaseWebApplicationFactory>
         _client = factory.WebHost.CreateClient(new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false,
+            BaseAddress = new Uri("https://localhost:7060")
         });
     }
 
-    protected async Task<TViewModel> AddModelToDatabase<TViewModel, TCreationModel>(string endpoint, TCreationModel data)
+    protected async Task<TViewModel> AddModelToDatabase<TViewModel, TCreationModel>(string endpoint, TCreationModel data, CancellationToken ct)
     {
-        var responseCreatingModel = await _client.PostAsJsonAsync(endpoint, data);
-        var createdModelString = await responseCreatingModel.Content.ReadFromJsonAsync<TViewModel>();
+        var responseCreatingModel = await _client.PostAsJsonAsync(endpoint, data, options: null, ct);
+        Console.WriteLine(responseCreatingModel);
+        var json = await responseCreatingModel.Content.ReadAsStringAsync();
+        Console.WriteLine(json);
+        var createdModelString = await responseCreatingModel.Content.ReadFromJsonAsync<TViewModel>(ct);
         return createdModelString!;
     }
 

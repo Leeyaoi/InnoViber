@@ -12,7 +12,11 @@ public interface IUserService
 
     Task<UserModel?> GetByPredicate(Expression<Func<UserModel, bool>> predicate, CancellationToken ct);
 
+    Task<UserModel> GetByAuthId(string authId, CancellationToken ct);
+
     Task<UserModel> Create(UserModel model, CancellationToken ct);
+
+    Task<UserModel> GetOrCreate(UserModel model, CancellationToken ct);
 
     Task Delete(Guid id, CancellationToken ct);
 

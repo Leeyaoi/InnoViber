@@ -1,6 +1,5 @@
 ﻿using InnoViber.API.Validators;
 using InnoViber.API.ViewModels.Message;
-using InnoViber.API.ViewModels.User;
 
 namespace InnoViber.Test.Validation;
 
@@ -20,7 +19,7 @@ public class MessageViewModelValidationTests
         var message = new MessageShortViewModel()
         {
             Text = "Test",
-            UserId = Guid.NewGuid(),
+            UserId = Guid.NewGuid().ToString(),
             ChatId = Guid.NewGuid()
         };
 
@@ -38,7 +37,7 @@ public class MessageViewModelValidationTests
         var message = new MessageShortViewModel()
         {
             Text = "",
-            UserId = Guid.NewGuid(),
+            UserId = "",
             ChatId = Guid.NewGuid()
         };
 
@@ -56,7 +55,7 @@ public class MessageViewModelValidationTests
         var message = new MessageShortViewModel()
         {
             Text = "Test",
-            UserId = new(),
+            UserId = string.Empty,
             ChatId = Guid.NewGuid()
         };
 
@@ -74,7 +73,7 @@ public class MessageViewModelValidationTests
         var message = new MessageShortViewModel()
         {
             Text = "Test",
-            UserId = Guid.NewGuid(),
+            UserId = "",
             ChatId = new()
         };
 

@@ -52,10 +52,10 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel> where TMo
         return _mapper?.Map<TModel>(entity);
     }
 
-    public async Task<TModel?> GetByPredicate(Expression<Func<TModel, bool>> predicate, CancellationToken ct)
+    public async Task<List<TModel?>?> GetByPredicate(Expression<Func<TModel, bool>> predicate, CancellationToken ct)
     {
         var entityPred = _mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
         var entity = await _repository.GetByPredicate(entityPred, ct);
-        return _mapper.Map<TModel>(entity);
+        return _mapper.Map<List<TModel>>(entity);
     }
 }

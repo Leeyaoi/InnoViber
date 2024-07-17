@@ -5,6 +5,6 @@ namespace InnoViber.API.ViewModels.ChatRole;
 public class ChatRoleShortViewModel
 {
     public UserRoles Role { get; set; }
-    public Guid UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
     public Guid ChatId { get; set; }
 }

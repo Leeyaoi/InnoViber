@@ -12,7 +12,6 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
 
     public override Task<MessageEntity?> GetById(Guid Id, CancellationToken ct) => _dbSet.AsNoTracking()
                                                                                          .Where(x => x.Id == Id)
-                                                                                         .Include(x => x.User)
                                                                                          .Include(x => x.Chat)
                                                                                          .FirstOrDefaultAsync(ct);
 

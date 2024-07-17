@@ -69,11 +69,11 @@ public class ChatRoleServiceTests
     }
 
     [Theory, AutoData]
-    public async Task GetByPredicateTest_HasData_ReturnsMessage([NoAutoProperties] ChatRoleEntity message)
+    public async Task GetByPredicateTest_HasData_ReturnsMessage([NoAutoProperties] List<ChatRoleEntity> roles)
     {
         //Arrange
 
-        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Role == UserRoles.Owner, default)).ReturnsAsync(message);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Role == UserRoles.Owner, default)).ReturnsAsync(roles);
 
         //Act
 
@@ -81,8 +81,8 @@ public class ChatRoleServiceTests
 
         //Assert
 
-        var entity = _mapper.Map<ChatRoleEntity>(result);
-        entity.ShouldBeEquivalentTo(message);
+        var entity = _mapper.Map<List<ChatRoleEntity>>(result);
+        entity.ShouldBeEquivalentTo(roles);
     }
 
     [Theory, AutoData]

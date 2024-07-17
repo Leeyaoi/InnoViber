@@ -38,6 +38,12 @@ public class UsersService : IUserService
         return _mapper.Map<UserModel>(result);
     }
 
+    public async Task<UserModel> GetByAuthId(string authId, CancellationToken ct)
+    {
+        var result = await _repository.GetByPredicate(user => user.Auth0Id == authId, ct);
+        return _mapper.Map<UserModel>(result);
+    }
+
     public async Task<UserModel> Create(UserModel model, CancellationToken ct)
     {
         var entity = _mapper.Map<UserEntity>(model);
@@ -57,5 +63,16 @@ public class UsersService : IUserService
         var entity = _mapper.Map<UserEntity>(model);
         var result = await _repository.Update(entity, ct);
         return _mapper.Map<UserModel>(result);
+    }
+
+    public async Task<UserModel> GetOrCreate(UserModel model, CancellationToken ct)
+    {
+        var user = await GetByAuthId(model.Auth0Id, ct);
+        if (user == null)
+        {
+            var userContent = await Create(model, ct);
+            user = userContent;
+        }
+        return user;
     }
 }

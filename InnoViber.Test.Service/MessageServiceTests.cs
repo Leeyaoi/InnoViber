@@ -72,7 +72,7 @@ public class MessageServiceTests
     }
 
     [Theory, AutoData]
-    public async Task GetByPredicateTest_HasData_ReturnsMessage([NoAutoProperties] MessageEntity message)
+    public async Task GetByPredicateTest_HasData_ReturnsMessage([NoAutoProperties] List<MessageEntity> message)
     {
         //Arrange
 
@@ -84,7 +84,7 @@ public class MessageServiceTests
 
         //Assert
 
-        var entity = _mapper.Map<MessageEntity>(result);
+        var entity = _mapper.Map<List<MessageEntity>>(result);
         entity.ShouldBeEquivalentTo(message);
     }
 

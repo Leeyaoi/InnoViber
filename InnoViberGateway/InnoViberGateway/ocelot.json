@@ -3,26 +3,46 @@
         {
             "UpstreamPathTemplate": "/Chat/{everything}",
             "DownstreamPathTemplate": "/api/Chat/{everything}",
-            "ServiceName": "Chat",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ],
             "SwaggerKey": "Chat"
         },
         {
             "UpstreamPathTemplate": "/ChatRole/{everything}",
             "DownstreamPathTemplate": "/api/ChatRole/{everything}",
-            "ServiceName": "ChatRole",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ],
             "SwaggerKey": "ChatRole"
         },
         {
             "UpstreamPathTemplate": "/Message/{everything}",
             "DownstreamPathTemplate": "/api/Message/{everything}",
-            "ServiceName": "Message",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7060
+                }
+            ],
             "SwaggerKey": "Message"
         },
         {
-            "UpstreamPathTemplate": "/Users/{everything}",
-            "DownstreamPathTemplate": "/api/Users/{everything}",
-            "ServiceName": "Users",
-            "SwaggerKey": "Users"
+            "UpstreamPathTemplate": "/User/{everything}",
+            "DownstreamPathTemplate": "/api/User/{everything}",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7081
+                }
+            ],
+            "SwaggerKey": "User"
         }
     ],
     "SwaggerEndPoints": [
@@ -57,10 +77,10 @@
             ]
         },
         {
-            "Key": "Users",
+            "Key": "User",
             "Config": [
                 {
-                    "Name": "Users API",
+                    "Name": "User API",
                     "Version": "v1",
                     "Url": "https://localhost:7081/swagger/v1/swagger.json"
                 }

@@ -2,7 +2,6 @@
 using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.ChatRole;
 using InnoViber.API.ViewModels.Message;
-using InnoViber.API.ViewModels.User;
 using InnoViber.BLL.Models;
 using System.Linq.Expressions;
 
@@ -16,10 +15,6 @@ public class ApiLayerMapperProfile : Profile
         CreateMap<ChatViewModel, ChatShortViewModel>().ReverseMap();
         CreateMap<ChatModel, ChatShortViewModel>().ReverseMap();
         CreateMap<ChatModel, CreateChatViewModel>().ReverseMap();
-
-        CreateMap<UserViewModel, UserModel>().ReverseMap();
-        CreateMap<UserViewModel, UserShortViewModel>().ReverseMap();
-        CreateMap<UserModel, UserShortViewModel>().ReverseMap();
 
         CreateMap<MessageViewModel, MessageModel>().ReverseMap();
         CreateMap<MessageViewModel, MessageShortViewModel>().ReverseMap();

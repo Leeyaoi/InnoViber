@@ -4,6 +4,5 @@ namespace InnoViber.User.DAL.Interfaces;
 
 public interface IUserHttpService
 {
-    Task<List<ExternalUserModel>?> GetAllUsers(CancellationToken ct);
-    Task<ExternalUserModel?> GetUser(Guid userId, CancellationToken ct);
+    Task<ExternalUserModel?> GetUser(string userId, CancellationToken ct);
 }

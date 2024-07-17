@@ -11,7 +11,6 @@ public class ChatRoleRepository : GenericRepository<ChatRoleEntity>, IChatRoleRe
     { }
 
     public override Task<ChatRoleEntity?> GetById(Guid Id, CancellationToken ct) => _dbSet.AsNoTracking().Where(x => x.Id == Id)
-            .Include(x => x.User)
             .Include(x => x.Chat)
             .FirstOrDefaultAsync(ct);
 

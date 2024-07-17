@@ -1,9 +1,7 @@
 ﻿using AutoFixture.Xunit2;
 using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.Message;
-using InnoViber.API.ViewModels.User;
 using InnoViber.Test.Integration.Data;
-using Microsoft.AspNetCore.Http;
 using Shouldly;
 using System.Net.Http.Json;
 
@@ -19,15 +17,13 @@ public class MessagesControllerTests : BaseTestClass
     public async Task PostMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
+        request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
         //Act
-        var response = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);
+        var response = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request, default);
 
         //Assert
         response.ShouldNotBeNull();
@@ -37,21 +33,24 @@ public class MessagesControllerTests : BaseTestClass
     public async Task PutMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        Console.WriteLine(chatVM.ToString());
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
+        request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
-        var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);
+        Console.WriteLine(request.ToString());
+        var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request, default);
+        Console.WriteLine(message.ToString());
 
         //Act
-        var response = await _client.PutAsJsonAsync($"/api/Message/{message.Id}", request);
+        var response = await _client.PutAsJsonAsync($"/api/Message/{message.Id}", request, options: null, default);
+        Console.WriteLine(response.ToString());
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var userResponse = await response.Content.ReadFromJsonAsync<MessageViewModel>();
+        var userResponse = await response.Content.ReadFromJsonAsync<MessageViewModel>(default);
+        Console.WriteLine(userResponse.ToString());
 
         userResponse.ShouldNotBeNull();
     }
@@ -71,17 +70,15 @@ public class MessagesControllerTests : BaseTestClass
     public async Task DeleteMessage_HasData_ReturnsOk(MessageShortViewModel request)
     {
         //Arrange
-        var userVM = UserViewModels.ShortUser;
         var chatVM = ChatViewModels.ShortChat;
-        var user = await AddModelToDatabase<UserViewModel, UserShortViewModel>("/api/User", userVM);
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
-        request.UserId = user.Id;
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
+        request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
-        var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);
+        var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request, default);
 
         //Act
-        var response = await _client.DeleteAsync($"/api/Message/{message.Id}");
+        var response = await _client.DeleteAsync($"/api/Message/{message.Id}", default);
 
         //Assert
         response.EnsureSuccessStatusCode();

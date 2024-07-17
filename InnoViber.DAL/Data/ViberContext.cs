@@ -17,8 +17,6 @@ public class ViberContext : DbContext
         }
     }
 
-    public DbSet<UserEntity> Users { get; set; }
-
     public DbSet<MessageEntity> Messages { get; set; }
 
     public DbSet<ChatEntity> Chats { get; set; }

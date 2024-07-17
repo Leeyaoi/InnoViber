@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.ChatRole;
 using InnoViber.Domain.Enums;
-using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InnoViber.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class ChatController : ControllerBase
 {
     private readonly IChatService _service;
@@ -26,51 +27,51 @@ public class ChatController : ControllerBase
 
     // GET: api/<ChatController>
     [HttpGet]
-    public async Task<IEnumerable<ChatViewModel>> Get()
+    public async Task<IEnumerable<ChatViewModel>> Get(CancellationToken ct)
     {
-        var models = await _service.GetAll(default);
+        var models = await _service.GetAll(ct);
         return _mapper.Map<List<ChatViewModel>>(models);
     }
 
     // GET api/<ChatController>/5
     [HttpGet("{id}")]
-    public async Task<ChatViewModel> GetById(Guid id)
+    public async Task<ChatViewModel> GetById(Guid id, CancellationToken ct)
     {
-        var model = await _service.GetById(id, default);
+        var model = await _service.GetById(id, ct);
         return _mapper.Map<ChatViewModel>(model);
     }
 
     // GET api/<ChatController>/user/5
     [HttpGet("user/{userId}")]
-    public async Task<IEnumerable<ChatViewModel>> GetByUserId(Guid userId)
+    public async Task<IEnumerable<ChatViewModel>> GetByUserId(string userId, CancellationToken ct)
     {
-        var model = await _service.GetByUserId(userId, default);
+        var model = await _service.GetByUserId(userId, ct);
         return _mapper.Map<IEnumerable<ChatViewModel>>(model);
     }
 
     // POST api/<ChatController>
     [HttpPost]
-    public async Task<ChatViewModel> Create([FromBody] CreateChatViewModel chat)
+    public async Task<ChatViewModel> Create([FromBody] CreateChatViewModel chat, CancellationToken ct)
     {
         var model = _mapper.Map<ChatModel>(chat);
-        var chatModel = await _service.Create(model, default);
-        await _roleController.Create(new ChatRoleShortViewModel { Role = UserRoles.Owner, ChatId = chatModel.Id, UserId = chat.UserId});
+        var chatModel = await _service.Create(model, ct);
+        await _roleController.Create(new ChatRoleShortViewModel { Role = UserRoles.Owner, ChatId = chatModel.Id, UserId = chat.UserId}, ct);
         return _mapper.Map<ChatViewModel>(chatModel);
     }
 
     // PUT api/<ChatController>/5
     [HttpPut("{id}")]
-    public async Task<ChatViewModel> Update(Guid id, [FromBody] ChatShortViewModel chat)
+    public async Task<ChatViewModel> Update(Guid id, [FromBody] ChatShortViewModel chat, CancellationToken ct)
     {
         var model = _mapper.Map<ChatModel>(chat);
-        var chatModel = await _service.Update(id, model, default);
+        var chatModel = await _service.Update(id, model, ct);
         return _mapper.Map<ChatViewModel>(chatModel);
     }
 
     // DELETE api/<ChatController>/5
     [HttpDelete("{id}")]
-    public Task Delete(Guid id)
+    public Task Delete(Guid id, CancellationToken ct)
     {
-        return _service.Delete(id, default);
+        return _service.Delete(id, ct);
     }
 }
