@@ -2,7 +2,6 @@
 using InnoViber.API.ViewModels.Chat;
 using InnoViber.API.ViewModels.Message;
 using InnoViber.Test.Integration.Data;
-using Microsoft.AspNetCore.Http;
 using Shouldly;
 using System.Net.Http.Json;
 
@@ -19,12 +18,12 @@ public class MessagesControllerTests : BaseTestClass
     {
         //Arrange
         var chatVM = ChatViewModels.ShortChat;
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
         request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
         //Act
-        var response = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);
+        var response = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request, default);
 
         //Assert
         response.ShouldNotBeNull();
@@ -36,21 +35,21 @@ public class MessagesControllerTests : BaseTestClass
         //Arrange
         var chatVM = ChatViewModels.ShortChat;
         Console.WriteLine(chatVM.ToString());
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
         request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
         Console.WriteLine(request.ToString());
-        var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);
+        var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request, default);
         Console.WriteLine(message.ToString());
 
         //Act
-        var response = await _client.PutAsJsonAsync($"/api/Message/{message.Id}", request);
+        var response = await _client.PutAsJsonAsync($"/api/Message/{message.Id}", request, options: null, default);
         Console.WriteLine(response.ToString());
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var userResponse = await response.Content.ReadFromJsonAsync<MessageViewModel>();
+        var userResponse = await response.Content.ReadFromJsonAsync<MessageViewModel>(default);
         Console.WriteLine(userResponse.ToString());
 
         userResponse.ShouldNotBeNull();
@@ -72,14 +71,14 @@ public class MessagesControllerTests : BaseTestClass
     {
         //Arrange
         var chatVM = ChatViewModels.ShortChat;
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
         request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
-        var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request);
+        var message = await AddModelToDatabase<MessageViewModel, MessageShortViewModel>("/api/Message", request, default);
 
         //Act
-        var response = await _client.DeleteAsync($"/api/Message/{message.Id}");
+        var response = await _client.DeleteAsync($"/api/Message/{message.Id}", default);
 
         //Assert
         response.EnsureSuccessStatusCode();

@@ -6,6 +6,7 @@ using InnoViber.Test.Integration.Data;
 using Microsoft.AspNetCore.Http;
 using Shouldly;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace InnoViber.Test.Integration;
 
@@ -20,12 +21,12 @@ public class ChatRoleControllerTests : BaseTestClass
     {
         //Arrange
         var chatVM = ChatViewModels.ShortChat;
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
         request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
         //Act
-        var response = await AddModelToDatabase<ChatRoleViewModel, ChatRoleShortViewModel>("/api/ChatRole", request);
+        var response = await AddModelToDatabase<ChatRoleViewModel, ChatRoleShortViewModel>("/api/ChatRole", request, default);
 
         //Assert
         response.ShouldNotBeNull();
@@ -36,18 +37,18 @@ public class ChatRoleControllerTests : BaseTestClass
     {
         //Arrange
         var chatVM = ChatViewModels.ShortChat;
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
         request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
-        var role = await AddModelToDatabase<ChatRoleViewModel, ChatRoleShortViewModel>("/api/ChatRole", request);
+        var role = await AddModelToDatabase<ChatRoleViewModel, ChatRoleShortViewModel>("/api/ChatRole", request, default);
 
         //Act
-        var response = await _client.PutAsJsonAsync($"/api/ChatRole/{role.Id}", request);
+        var response = await _client.PutAsJsonAsync($"/api/ChatRole/{role.Id}", request, options: null, default);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var userResponse = await response.Content.ReadFromJsonAsync<MessageViewModel>();
+        var userResponse = await response.Content.ReadFromJsonAsync<MessageViewModel>(default);
 
         userResponse.ShouldNotBeNull();
     }
@@ -68,14 +69,14 @@ public class ChatRoleControllerTests : BaseTestClass
     {
         //Arrange
         var chatVM = ChatViewModels.ShortChat;
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM);
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", chatVM, default);
         request.UserId = Guid.NewGuid().ToString();
         request.ChatId = chat.Id;
 
-        var role = await AddModelToDatabase<ChatRoleViewModel, ChatRoleShortViewModel>("/api/ChatRole", request);
+        var role = await AddModelToDatabase<ChatRoleViewModel, ChatRoleShortViewModel>("/api/ChatRole", request, default);
 
         //Act
-        var response = await _client.DeleteAsync($"/api/ChatRole/{role.Id}");
+        var response = await _client.DeleteAsync($"/api/ChatRole/{role.Id}", default);
 
         //Assert
         response.EnsureSuccessStatusCode();

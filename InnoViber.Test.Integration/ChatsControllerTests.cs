@@ -19,7 +19,7 @@ public class ChatsControllerTests : BaseTestClass
         var request = ChatViewModels.ShortChat;
 
         //Act
-        var response = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", request);
+        var response = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", request, default);
 
         //Assert
         response.ShouldNotBeNull();
@@ -30,14 +30,14 @@ public class ChatsControllerTests : BaseTestClass
     {
         // Arrange
         var request = ChatViewModels.ShortChat;
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", request);
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", request, default);
 
         //Act
-        var response = await _client.PutAsJsonAsync($"/api/Chat/{chat.Id}", request);
+        var response = await _client.PutAsJsonAsync($"/api/Chat/{chat.Id}", request, options: null, default);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var userResponse = await response.Content.ReadFromJsonAsync<ChatViewModel>();
+        var userResponse = await response.Content.ReadFromJsonAsync<ChatViewModel>(default);
 
         userResponse.ShouldNotBeNull();
     }
@@ -58,10 +58,10 @@ public class ChatsControllerTests : BaseTestClass
     {
         //Arrange
         var request = ChatViewModels.ShortChat;
-        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", request);
+        var chat = await AddModelToDatabase<ChatViewModel, ChatShortViewModel>("/api/Chat", request, default);
 
         //Act
-        var response = await _client.DeleteAsync($"/api/Chat/{chat.Id}");
+        var response = await _client.DeleteAsync($"/api/Chat/{chat.Id}", default);
 
         //Assert
         response.EnsureSuccessStatusCode();
