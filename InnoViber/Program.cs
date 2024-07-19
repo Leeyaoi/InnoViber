@@ -8,6 +8,7 @@ using MassTransit;
 using Microsoft.Net.Http.Headers;
 using InnoViber.API.Middleware;
 using dotenv.net;
+using InnoViber.API.Hubs;
 
 namespace InnoViber;
 
@@ -27,7 +28,6 @@ public class Program
             {
                 policy.WithOrigins(builder.Configuration.GetValue<string>("AUTH0_CLIENT_ORIGIN")!)
                     .WithHeaders(
-                        HeaderNames.ContentType,
                         HeaderNames.Authorization
                     )
                     .AllowAnyMethod()
@@ -53,6 +53,8 @@ public class Program
 
         builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(BuisnessLayerDependencies).Assembly);
 
+        builder.Services.AddMemoryCache();
+
         var app = builder.Build();
 
         app.UseExeptionHandlerMiddleware();
@@ -72,6 +74,7 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+        app.UseDefaultFiles();
 
         app.UseRouting();
 
@@ -81,10 +84,13 @@ public class Program
             name: "default",
             pattern: "{controller}/{action}/{id?}");
 
-        app.UseCors(builder => builder
-            .AllowAnyOrigin()
+        app.MapHub<ChatHub>("/chatHub").RequireCors();
+
+        app.UseCors(corsBuilder => corsBuilder
+            .WithOrigins(builder.Configuration.GetValue<string>("AUTH0_CLIENT_ORIGIN")!)
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader()
+            .AllowCredentials());
 
         app.UseAuthentication();
         app.UseAuthorization();

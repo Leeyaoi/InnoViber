@@ -45,8 +45,8 @@ public class UserController : ControllerBase
         return _mapper.Map<UserViewModel>(model);
     }
 
-    // GET api/<UserController>/auth
-    [HttpGet("auth")]
+    // POST api/<UserController>/auth
+    [HttpPost("auth")]
     public async Task<UserViewModel> GetOrCreate([FromBody] UserShortViewModel vm, CancellationToken ct)
     {
         var model = _mapper.Map<UserModel>(vm);

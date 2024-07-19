@@ -3,14 +3,17 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.ChatRole;
-using System.Web.Http.Cors;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNet.SignalR;
+using InnoViber.API.Hubs;
+using InnoViber.API.ViewModels.Message;
+using InnoViber.Domain.Enums;
 
 namespace InnoViber.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+[Microsoft.AspNetCore.Authorization.Authorize]
 public class ChatRoleController : ControllerBase
 {
     private readonly IChatRoleService _service;

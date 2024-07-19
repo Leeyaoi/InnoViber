@@ -21,6 +21,8 @@ public static class ApiLayerDependencies
 
         builder.Services.AddFluentValidationAutoValidation();
 
+        builder.Services.AddSignalR();
+
         builder.Services.AddValidatorsFromAssemblyContaining<ChatShortViewModel>();
 
         var authority = $"https://{builder.Configuration.GetValue<string>("AUTH0_DOMAIN")}/";
