@@ -3,7 +3,6 @@ using InnoViber.BLL.Interfaces;
 using InnoViber.BLL.Models;
 using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Entities;
-using InnoViber.Domain.Providers;
 using InnoViber.Domain.Enums;
 
 namespace InnoViber.BLL.Services;
@@ -11,7 +10,7 @@ namespace InnoViber.BLL.Services;
 public class ChatRoleService : GenericService<ChatRoleModel, ChatRoleEntity>, IChatRoleService
 {
     private readonly IMapper _mapper;
-    private readonly IGenericRepository<ChatRoleEntity> _repository;
+    private readonly IChatRoleRepository _repository;
 
     public ChatRoleService(IMapper mapper, IChatRoleRepository repository) : base(mapper, repository) 
     {
@@ -23,6 +22,24 @@ public class ChatRoleService : GenericService<ChatRoleModel, ChatRoleEntity>, IC
     {
         var entities = await _repository.GetByPredicate(role => role.ChatId == chatId, ct);
         return _mapper.Map<List<ChatRoleModel>>(entities);
+    }
+
+    public async Task<PaginatedModel<ChatRoleModel>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct)
+    {
+        var entities = await _repository.PaginateByChatId(chatId, limit, page, ct, out int total);
+        var models = _mapper.Map<List<ChatRoleModel>>(entities);
+        int count = total / limit;
+        if (total % limit != 0)
+        {
+            count++;
+        }
+        return new PaginatedModel<ChatRoleModel>
+        {
+            Limit = limit,
+            Page = page,
+            Count = count,
+            Items = models
+        };
     }
 
     public async Task<ChatRoleModel> UpdateRole(UserRoles role, ChatRoleModel model, CancellationToken ct)

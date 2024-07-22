@@ -10,10 +10,20 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
     public MessageRepository(ViberContext context) : base(context)
     { }
 
-    public override Task<MessageEntity?> GetById(Guid Id, CancellationToken ct) => _dbSet.AsNoTracking()
-                                                                                         .Where(x => x.Id == Id)
-                                                                                         .Include(x => x.Chat)
-                                                                                         .FirstOrDefaultAsync(ct);
+    public override Task<MessageEntity?> GetById(Guid Id, CancellationToken ct) 
+        => _dbSet.AsNoTracking().Where(x => x.Id == Id).Include(x => x.Chat).FirstOrDefaultAsync(ct);
+
+    public Task<List<MessageEntity>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct, out int total, out int count)
+    {
+        var data = _dbSet.AsNoTracking().Where(x => x.ChatId == chatId);
+        total = data.Count();
+        count = total/limit;
+        if (total % limit != 0) 
+        {
+            count++;
+        }
+        return data.Skip((page - 1) * limit).Take(limit).Reverse().ToListAsync();
+    }
 
     public override async Task<MessageEntity> Update(MessageEntity entity, CancellationToken ct)
     {
@@ -23,8 +33,6 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
         return result.Entity;
     }
 
-    public override Task<List<MessageEntity>> GetAll(CancellationToken ct) => _dbSet.AsNoTracking()
-                                                                                    .Include(x => x.Chat)
-                                                                                    .ThenInclude(c => c.Roles)
-                                                                                    .ToListAsync(ct);
+    public override Task<List<MessageEntity>> GetAll(CancellationToken ct) 
+        => _dbSet.AsNoTracking().Include(x => x.Chat).ThenInclude(c => c.Roles).ToListAsync(ct);
 }

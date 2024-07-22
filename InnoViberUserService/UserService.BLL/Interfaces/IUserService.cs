@@ -21,4 +21,6 @@ public interface IUserService
     Task Delete(Guid id, CancellationToken ct);
 
     Task<UserModel> Update(Guid id, UserModel model, CancellationToken ct);
+
+    Task<List<string>> GetNames(List<string> ids, CancellationToken ct);
 }

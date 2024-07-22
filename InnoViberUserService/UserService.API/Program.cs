@@ -32,6 +32,8 @@ public static class Program
                     )
                     .AllowAnyMethod()
                     .SetPreflightMaxAge(TimeSpan.FromSeconds(86400));
+                policy.WithOrigins(builder.Configuration.GetValue<string>("MAIN_API")!)
+                    .AllowAnyMethod().AllowAnyHeader();
             });
         });
         builder.Services.AddEndpointsApiExplorer();

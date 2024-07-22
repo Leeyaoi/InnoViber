@@ -12,7 +12,7 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
 {
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IMapper _mapper;
-    private readonly IGenericRepository<MessageEntity> _repository;
+    private readonly IMessageRepository _repository;
 
     public MessageService(IMapper mapper, IMessageRepository repository, IDateTimeProvider dateTimeProvider) 
         : base(mapper, repository)
@@ -36,6 +36,19 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
     {
         var entities = await _repository.GetByPredicate(message => message.ChatId == chatId, ct);
         return _mapper.Map<List<MessageModel>>(entities);
+    }
+
+    public async Task<PaginatedModel<MessageModel>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct)
+    {
+        var entities = await _repository.PaginateByChatId(chatId, limit, page, ct, out int total, out int count);
+        var models = _mapper.Map<List<MessageModel>>(entities);
+        return new PaginatedModel<MessageModel>
+        {
+            Limit = limit,
+            Page = page,
+            Count = count,
+            Items = models
+        };
     }
 
     public override async Task<MessageModel> Update(Guid id, MessageModel model, CancellationToken ct)
