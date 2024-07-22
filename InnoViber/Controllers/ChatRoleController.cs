@@ -4,10 +4,7 @@ using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.ChatRole;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNet.SignalR;
-using InnoViber.API.Hubs;
-using InnoViber.API.ViewModels.Message;
-using InnoViber.Domain.Enums;
+using InnoViber.Domain;
 
 namespace InnoViber.Controllers;
 
@@ -43,10 +40,25 @@ public class ChatRoleController : ControllerBase
 
     // GET api/<ChatRoleController>/chat/5
     [HttpGet("chat/{chatId}")]
-    public async Task<IEnumerable<ChatRoleViewModel>> GetByChatId(Guid chatId, CancellationToken ct)
+    public async Task<PaginatedModel<ChatRoleViewModel>> GetByChatId(Guid chatId, CancellationToken ct, int? page)
     {
-        var model = await _service.GetByChatId(chatId, ct);
-        return _mapper.Map<IEnumerable<ChatRoleViewModel>>(model);
+        if(page is null)
+        {
+            var model = await _service.GetByChatId(chatId, ct);
+            return new PaginatedModel<ChatRoleViewModel> {Items = _mapper.Map<List<ChatRoleViewModel>>(model)};
+        }
+        else
+        {
+            PaginatedModel<ChatRoleModel> models = await _service.PaginateByChatId(chatId, Constants.LIMIT, page ?? 1, ct);
+            var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models.Items);
+            return new PaginatedModel<ChatRoleViewModel>
+            {
+                Items = viewModels,
+                Limit = Constants.LIMIT,
+                Page = page,
+                Count = models.Count,
+            };
+        }
     }
 
     // POST api/<ChatRoleController>

@@ -14,6 +14,13 @@ public class ChatRoleRepository : GenericRepository<ChatRoleEntity>, IChatRoleRe
             .Include(x => x.Chat)
             .FirstOrDefaultAsync(ct);
 
+    public Task<List<ChatRoleEntity>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct, out int total)
+    {
+        var data = _dbSet.AsNoTracking().Where(x => x.ChatId == chatId);
+        total = data.Count();
+        return data.Skip((page - 1) * limit).Take(limit).ToListAsync();
+    }
+
     public override async Task<ChatRoleEntity> Update(ChatRoleEntity entity, CancellationToken ct)
     {
         var result = _dbSet.Update(entity);

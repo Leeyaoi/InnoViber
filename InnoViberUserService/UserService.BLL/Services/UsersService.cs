@@ -75,4 +75,15 @@ public class UsersService : IUserService
         }
         return user;
     }
+
+    public async Task<List<string>> GetNames(List<string> ids, CancellationToken ct)
+    {
+        var users = new List<string>();
+        foreach(var id in ids)
+        {
+            var user = await GetByAuthId(id, ct);
+            users.Add(user.NickName);
+        }
+        return users;
+    }
 }
