@@ -3,7 +3,6 @@ using InnoViber.BLL.Models;
 using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.ChatRole;
-using System.Web.Http.Cors;
 using Microsoft.AspNetCore.Authorization;
 
 namespace InnoViber.Controllers;
@@ -44,6 +43,22 @@ public class ChatRoleController : ControllerBase
     {
         var model = await _service.GetByChatId(chatId, ct);
         return _mapper.Map<IEnumerable<ChatRoleViewModel>>(model);
+    }
+
+    // GET: api/<ChatRoleController>/chat/5/1/1
+    [HttpGet("chat/{chatId}/{limit}/{page}")]
+    public async Task<PaginatedModel<ChatRoleViewModel>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct)
+    {
+        var models = await _service.PaginateByChatId(chatId, limit, page, ct);
+        var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models.Items);
+        return new PaginatedModel<ChatRoleViewModel>
+        {
+            Items = viewModels,
+            Limit = limit,
+            Page = page,
+            Count = models.Count,
+            Total = models.Total,
+        };
     }
 
     // POST api/<ChatRoleController>

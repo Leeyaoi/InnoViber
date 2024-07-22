@@ -36,22 +36,22 @@ public class CheckIsSeenMessagesService : BackgroundService
                 messages = await messageService.GetAll(stoppingToken);
             }
 
-            foreach (var message in messages)
-            {
-                var howLong = (_dateTimeProvider.GetDate() - message.Date).TotalMinutes;
-                var author = await GetAuthorName(message);
-                if (!message.IsSeen && howLong > 20)
-                {
-                    var users = await GetUsers(message);
-                    foreach (var user in users)
-                    {
-                        if (user.Email != "")
-                        {
-                            await Publish(user, author, message.Chat.Name, howLong);
-                        }
-                    }
-                }
-            }
+            //foreach (var message in messages)
+            //{
+            //    var howLong = (_dateTimeProvider.GetDate() - message.Date).TotalMinutes;
+            //    var author = await GetAuthorName(message);
+            //    if (!message.IsSeen && howLong > 20)
+            //    {
+            //        var users = await GetUsers(message);
+            //        foreach (var user in users)
+            //        {
+            //            if (user.Email != "")
+            //            {
+            //                await Publish(user, author, message.Chat.Name, howLong);
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 

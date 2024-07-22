@@ -49,6 +49,22 @@ public class ChatController : ControllerBase
         return _mapper.Map<IEnumerable<ChatViewModel>>(model);
     }
 
+    // GET: api/<ChatController>/user/5/1/1
+    [HttpGet("user/{userId}/{limit}/{page}")]
+    public async Task<PaginatedModel<ChatViewModel>> PaginateByUserId(string userId, int limit, int page, CancellationToken ct)
+    {
+        var models = await _service.PaginateByUserId(userId, limit, page, ct);
+        var viewModels = _mapper.Map<List<ChatViewModel>>(models.Items);
+        return new PaginatedModel<ChatViewModel>
+        {
+            Items = viewModels,
+            Limit = limit,
+            Page = page,
+            Count = models.Count,
+            Total = models.Total,
+        };
+    }
+
     // POST api/<ChatController>
     [HttpPost]
     public async Task<ChatViewModel> Create([FromBody] CreateChatViewModel chat, CancellationToken ct)
