@@ -35,7 +35,6 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
         {
             Limit = limit,
             Page = page,
-            Total = total,
             Count = count,
             Items = models
         };

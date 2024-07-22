@@ -4,6 +4,7 @@ using InnoViber.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InnoViber.API.ViewModels.ChatRole;
 using Microsoft.AspNetCore.Authorization;
+using InnoViber.Domain;
 
 namespace InnoViber.Controllers;
 
@@ -39,26 +40,25 @@ public class ChatRoleController : ControllerBase
 
     // GET api/<ChatRoleController>/chat/5
     [HttpGet("chat/{chatId}")]
-    public async Task<IEnumerable<ChatRoleViewModel>> GetByChatId(Guid chatId, CancellationToken ct)
+    public async Task<PaginatedModel<ChatRoleViewModel>> GetByChatId(Guid chatId, CancellationToken ct, int? page)
     {
-        var model = await _service.GetByChatId(chatId, ct);
-        return _mapper.Map<IEnumerable<ChatRoleViewModel>>(model);
-    }
-
-    // GET: api/<ChatRoleController>/chat/5/1/1
-    [HttpGet("chat/{chatId}/{limit}/{page}")]
-    public async Task<PaginatedModel<ChatRoleViewModel>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct)
-    {
-        var models = await _service.PaginateByChatId(chatId, limit, page, ct);
-        var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models.Items);
-        return new PaginatedModel<ChatRoleViewModel>
+        if(page is null)
         {
-            Items = viewModels,
-            Limit = limit,
-            Page = page,
-            Count = models.Count,
-            Total = models.Total,
-        };
+            var model = await _service.GetByChatId(chatId, ct);
+            return new PaginatedModel<ChatRoleViewModel> {Items = _mapper.Map<List<ChatRoleViewModel>>(model)};
+        }
+        else
+        {
+            PaginatedModel<ChatRoleModel> models = await _service.PaginateByChatId(chatId, Constants.LIMIT, page ?? 1, ct);
+            var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models.Items);
+            return new PaginatedModel<ChatRoleViewModel>
+            {
+                Items = viewModels,
+                Limit = Constants.LIMIT,
+                Page = page,
+                Count = models.Count,
+            };
+        }
     }
 
     // POST api/<ChatRoleController>

@@ -37,7 +37,6 @@ public class ChatRoleService : GenericService<ChatRoleModel, ChatRoleEntity>, IC
         {
             Limit = limit,
             Page = page,
-            Total = total,
             Count = count,
             Items = models
         };

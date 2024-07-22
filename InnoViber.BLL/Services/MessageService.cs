@@ -46,7 +46,6 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
         {
             Limit = limit,
             Page = page,
-            Total = total,
             Count = count,
             Items = models
         };

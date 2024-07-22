@@ -54,6 +54,13 @@ public class UserController : ControllerBase
         return _mapper.Map<UserViewModel>(result);
     }
 
+    // POST api/<UserController>/names
+    [HttpPost("names")]
+    public Task<List<string>> GetNames([FromBody] List<string> ids, CancellationToken ct)
+    {
+        return _service.GetNames(ids, ct);
+    }
+
     // POST api/<UserController>
     [HttpPost]
     public async Task<UserViewModel> Create([FromBody] UserShortViewModel vm, CancellationToken ct)

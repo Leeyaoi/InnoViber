@@ -4,7 +4,7 @@ using InnoViber.BLL.Interfaces;
 using InnoViber.API.ViewModels.Message;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using InnoViber.API.ViewModels;
+using InnoViber.Domain;
 
 namespace InnoViber.Controllers;
 
@@ -40,26 +40,25 @@ public class MessageController : ControllerBase
 
     // GET api/<MessageController>/chat/5
     [HttpGet("Chat/{chatId}")]
-    public async Task<IEnumerable<MessageViewModel>> GetByChatId(Guid chatId, CancellationToken ct)
+    public async Task<PaginatedModel<MessageViewModel>> GetByChatId(Guid chatId, CancellationToken ct, int? page)
     {
-        var model = await _service.GetByChatId(chatId, ct);
-        return _mapper.Map<IEnumerable<MessageViewModel>>(model);
-    }
-
-    // GET: api/<MessageController>/chat/5/1/1
-    [HttpGet("chat/{chatId}/{limit}/{page}")]
-    public async Task<PaginatedModel<MessageViewModel>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct)
-    {
-        var models = await _service.PaginateByChatId(chatId, limit, page, ct);
-        var viewModels =  _mapper.Map<List<MessageViewModel>>(models.Items);
-        return new PaginatedModel<MessageViewModel>
+        if(page == null)
         {
-            Items = viewModels,
-            Limit = limit,
-            Page = page,
-            Count = models.Count,
-            Total = models.Total,
-        };
+            var model = await _service.GetByChatId(chatId, ct);
+            return new PaginatedModel<MessageViewModel> { Items = _mapper.Map<List<MessageViewModel>>(model)};
+        }
+        else
+        {
+            PaginatedModel<MessageModel> models = await _service.PaginateByChatId(chatId, Constants.LIMIT, page ?? 1, ct);
+            var viewModels =  _mapper.Map<List<MessageViewModel>>(models.Items);
+            return new PaginatedModel<MessageViewModel>
+            {
+                Items = viewModels,
+                Limit = Constants.LIMIT,
+                Page = page,
+                Count = models.Count,
+            };
+        }
     }
 
     // POST api/<MessageController>
