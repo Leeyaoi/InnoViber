@@ -15,14 +15,14 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
 
     public Task<List<MessageEntity>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct, out int total, out int count)
     {
-        total = _dbSet.AsNoTracking().Where(x => x.ChatId == chatId).Count();
+        var data = _dbSet.AsNoTracking().Where(x => x.ChatId == chatId);
+        total = data.Count();
         count = total/limit;
         if (total % limit != 0) 
         {
             count++;
         }
-        return _dbSet.AsNoTracking().Where(x => x.ChatId == chatId).OrderByDescending(x => x.Date)
-            .Skip((page - 1) * limit).Take(limit).Reverse().ToListAsync();
+        return data.Skip((page - 1) * limit).Take(limit).Reverse().ToListAsync();
     }
 
     public override async Task<MessageEntity> Update(MessageEntity entity, CancellationToken ct)
