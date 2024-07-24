@@ -8,6 +8,7 @@ using InnoViber.DAL.Interfaces;
 using InnoViber.DAL.Entities;
 using Moq;
 using Shouldly;
+using InnoViber.BLL.Interfaces;
 
 namespace InnoViber.Test.Service;
 
@@ -15,6 +16,7 @@ public class ChatServiceTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<IChatRepository> _repoMock;
+    private readonly Mock<IMessageService> _messMock;
     private readonly ChatService _service;
 
     public ChatServiceTests()
@@ -29,7 +31,9 @@ public class ChatServiceTests
 
         _repoMock = new Mock<IChatRepository>();
 
-        _service = new ChatService(_mapper, _repoMock.Object);
+        _messMock = new Mock<IMessageService>();
+
+        _service = new ChatService(_mapper, _repoMock.Object, _messMock.Object);
     }
 
     [Theory, AutoData]

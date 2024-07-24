@@ -44,6 +44,7 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
         var models = _mapper.Map<List<MessageModel>>(entities);
         return new PaginatedModel<MessageModel>
         {
+            Total = total,
             Limit = limit,
             Page = page,
             Count = count,

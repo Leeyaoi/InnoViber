@@ -53,6 +53,7 @@ public class MessageController : ControllerBase
             var viewModels =  _mapper.Map<List<MessageViewModel>>(models.Items);
             return new PaginatedModel<MessageViewModel>
             {
+                Total = models.Total,
                 Items = viewModels,
                 Limit = Constants.LIMIT,
                 Page = page,

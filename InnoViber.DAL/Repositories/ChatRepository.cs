@@ -17,7 +17,12 @@ public class ChatRepository : GenericRepository<ChatEntity>, IChatRepository
 
     public Task<List<ChatEntity>> PaginateByUserId(string UserId, int limit, int page, CancellationToken ct, out int total)
     {
-        var data = _dbSet.AsNoTracking().Include(x => x.Roles).Where(x => x.Roles.Any(r => r.UserId == UserId));
+        var data = _dbSet.AsNoTracking()
+            .Include(x => x.Roles)
+            .Where(x => x.Roles.Any(r => r.UserId == UserId))
+            .Include(x => x.Messages.Max(m => m.Date))
+            .OrderByDescending(x => x.CreatedAt)
+            .ThenByDescending(x => x.Messages.Max(m => m.Date));
         total = data.Count();
         return data.Skip((page - 1) * limit).Take(limit).ToListAsync();
     }

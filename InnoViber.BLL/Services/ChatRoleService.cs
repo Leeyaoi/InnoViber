@@ -35,6 +35,7 @@ public class ChatRoleService : GenericService<ChatRoleModel, ChatRoleEntity>, IC
         }
         return new PaginatedModel<ChatRoleModel>
         {
+            Total = total,
             Limit = limit,
             Page = page,
             Count = count,
