@@ -10,8 +10,11 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
 {
     private readonly IMapper _mapper;
     private readonly IChatRepository _repository;
-    public ChatService(IMapper mapper, IChatRepository repository) : base(mapper, repository)
+    private readonly IMessageService _messageService;
+
+    public ChatService(IMapper mapper, IChatRepository repository, IMessageService messageService) : base(mapper, repository)
     {
+        _messageService = messageService;
         _mapper = mapper;
         _repository = repository;
     }
@@ -19,7 +22,8 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
     public async Task<List<ChatModel>> GetByUserId(string userId, CancellationToken ct)
     {
         var entities = await _repository.GetByPredicate(chat => chat.Roles.Any(role => role.UserId == userId), ct);
-        return _mapper.Map<List<ChatModel>>(entities);
+        var models = _mapper.Map<List<ChatModel>>(entities);
+        return await GetLastMessages(models, ct);
     }
 
     public async Task<PaginatedModel<ChatModel>> PaginateByUserId(string userId, int limit, int page, CancellationToken ct)
@@ -31,12 +35,31 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
         {
             count++;
         }
+        models = await GetLastMessages(models, ct);
         return new PaginatedModel<ChatModel>
         {
+            Total = total,
             Limit = limit,
             Page = page,
             Count = count,
             Items = models
         };
+    }
+
+    private async Task<List<ChatModel>> GetLastMessages(List<ChatModel> chats, CancellationToken ct)
+    {
+        foreach(var chat in chats)
+        {
+            var lastMessage = await _messageService.PaginateByChatId(chat.Id, 1, 1, ct);
+
+            if (lastMessage is not null)
+            {
+                chat.LastMessageText = lastMessage.Items![0].Text;
+                chat.LastMessageUserId = lastMessage.Items![0].UserId;
+                chat.LastMessageDate = lastMessage.Items![0].Date;
+            }
+        }
+
+        return chats.OrderByDescending(x => x.LastMessageDate ?? DateTime.UnixEpoch).ToList();
     }
 }

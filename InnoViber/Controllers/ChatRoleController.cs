@@ -53,6 +53,7 @@ public class ChatRoleController : ControllerBase
             var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models.Items);
             return new PaginatedModel<ChatRoleViewModel>
             {
+                Total = models.Total,
                 Items = viewModels,
                 Limit = Constants.LIMIT,
                 Page = page,

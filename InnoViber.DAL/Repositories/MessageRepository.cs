@@ -15,7 +15,7 @@ public class MessageRepository : GenericRepository<MessageEntity>, IMessageRepos
 
     public Task<List<MessageEntity>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct, out int total, out int count)
     {
-        var data = _dbSet.AsNoTracking().Where(x => x.ChatId == chatId);
+        var data = _dbSet.AsNoTracking().Where(x => x.ChatId == chatId).OrderByDescending(x => x.Date);
         total = data.Count();
         count = total/limit;
         if (total % limit != 0) 
