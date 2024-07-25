@@ -40,7 +40,7 @@ public class ChatRoleController : ControllerBase
 
     // GET api/<ChatRoleController>/chat/5
     [HttpGet("chat/{chatId}")]
-    public async Task<PaginatedModel<ChatRoleViewModel>> GetByChatId(Guid chatId, CancellationToken ct, int? page)
+    public async Task<PaginatedModel<ChatRoleViewModel>> GetByChatId(Guid chatId, CancellationToken ct, int? page, string? userId)
     {
         if(page is null)
         {
@@ -51,6 +51,17 @@ public class ChatRoleController : ControllerBase
         {
             PaginatedModel<ChatRoleModel> models = await _service.PaginateByChatId(chatId, Constants.LIMIT, page ?? 1, ct);
             var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models.Items);
+            if(userId is not null)
+            {
+                return new PaginatedModel<ChatRoleViewModel>
+                {
+                    Total = models.Total,
+                    Items = [viewModels.Find(x => x.UserId == userId)],
+                    Limit = 1,
+                    Page = 1,
+                    Count = 1,
+                };
+            }
             return new PaginatedModel<ChatRoleViewModel>
             {
                 Total = models.Total,
