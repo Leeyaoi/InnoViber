@@ -72,10 +72,6 @@ public class UsersService : IUserService
         {
             user = await Create(model, ct);
         }
-        else
-        {
-            user = await Update(user.Id, model, ct);
-        }
         return user;
     }
 
