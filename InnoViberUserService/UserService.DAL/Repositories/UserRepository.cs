@@ -16,8 +16,12 @@ public class UserRepository : IUserRepository
         _users = context.Database.GetCollection<UserEntity>("users");
     }
 
-    public Task<List<UserEntity>> GetAll(CancellationToken ct)
-    {
+    public Task<List<UserEntity>> GetAll(CancellationToken ct, string? query)
+    {   
+        if(query is not null)
+        {
+            return _users.Find(x => x.Name.ToLower().Contains(query.ToLower())).ToListAsync(ct);
+        }
         return _users.Find(FilterDefinition<UserEntity>.Empty).ToListAsync(ct);
     }
 

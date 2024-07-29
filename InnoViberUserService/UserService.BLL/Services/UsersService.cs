@@ -19,9 +19,9 @@ public class UsersService : IUserService
         _mapper = mapper;
     }
 
-    public async Task<List<UserModel>> GetAll(CancellationToken ct)
+    public async Task<List<UserModel>> GetAll(CancellationToken ct, string? query)
     {
-        var result = await _repository.GetAll(ct);
+        var result = await _repository.GetAll(ct, query);
         return _mapper.Map<List<UserModel>>(result);
     }
 
@@ -70,19 +70,25 @@ public class UsersService : IUserService
         var user = await GetByAuthId(model.Auth0Id, ct);
         if (user == null)
         {
-            var userContent = await Create(model, ct);
-            user = userContent;
+            user = await Create(model, ct);
+        }
+        else
+        {
+            user = await Update(user.Id, model, ct);
         }
         return user;
     }
 
-    public async Task<List<string>> GetNames(List<string> ids, CancellationToken ct)
+    public async Task<Dictionary<string, UserModel>> GetNames(List<string> ids, CancellationToken ct)
     {
-        var users = new List<string>();
+        var users = new Dictionary<string, UserModel>();
         foreach(var id in ids)
         {
-            var user = await GetByAuthId(id, ct);
-            users.Add(user.NickName);
+            if (!users.Keys.Contains(id))
+            {
+                var user = await GetByAuthId(id, ct);
+                users[id] = user;
+            }
         }
         return users;
     }

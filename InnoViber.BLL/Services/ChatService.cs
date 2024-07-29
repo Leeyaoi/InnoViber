@@ -52,7 +52,7 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
         {
             var lastMessage = await _messageService.PaginateByChatId(chat.Id, 1, 1, ct);
 
-            if (lastMessage is not null)
+            if (lastMessage is not null && lastMessage.Items!.Count != 0)
             {
                 chat.LastMessageText = lastMessage.Items![0].Text;
                 chat.LastMessageUserId = lastMessage.Items![0].UserId;

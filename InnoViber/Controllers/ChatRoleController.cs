@@ -44,24 +44,25 @@ public class ChatRoleController : ControllerBase
     {
         if(page is null)
         {
-            var model = await _service.GetByChatId(chatId, ct);
-            return new PaginatedModel<ChatRoleViewModel> {Items = _mapper.Map<List<ChatRoleViewModel>>(model)};
-        }
-        else
-        {
-            PaginatedModel<ChatRoleModel> models = await _service.PaginateByChatId(chatId, Constants.LIMIT, page ?? 1, ct);
-            var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models.Items);
-            if(userId is not null)
+            var models = await _service.GetByChatId(chatId, ct);
+            if (userId is not null)
             {
+                var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models);
                 return new PaginatedModel<ChatRoleViewModel>
                 {
-                    Total = models.Total,
+                    Total = 1,
                     Items = [viewModels.Find(x => x.UserId == userId)],
                     Limit = 1,
                     Page = 1,
                     Count = 1,
                 };
             }
+            return new PaginatedModel<ChatRoleViewModel> {Items = _mapper.Map<List<ChatRoleViewModel>>(models)};
+        }
+        else
+        {
+            PaginatedModel<ChatRoleModel> models = await _service.PaginateByChatId(chatId, Constants.LIMIT, page ?? 1, ct);
+            var viewModels = _mapper.Map<List<ChatRoleViewModel>>(models.Items);
             return new PaginatedModel<ChatRoleViewModel>
             {
                 Total = models.Total,
