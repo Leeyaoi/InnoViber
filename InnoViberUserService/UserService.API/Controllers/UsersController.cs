@@ -23,9 +23,9 @@ public class UserController : ControllerBase
 
     // GET: api/<UserController>
     [HttpGet]
-    public async Task<IEnumerable<UserViewModel>> GetAll(CancellationToken ct)
+    public async Task<IEnumerable<UserViewModel>> GetAll(CancellationToken ct, string? query)
     {
-        var models = await _service.GetAll(ct);
+        var models = await _service.GetAll(ct, query);
         return _mapper.Map<List<UserViewModel>>(models);
     }
 
@@ -56,9 +56,9 @@ public class UserController : ControllerBase
 
     // POST api/<UserController>/names
     [HttpPost("names")]
-    public Task<List<string>> GetNames([FromBody] List<string> ids, CancellationToken ct)
+    public async Task<Dictionary<string, UserShortViewModel>> GetNames([FromBody] List<string> ids, CancellationToken ct)
     {
-        return _service.GetNames(ids, ct);
+        return _mapper.Map<Dictionary<string, UserShortViewModel>>(await _service.GetNames(ids, ct));
     }
 
     // POST api/<UserController>

@@ -6,7 +6,7 @@ namespace UserService.DAL.Interfaces;
 
 public interface IUserRepository
 {
-    Task<List<UserEntity>> GetAll(CancellationToken ct);
+    Task<List<UserEntity>> GetAll(CancellationToken ct, string? query);
 
     Task<UserEntity> GetById(Guid Id, CancellationToken ct);
 

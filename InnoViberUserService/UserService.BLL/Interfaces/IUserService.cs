@@ -6,7 +6,7 @@ namespace UserService.BLL.Interfaces;
 
 public interface IUserService
 {
-    Task<List<UserModel>> GetAll(CancellationToken ct);
+    Task<List<UserModel>> GetAll(CancellationToken ct, string? query);
 
     Task<UserModel?> GetById(Guid id, CancellationToken ct);
 
@@ -22,5 +22,5 @@ public interface IUserService
 
     Task<UserModel> Update(Guid id, UserModel model, CancellationToken ct);
 
-    Task<List<string>> GetNames(List<string> ids, CancellationToken ct);
+    Task<Dictionary<string, UserModel>> GetNames(List<string> ids, CancellationToken ct);
 }
