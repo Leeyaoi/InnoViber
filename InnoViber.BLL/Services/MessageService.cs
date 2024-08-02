@@ -27,21 +27,21 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
         var utcNow = _dateTimeProvider.GetDate();
         var entity = _mapper.Map<MessageEntity>(model);
         entity.Date = utcNow;
-        entity.Status = MessageStatus.Send;
+        entity.Status = MessageStatus.Delivered;
         var result = await _repository.Create(entity, ct);
         return _mapper.Map<MessageModel>(result);
     }
 
-    public async Task<List<MessageModel>> GetByChatId(Guid chatId, CancellationToken ct)
+    public async Task<List<MessageModel>> GetByChatId(Guid chatId, CancellationToken ct, string? userId)
     {
         var entities = await _repository.GetByPredicate(message => message.ChatId == chatId, ct);
-        return _mapper.Map<List<MessageModel>>(entities);
+        return await UpdateStatus(entities!, ct, userId);
     }
 
-    public async Task<PaginatedModel<MessageModel>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct)
+    public async Task<PaginatedModel<MessageModel>> PaginateByChatId(Guid chatId, int limit, int page, CancellationToken ct, string? userId, bool update = true)
     {
         var entities = await _repository.PaginateByChatId(chatId, limit, page, ct, out int total, out int count);
-        var models = _mapper.Map<List<MessageModel>>(entities);
+        var models = await UpdateStatus(entities!, ct, userId, update);
         return new PaginatedModel<MessageModel>
         {
             Total = total,
@@ -60,11 +60,18 @@ public class MessageService : GenericService<MessageModel, MessageEntity>, IMess
         return _mapper.Map<MessageModel>(result);
     }
 
-    public async Task<MessageModel> UpdateStatus(MessageStatus status, MessageModel model, CancellationToken ct)
+    public async Task<List<MessageModel>> UpdateStatus( List<MessageEntity> entities, CancellationToken ct, string? userId, bool update = true)
     {
-        model.Status = status;
-        var entity = _mapper.Map<MessageEntity>(model);
-        var result = await _repository.Update(entity, ct);
-        return _mapper.Map<MessageModel>(result);
+        foreach (var entity in entities)
+        {
+            var this_id = entity.UserId;
+
+            if (entity.Status == MessageStatus.Delivered && this_id != userId && update)
+            {
+                entity.Status = MessageStatus.Read;
+                await _repository.Update(entity, ct);
+            }
+        }
+        return _mapper.Map<List<MessageModel>>(entities);
     }
 }

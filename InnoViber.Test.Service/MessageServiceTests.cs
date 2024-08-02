@@ -76,11 +76,11 @@ public class MessageServiceTests
     {
         //Arrange
 
-        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Status == MessageStatus.Send, default)).ReturnsAsync(message);
+        _repoMock.Setup(repo => repo.GetByPredicate(x => x.Status == MessageStatus.Delivered, default)).ReturnsAsync(message);
 
         //Act
 
-        var result = await _service.GetByPredicate(x => x.Status == MessageStatus.Send, default);
+        var result = await _service.GetByPredicate(x => x.Status == MessageStatus.Delivered, default);
 
         //Assert
 
@@ -114,23 +114,6 @@ public class MessageServiceTests
         //Act
 
         var result = await _service.Update(Guid.Empty, model, default);
-
-        //Assert
-
-        result.ShouldBeEquivalentTo(model);
-    }
-  
-    [Theory, AutoData]
-    public async Task UpdateStatusTest_HasData_ReturnsMessageModel([NoAutoProperties] MessageModel model)
-    {
-        //Arrange
-        var entity = _mapper.Map<MessageEntity>(model);
-        entity.Status = MessageStatus.Delivered;
-        _repoMock.Setup(repo => repo.Update(It.IsAny<MessageEntity>(), default)).ReturnsAsync(entity);
-
-        //Act
-
-        var result = await _service.UpdateStatus(MessageStatus.Delivered, model, default);
 
         //Assert
 

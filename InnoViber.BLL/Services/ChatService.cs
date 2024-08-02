@@ -23,7 +23,7 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
     {
         var entities = await _repository.GetByPredicate(chat => chat.Roles.Any(role => role.UserId == userId), ct);
         var models = _mapper.Map<List<ChatModel>>(entities);
-        return await GetLastMessages(models, ct);
+        return await GetLastMessages(models, ct, userId);
     }
 
     public async Task<PaginatedModel<ChatModel>> PaginateByUserId(string userId, int limit, int page, CancellationToken ct)
@@ -35,7 +35,7 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
         {
             count++;
         }
-        models = await GetLastMessages(models, ct);
+        models = await GetLastMessages(models, ct, userId);
         return new PaginatedModel<ChatModel>
         {
             Total = total,
@@ -46,11 +46,11 @@ public class ChatService : GenericService<ChatModel, ChatEntity>, IChatService
         };
     }
 
-    private async Task<List<ChatModel>> GetLastMessages(List<ChatModel> chats, CancellationToken ct)
+    private async Task<List<ChatModel>> GetLastMessages(List<ChatModel> chats, CancellationToken ct, string userId)
     {
         foreach(var chat in chats)
         {
-            var lastMessage = await _messageService.PaginateByChatId(chat.Id, 1, 1, ct);
+            var lastMessage = await _messageService.PaginateByChatId(chat.Id, 1, 1, ct, userId, false);
 
             if (lastMessage is not null && lastMessage.Items!.Count != 0)
             {
