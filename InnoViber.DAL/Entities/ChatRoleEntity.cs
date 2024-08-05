@@ -7,5 +7,6 @@ public class ChatRoleEntity : BaseEntity
     public UserRoles Role { get; set; }
     public string UserId { get; set; } = string.Empty;
     public Guid ChatId { get; set; }
+    public DateTime? LastActivity { get; set; }
     public ChatEntity? Chat { get; set; }
 }
