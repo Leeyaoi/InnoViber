@@ -40,16 +40,16 @@ public class MessageController : ControllerBase
 
     // GET api/<MessageController>/chat/5
     [HttpGet("Chat/{chatId}")]
-    public async Task<PaginatedModel<MessageViewModel>> GetByChatId(Guid chatId, CancellationToken ct, int? page)
+    public async Task<PaginatedModel<MessageViewModel>> GetByChatId(Guid chatId, CancellationToken ct, int? page, string? userId)
     {
         if(page == null)
         {
-            var model = await _service.GetByChatId(chatId, ct);
+            var model = await _service.GetByChatId(chatId, ct, userId);
             return new PaginatedModel<MessageViewModel> { Items = _mapper.Map<List<MessageViewModel>>(model)};
         }
         else
         {
-            PaginatedModel<MessageModel> models = await _service.PaginateByChatId(chatId, Constants.LIMIT, page ?? 1, ct);
+            PaginatedModel<MessageModel> models = await _service.PaginateByChatId(chatId, Constants.LIMIT, page ?? 1, ct, userId);
             var viewModels =  _mapper.Map<List<MessageViewModel>>(models.Items);
             return new PaginatedModel<MessageViewModel>
             {
@@ -77,15 +77,6 @@ public class MessageController : ControllerBase
     {
         var model = _mapper.Map<MessageModel>(message);
         var messageModel = await _service.Update(id, model, ct);
-        return _mapper.Map<MessageViewModel>(messageModel);
-    }
-
-    // PUT api/<MessageController>/status/5
-    [HttpPut("status/{id}")]
-    public async Task<MessageViewModel> UpdateStatus(Guid id, [FromBody] MessageChangeStatusViewModel message, CancellationToken ct)
-    {
-        var model = _mapper.Map<MessageModel>(_service.GetById(id, ct));
-        var messageModel = await _service.UpdateStatus(message.Status, model, ct);
         return _mapper.Map<MessageViewModel>(messageModel);
     }
 
