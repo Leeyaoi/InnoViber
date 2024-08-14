@@ -48,7 +48,7 @@ services:
       - shared-network
 
   innoviberapi:
-    image: innoviberapi
+    image: darya2608/innoviberapi:latest
     ports:
       - 7060:80
       - 7061:443
@@ -65,7 +65,7 @@ services:
       - shared-network
 
   emailsenderservice:
-    image: emailsenderservice
+    image: darya2608/emailsenderservice:latest
     restart: unless-stopped
     depends_on:
       - rabbitmq
@@ -73,7 +73,7 @@ services:
       - shared-network
 
   userserviceapi:
-    image: userserviceapi
+    image: darya2608/userserviceapi:latest
     ports:
       - 7081:80
       - 7082:443
@@ -87,7 +87,7 @@ services:
       - shared-network
 
   innovibergateway:
-    image: innovibergateway
+    image: darya2608/innovibergateway:latest
     ports:
       - 49699:80
       - 49698:443
