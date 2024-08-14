@@ -45,6 +45,18 @@ public class Program
 
         builder.Services.RegisterBLLDependencies();
 
+        builder.Services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(builder.Configuration["MessageBroker:Host"], h =>
+                {
+                    h.Username(builder.Configuration["MessageBroker:Username"]);
+                    h.Password(builder.Configuration["MessageBroker:Password"]);
+                });
+            });
+        });
+
         builder.RegisterAPIDependencies();
 
         builder.Services.RegisterDomainDependencies();
@@ -58,8 +70,8 @@ public class Program
         app.UseExeptionHandlerMiddleware();
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
+        //if (app.Environment.IsDevelopment())
+        //{
             app.UseSwagger();
             app.UseSwaggerUI(settings =>
             {
@@ -68,7 +80,7 @@ public class Program
                 settings.OAuthClientSecret(builder.Configuration.GetValue<string>("AUTH0_CLIENT_SECRET"));
                 settings.OAuthUsePkce();
             });
-        }
+        //}
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

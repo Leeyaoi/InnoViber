@@ -1,14 +1,16 @@
 using dotenv.net;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using MMLib.SwaggerForOcelot.Repositories;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.Net.Http.Headers;
 
 namespace InnoViberGateway;
 
-public class Program
+public static class Program
 {
-    public static void Main(string[] args)
+    static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,16 @@ public class Program
         builder.Configuration.AddEnvironmentVariables();
 
         builder.Services.AddControllers();
+
+        builder.Services.AddHttpClient<IDownstreamSwaggerDocsRepository, DownstreamSwaggerDocsRepository>(client =>
+        {
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        })
+        .ConfigurePrimaryHttpMessageHandler(() =>
+            new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            });
 
         builder.Services.AddCors(options =>
         {
@@ -75,10 +87,10 @@ public class Program
 
         var app = builder.Build();
 
-        if (app.Environment.IsDevelopment())
-        {
+        //if (app.Environment.IsDevelopment())
+        //{
             app.UseSwaggerForOcelotUI();
-        }
+        //}
 
         app.UseOcelot().Wait();
 

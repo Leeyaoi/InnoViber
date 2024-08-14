@@ -1,0 +1,113 @@
+services:
+
+  db:
+    image: postgres
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    environment:
+      POSTGRES_DB: viberDb
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-password
+    expose:
+      - 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - shared-network
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: always
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+      RABBITMQ_DEFAULT_VHOST: "/"
+      RABBITMQ_ERLANG_COOKIE: "secretcookie"
+      RABBITMQ_LOOPBACK_USERS: ""
+    networks:
+      - shared-network
+
+  frontend:
+    extends:
+      file: ./InnoViber-frontend/compose.yaml
+      service: frontend
+    environment:
+      HTTPS: true
+      SSL_CRT_FILE: /app/certs/cert.pem
+      SSL_KEY_FILE: /app/certs/key.pem
+    networks:
+      - shared-network
+
+  innoviberapi:
+    image: darya2608/innoviberapi:latest
+    ports:
+      - 7060:80
+      - 7061:443
+    env_file:
+      - ./InnoViber/.env
+    environment:
+      ASPNETCORE_URLS: http://+:80;https://+443
+      ASPNETCORE_HTTP_PORT: 80
+      ASPNETCORE_HTTPS_PORT: 443
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - shared-network
+
+  emailsenderservice:
+    image: darya2608/emailsenderservice:latest
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    networks:
+      - shared-network
+
+  userserviceapi:
+    image: darya2608/userserviceapi:latest
+    ports:
+      - 7081:80
+      - 7082:443
+    env_file:
+      - ./InnoViberUserService/UserService.API/.env
+    environment:
+      ASPNETCORE_URLS: http://+:80;https://+443
+      ASPNETCORE_HTTP_PORT: 80
+      ASPNETCORE_HTTPS_PORT: 443
+    networks:
+      - shared-network
+
+  innovibergateway:
+    image: darya2608/innovibergateway:latest
+    ports:
+      - 49699:80
+      - 49698:443
+    env_file:
+      - ./InnoViberGateway/InnoViberGateway/.env
+    environment:
+      ASPNETCORE_URLS: http://+:80;https://+443
+      ASPNETCORE_HTTP_PORT: 80
+      ASPNETCORE_HTTPS_PORT: 443
+      ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - innoviberapi
+      - userserviceapi
+    networks:
+      - shared-network
+
+secrets:
+  db-password:
+    file: db/password.txt
+
+networks:
+  shared-network:
+    driver: bridge

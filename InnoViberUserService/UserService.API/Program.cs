@@ -98,8 +98,8 @@ public static class Program
 
         var app = builder.Build();
 
-        if (app.Environment.IsDevelopment())
-        {
+        //if (app.Environment.IsDevelopment())
+        //{
             app.UseSwagger();
             app.UseSwaggerUI(settings =>
             {
@@ -108,7 +108,7 @@ public static class Program
                 settings.OAuthClientSecret(builder.Configuration.GetValue<string>("AUTH0_CLIENT_SECRET"));
                 settings.OAuthUsePkce();
             });
-        }
+        //}
 
         app.UseHttpsRedirection();
 

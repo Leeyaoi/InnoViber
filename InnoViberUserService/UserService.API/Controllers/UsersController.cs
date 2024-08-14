@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Amazon.Auth.AccessControlPolicy;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserService.API.UserViewModels;
@@ -39,6 +40,7 @@ public class UserController : ControllerBase
 
     // GET api/<UserController>/auth/5
     [HttpGet("auth/{authId}")]
+    [AllowAnonymous]
     public async Task<UserViewModel> GetByAuthId(string authId, CancellationToken ct)
     {
         var model = await _service.GetByAuthId(authId, ct);

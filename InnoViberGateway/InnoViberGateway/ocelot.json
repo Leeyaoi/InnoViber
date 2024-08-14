@@ -3,46 +3,54 @@
         {
             "UpstreamPathTemplate": "/Chat/{everything}",
             "DownstreamPathTemplate": "/api/Chat/{everything}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 7060
+                    "Host": "innoviberapi",
+                    "Port": 443
                 }
             ],
-            "SwaggerKey": "Chat"
+            "SwaggerKey": "Chat",
+            "DangerousAcceptAnyServerCertificateValidator": true
         },
         {
             "UpstreamPathTemplate": "/ChatRole/{everything}",
             "DownstreamPathTemplate": "/api/ChatRole/{everything}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 7060
+                    "Host": "innoviberapi",
+                    "Port": 443
                 }
             ],
-            "SwaggerKey": "ChatRole"
+            "SwaggerKey": "ChatRole",
+            "DangerousAcceptAnyServerCertificateValidator": true
         },
         {
             "UpstreamPathTemplate": "/Message/{everything}",
             "DownstreamPathTemplate": "/api/Message/{everything}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 7060
+                    "Host": "innoviberapi",
+                    "Port": 443
                 }
             ],
-            "SwaggerKey": "Message"
+            "SwaggerKey": "Message",
+            "DangerousAcceptAnyServerCertificateValidator": true
         },
         {
             "UpstreamPathTemplate": "/User/{everything}",
             "DownstreamPathTemplate": "/api/User/{everything}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 7081
+                    "Host": "userserviceapi",
+                    "Port": 443
                 }
             ],
-            "SwaggerKey": "User"
+            "SwaggerKey": "User",
+            "DangerousAcceptAnyServerCertificateValidator": true
         }
     ],
     "SwaggerEndPoints": [
@@ -52,7 +60,7 @@
                 {
                     "Name": "Chat API",
                     "Version": "v1",
-                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
+                    "Url": "https://innoviberapi:443/swagger/v1/swagger.json"
                 }
             ]
         },
@@ -62,7 +70,7 @@
                 {
                     "Name": "ChatRole API",
                     "Version": "v1",
-                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
+                    "Url": "https://innoviberapi:443/swagger/v1/swagger.json"
                 }
             ]
         },
@@ -72,7 +80,7 @@
                 {
                     "Name": "Message API",
                     "Version": "v1",
-                    "Url": "https://localhost:7060/swagger/v1/swagger.json"
+                    "Url": "https://innoviberapi:443/swagger/v1/swagger.json"
                 }
             ]
         },
@@ -82,9 +90,12 @@
                 {
                     "Name": "User API",
                     "Version": "v1",
-                    "Url": "https://localhost:7081/swagger/v1/swagger.json"
+                    "Url": "https://userserviceapi:443/swagger/v1/swagger.json"
                 }
             ]
         }
-    ]
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "https://innovibergateway:443"
+    }
 }

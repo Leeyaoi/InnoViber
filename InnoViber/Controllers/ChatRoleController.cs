@@ -74,6 +74,16 @@ public class ChatRoleController : ControllerBase
         }
     }
 
+    // GET api/<ChatRoleController>/time/5
+    [HttpGet("time")]
+    public async Task<ChatRoleViewModel> ChangeDate(Guid chatId, string userId, DateTime lastActivity, CancellationToken ct)
+    {
+        var model = (await _service.GetByChatId(chatId, ct)).Find(x => x.UserId == userId);
+        model!.LastActivity = lastActivity;
+        model = await _service.Update(model.Id, model, ct);
+        return _mapper.Map<ChatRoleViewModel>(model);
+    }
+
     // POST api/<ChatRoleController>
     [HttpPost]
     public async Task<ChatRoleViewModel> Create([FromBody] ChatRoleShortViewModel role, CancellationToken ct)
